@@ -137,7 +137,7 @@ body{
   <div class="balance-box">
     <div class="balance-title">Current Balance</div>
     <div class="balance-num" id="balance">0.00 TD</div>
-    <div class="logout" onclick="logout(); return false;">Disconnect</div>
+    <div class="logout" onclick="logout();">Disconnect</div>
   </div>
 
   <div class="grid">
@@ -167,7 +167,7 @@ body{
 
 <script>
 /* JSONBIN CONFIG */
-const BIN_ID = "6922eefbae596e708f7e9e72";
+const BIN_ID = "692eeefbae596e708f7e9e72";
 const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
 /* CHECK LOGIN */
@@ -181,21 +181,18 @@ async function loadBalance(){
     try {
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
             headers: {
-                "X-Master-Key": API_KEY,
-                "X-Access-Key": API_KEY
+                "X-Master-Key": API_KEY
             }
         });
 
         const json = await res.json();
 
-        // دعم جميع الصيغ المحتملة من JSONBin
         const users =
             json.record?.users ||
             json.users ||
-            json.data?.users ||
             {};
 
-        const bal = users[username] ? users[username].balance : 0;
+        const bal = users[username]?.balance ?? 0;
 
         document.getElementById("balance").innerText = bal.toFixed(2) + " TD";
         document.getElementById("smallBal").innerText = bal.toFixed(2);
@@ -207,9 +204,9 @@ async function loadBalance(){
     }
 }
 
-/* تحديث كل 5 ثواني */
-setInterval(loadBalance, 5000);
+/* auto refresh */
 loadBalance();
+setInterval(loadBalance, 5000);
 
 /* LOGOUT */
 function logout(){
