@@ -1,99 +1,164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Player Home</title>
-
-<style>
-    body {
-        margin: 0;
-        background: #002b26;
-        font-family: Arial, sans-serif;
-        color: white;
-        text-align: center;
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Player Home</title>
+  <style>
+    :root{
+      --green-dark:#0b3b16;
+      --green:#0d6b2a;
+      --tile:#0a5ea8; /* unused - we will use green tiles */
+      --white:#fff;
+      --card:#0a3b1a;
+      --tile-green:#0a5e2d;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--green-dark);
+      color:var(--white);
     }
 
-    .top-bar {
-        background: black;
-        padding: 15px;
-        font-size: 24px;
-        font-weight: bold;
+    /* Top bar */
+    .top-bar{
+      background:black;
+      padding:16px 12px;
+      text-align:center;
+      font-size:22px;
+      font-weight:bold;
+      position:sticky;
+      top:0;
+      z-index:10;
     }
 
-    .balance-box {
-        background: #004d40;
-        margin: 20px auto;
-        padding: 20px;
-        width: 85%;
-        border-radius: 10px;
-        font-size: 22px;
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      padding:12px;
+      margin-top:8px;
+    }
+    .tile{
+      background:linear-gradient(180deg,#0e7040,#0a5a30);
+      border-radius:8px;
+      height:120px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex-direction:column;
+      box-shadow:0 4px 12px rgba(0,0,0,0.4);
+    }
+    .tile .icon{
+      font-size:36px;
+      margin-bottom:8px;
+    }
+    .tile .label{
+      font-size:15px;
+      opacity:0.95;
     }
 
-    .logout-btn {
-        margin-top: 20px;
-        background: #c62828;
-        color: white;
-        border: none;
-        padding: 12px 25px;
-        font-size: 18px;
-        border-radius: 8px;
-        cursor: pointer;
+    .bottom-menu{
+      position:fixed;
+      left:0;right:0;bottom:0;
+      height:66px;
+      background:#111;
+      display:flex;
+      align-items:center;
+      justify-content:space-around;
+      border-top:4px solid rgba(255,255,255,0.03);
     }
-</style>
+    .bottom-item{color:#fff;text-align:center;font-size:12px;opacity:0.9}
+    .bottom-item .ic{font-size:20px;display:block;margin-bottom:6px}
+
+    /* balance card */
+    .balance-card{
+      background:linear-gradient(180deg,#0b3b16,#0a3b1a);
+      color:var(--white);
+      border-radius:12px;
+      margin:14px;
+      padding:16px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.5);
+    }
+    .bal-num{font-size:36px;font-weight:bold;margin:6px 0}
+    .bal-tip{font-size:13px;color:rgba(255,255,255,0.9);opacity:0.9}
+
+    .logout-btn{
+      background:#c0392b;color:#fff;border:none;padding:10px 12px;border-radius:8px;font-weight:bold;cursor:pointer;
+      margin-top:12px;
+    }
+
+    /* responsive tweak */
+    @media(min-width:700px){
+      .tile{height:150px}
+    }
+  </style>
 </head>
-
 <body>
+  <div class="top-bar">Home</div>
 
-<div class="top-bar">Player Home</div>
+  <div class="balance-card" id="balanceCard" style="display:none;">
+    <div>Welcome, <span id="playerName"></span></div>
+    <div class="bal-num" id="playerBalance">0.00</div>
+    <div class="bal-tip">Tip: amounts are numeric. Use dashboard to manage funds.</div>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </div>
 
-<div class="balance-box">
-    <div>Your Balance:</div>
-    <div id="balance" style="font-size:40px; font-weight:bold;">0.00 TD</div>
-</div>
+  <div class="grid" id="grid">
+    <!-- 9 tiles -->
+    <div class="tile" onclick="go('sports')"><div class="icon">⚽️</div><div class="label">Sports betting</div></div>
+    <div class="tile" onclick="go('live')"><div class="icon">⏱️</div><div class="label">Live betting</div></div>
+    <div class="tile" onclick="go('highlights')"><div class="icon">⭐</div><div class="label">Highlights</div></div>
 
-<button class="logout-btn" onclick="logout()">Logout</button>
+    <div class="tile" onclick="go('livecasino')"><div class="icon">🃏</div><div class="label">Live casino</div></div>
+    <div class="tile" onclick="go('casino')"><div class="icon">🎰</div><div class="label">Casino</div></div>
+    <div class="tile" onclick="go('virtual')"><div class="icon">🏁</div><div class="label">Virtual sports</div></div>
 
-<script>
-const BIN_ID = "692eeefbae596e708f7e9e72";
-const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
+    <div class="tile" onclick="go('results')"><div class="icon">❌</div><div class="label">Results</div></div>
+    <div class="tile" onclick="go('search')"><div class="icon">🔎</div><div class="label">Search</div></div>
+    <div class="tile" onclick="go('contact')"><div class="icon">✉️</div><div class="label">Contact</div></div>
+  </div>
 
-// 1️⃣ جيب اسم اللاعب المتسجّل
-const username = localStorage.getItem("playerUsername");
-if (!username) {
-    window.location.href = "player_login.html";
-}
+  <div style="height:100px"></div>
 
-// 2️⃣ تحميل بيانات اللاعب
-async function loadBalance() {
-    try {
-        let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-            headers: { "X-Master-Key": API_KEY }
-        });
+  <div class="bottom-menu">
+    <div class="bottom-item" onclick="location.href='player_home.html'"><span class="ic">🏠</span>Home</div>
+    <div class="bottom-item" onclick="location.href='player_home.html'"><span class="ic">👤</span>Account settings</div>
+    <div class="bottom-item" onclick="go('sports')"><span class="ic">⚽️</span>Sports betting</div>
+    <div class="bottom-item" onclick="go('ticket')"><span class="ic">🎟️</span>Bet slip</div>
+  </div>
 
-        let data = await res.json();
-        let users = data.record.users;
+  <script src="player_script.js"></script>
+  <script>
+    // On load, check logged player
+    (async function init(){
+      const logged = localStorage.getItem('player_logged'); // username
+      if(!logged){
+        // redirect to login if not logged
+        window.location.href = 'player_login.html';
+        return;
+      }
+      document.getElementById('playerName').innerText = logged;
+      // fetch users and balance
+      const users = await getUsers();
+      if(!users || !users[logged]) {
+        // logged user not in bin -> force logout
+        alert('User not found or removed. Logging out.');
+        localStorage.removeItem('player_logged');
+        window.location.href = 'player_login.html';
+        return;
+      }
+      const bal = Number(users[logged].balance || 0).toFixed(2);
+      document.getElementById('playerBalance').innerText = bal + ' TD';
+      document.getElementById('balanceCard').style.display = 'block';
+    })();
 
-        let user = users.find(u => u.username == username);
-
-        if (user) {
-            document.getElementById("balance").innerText = user.balance.toFixed(2) + " TD";
-        } else {
-            document.getElementById("balance").innerText = "User not found";
-        }
-
-    } catch (e) {
-        document.getElementById("balance").innerText = "Error loading";
+    function logout(){
+      localStorage.removeItem('player_logged');
+      window.location.href = 'player_login.html';
     }
-}
-
-loadBalance();
-
-// 3️⃣ تسجيل الخروج
-function logout() {
-    localStorage.removeItem("playerUsername");
-    window.location.href = "player_login.html";
-}
-</script>
-
+    function go(name){ alert('Open: '+name); }
+  </script>
 </body>
 </html>
