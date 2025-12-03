@@ -1,0 +1,83 @@
+// ----- CONFIG (ضع هنا الـ BIN و KEY اللي عندك) -----
+const BIN_ID = "692eeefbae596e708f7e9e72"; // from your message
+const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S"; // from your message
+
+// ----- helper: fetch users (from JSONBin) -----
+async function getUsers() {
+  try {
+    let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      headers: { "X-Master-Key": API_KEY }
+    });
+    if(!res.ok) {
+      console.error('JSONBin fetch error', res.status);
+      return null;
+    }
+    let d = await res.json();
+    // JSONBin record stored under d.record
+    return d.record || {};
+  } catch (e) {
+    console.error(e);
+    return null;
+  }
+}
+
+// ----- helper: save users (PUT) -----
+async function saveUsers(users) {
+  try {
+    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": API_KEY
+      },
+      body: JSON.stringify(users)
+    });
+    return true;
+  } catch (e) {
+    console.error('saveUsers error', e);
+    return false;
+  }
+}
+
+// ===== LOGIN =====
+// Login with username only (no password required for player)
+async function login() {
+  const u = (document.getElementById('loginUser') || {}).value || '';
+  if(!u) return alert('Enter username');
+  // get users
+  const users = await getUsers();
+  if(!users) return alert('Failed to fetch users');
+  if(!users[u]) return alert('User not found');
+  // set localStorage and redirect
+  localStorage.setItem('player_logged', u);
+  window.location.href = 'player_home.html';
+}
+
+// ===== CREATE ACCOUNT =====
+async function createAccount(){
+  const u = (document.getElementById('newUser') || {}).value || '';
+  if(!u) return alert('Enter a username to create');
+  // fetch
+  let users = await getUsers();
+  if(!users) users = {}; // if empty bin
+  if(users[u]) return alert('Username already exists');
+  // create entry
+  users[u] = { password: '', balance: 0, history: [] };
+  const ok = await saveUsers(users);
+  if(ok) {
+    alert('Account created!');
+    // optional: auto-login
+    localStorage.setItem('player_logged', u);
+    window.location.href = 'player_home.html';
+  } else {
+    alert('Failed to save user');
+  }
+}
+
+// Expose for html
+window.login = login;
+window.createAccount = createAccount;
+
+// Export helpers for player_home inline calls
+window.getUsers = getUsers;
+window.saveUsers = saveUsers;
