@@ -1,208 +1,236 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
 <title>Player Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-  :root{
-    --bg:#083712;       /* dark green page background */
-    --card:#0b7a34;     /* dark green tile */
-    --card-2:#0f8f3e;   /* slightly different accent */
-    --top:#000000;      /* top bar */
-    --text:#ffffff;
-    --accent:#ffd24a;
-  }
-  html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,Arial,Helvetica,sans-serif;color:var(--text);}
-  /* Top bar */
-  .topbar{background:var(--top);height:60px;display:flex;align-items:center;justify-content:center;position:fixed;left:0;right:0;top:0;z-index:50}
-  .topbar h1{margin:0;font-size:20px;font-weight:700;color:var(--text)}
-  .menu-icon{position:absolute;right:16px;top:16px;font-size:26px;color:var(--text);cursor:pointer}
-  /* content area */
-  .wrap{padding:84px 12px 120px;max-width:900px;margin:0 auto;}
-  .greet{margin-bottom:12px;text-align:center}
-  .greet h2{margin:8px 0;font-size:22px}
-  .balance-box{background:rgba(0,0,0,0.15);padding:18px;border-radius:12px;margin-bottom:18px;text-align:center}
-  .balance-amount{font-size:36px;font-weight:800;margin-top:6px}
-  /* grid */
-  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-  .tile{
-    background:linear-gradient(180deg, var(--card), var(--card-2));
-    border-radius:8px;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    min-height:110px;box-shadow:0 6px 0 rgba(0,0,0,0.15) inset, 0 6px 18px rgba(0,0,0,0.4);
-    color:#fff;text-align:center;cursor:pointer;
-  }
-  .tile .icon{font-size:42px;margin-bottom:8px}
-  .tile .label{font-size:16px;opacity:0.95}
-  /* bottom menu */
-  .bottom-menu{position:fixed;left:0;right:0;bottom:0;height:70px;background:#0f0f0f;display:flex;align-items:center;justify-content:space-around;z-index:60}
-  .bottom-item{flex:1;text-align:center;color:#fff;font-size:12px;padding-top:6px}
-  .bottom-item .bicon{display:block;font-size:22px;margin-bottom:6px}
-  /* responsive tweaks */
-  @media (max-width:420px){
-    .tile{min-height:98px;padding:14px}
-    .tile .icon{font-size:36px}
-  }
-  /* small badge */
-  .badge{position:fixed;left:12px;bottom:82px;background:#0a8a3a;color:#fff;padding:6px 8px;border-radius:8px;font-weight:700;z-index:70}
-  /* logout button */
-  .logout-btn{display:inline-block;margin-top:8px;padding:8px 14px;border-radius:8px;background:#111;color:#fff;cursor:pointer}
+/* ───────────────────────────── */
+/*        COLORS & THEME         */
+/* ───────────────────────────── */
+:root{
+  --bg: #052d14;               /* الخلفية العامة ـ أخضر داكن جداً */
+  --card: #0d5e2b;             /* المربعات */
+  --card2:#127737;             /* تدرج */
+  --text:#ffffff;
+  --balance:#08381a;
+  --menu:#000000;
+}
+
+/* ───────────────────────────── */
+/*        RESET & GLOBAL         */
+/* ───────────────────────────── */
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+/* ───────────────────────────── */
+/*           TOP BAR             */
+/* ───────────────────────────── */
+.top{
+  background:#000;
+  height:60px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:fixed;
+  top:0; left:0; right:0;
+  z-index:100;
+}
+.top h1{
+  margin:0;
+  font-size:22px;
+}
+
+/* ───────────────────────────── */
+/*             WRAP              */
+/* ───────────────────────────── */
+.wrap{
+  padding:90px 15px 120px;
+  max-width:900px;
+  margin:auto;
+}
+
+/* ───────────────────────────── */
+/*            BALANCE            */
+/* ───────────────────────────── */
+.balance-box{
+  background:var(--balance);
+  border-radius:12px;
+  padding:18px;
+  text-align:center;
+  margin-bottom:25px;
+}
+.balance-title{
+  opacity:0.85;
+  font-size:16px;
+}
+.balance-num{
+  margin-top:6px;
+  font-size:38px;
+  font-weight:800;
+}
+
+/* ───────────────────────────── */
+/*            GRID 3×3           */
+/* ───────────────────────────── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+.tile{
+  background:linear-gradient(180deg,var(--card),var(--card2));
+  border-radius:10px;
+  padding:20px 10px;
+  min-height:120px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 6px 20px rgba(0,0,0,0.45);
+  cursor:pointer;
+}
+.tile .icon{
+  font-size:42px;
+  margin-bottom:8px;
+}
+.tile .label{
+  font-size:16px;
+  text-align:center;
+}
+
+/* ───────────────────────────── */
+/*         BOTTOM MENU           */
+/* ───────────────────────────── */
+.bottom{
+  position:fixed;
+  left:0; right:0; bottom:0;
+  height:70px;
+  background:var(--menu);
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+.bottom-item{
+  color:#fff;
+  text-align:center;
+  font-size:12px;
+}
+.bottom-item .bicon{
+  font-size:22px;
+  display:block;
+  margin-bottom:5px;
+}
+
+/* ───────────────────────────── */
+/*          SMALL BALANCE        */
+/* ───────────────────────────── */
+.small-balance{
+  position:fixed;
+  bottom:85px;
+  left:15px;
+  background:#0b6e34;
+  padding:7px 12px;
+  border-radius:10px;
+  font-weight:700;
+  display:none;
+}
+
+.logout{
+  background:#000;
+  padding:8px 14px;
+  border-radius:8px;
+  margin-top:12px;
+  cursor:pointer;
+}
+
 </style>
 </head>
 <body>
 
-<!-- Top bar -->
-<div class="topbar">
+<!-- TOP BAR -->
+<div class="top">
   <h1>Home</h1>
-  <div class="menu-icon" onclick="openMenu()">☰</div>
 </div>
 
-<!-- Content -->
+<!-- PAGE CONTENT -->
 <div class="wrap">
-  <div class="greet">
-    <div id="welcomeTxt"><h2>Welcome, player</h2></div>
-    <div class="balance-box">
-      <div style="opacity:0.85">Current Balance</div>
-      <div class="balance-amount" id="balanceAmount">0.00</div>
-      <div style="margin-top:8px"><button class="logout-btn" onclick="logout()">Disconnect</button></div>
-    </div>
+
+  <!-- BALANCE -->
+  <div class="balance-box">
+    <div class="balance-title">Current Balance</div>
+    <div class="balance-num" id="balance">0.00 TD</div>
+    <div class="logout" onclick="logout()">Disconnect</div>
   </div>
 
-  <!-- grid 3x3 -->
+  <!-- 9 TILES GRID -->
   <div class="grid">
-    <div class="tile" onclick="openSection('sports')">
-      <div class="icon">⚽</div>
-      <div class="label">Sports betting</div>
-    </div>
+    <div class="tile"><div class="icon">⚽</div><div class="label">Sports Betting</div></div>
+    <div class="tile"><div class="icon">⏱️</div><div class="label">Live Betting</div></div>
+    <div class="tile"><div class="icon">⭐</div><div class="label">Highlights</div></div>
 
-    <div class="tile" onclick="openSection('live')">
-      <div class="icon">⏱️</div>
-      <div class="label">Live betting</div>
-    </div>
+    <div class="tile"><div class="icon">🃏</div><div class="label">Live Casino</div></div>
+    <div class="tile"><div class="icon">🎰</div><div class="label">Casino</div></div>
+    <div class="tile"><div class="icon">🏁</div><div class="label">Virtual Sports</div></div>
 
-    <div class="tile" onclick="openSection('highlights')">
-      <div class="icon">⭐</div>
-      <div class="label">Highlights</div>
-    </div>
-
-    <div class="tile" onclick="openSection('livecasino')">
-      <div class="icon">🃏</div>
-      <div class="label">Live casino</div>
-    </div>
-
-    <div class="tile" onclick="openSection('casino')">
-      <div class="icon">🎰</div>
-      <div class="label">Casino</div>
-    </div>
-
-    <div class="tile" onclick="openSection('virtual')">
-      <div class="icon">🏁</div>
-      <div class="label">Virtual sports</div>
-    </div>
-
-    <div class="tile" onclick="openSection('results')">
-      <div class="icon">🏅</div>
-      <div class="label">Results</div>
-    </div>
-
-    <div class="tile" onclick="openSection('search')">
-      <div class="icon">🔎</div>
-      <div class="label">Search</div>
-    </div>
-
-    <div class="tile" onclick="openSection('contact')">
-      <div class="icon">✉️</div>
-      <div class="label">Contact</div>
-    </div>
+    <div class="tile"><div class="icon">🥅</div><div class="label">Results</div></div>
+    <div class="tile"><div class="icon">🔍</div><div class="label">Search</div></div>
+    <div class="tile"><div class="icon">📩</div><div class="label">Contact</div></div>
   </div>
+
 </div>
 
-<!-- small badge example -->
-<div class="badge" id="miniBalance" style="display:none">0.00</div>
+<!-- SMALL BALANCE -->
+<div class="small-balance" id="smallBal">0.00</div>
 
-<!-- bottom menu -->
-<div class="bottom-menu">
-  <div class="bottom-item" onclick="goHome()"><span class="bicon">🏠</span>Home</div>
-  <div class="bottom-item" onclick="goAccount()"><span class="bicon">👤</span>Account</div>
-  <div class="bottom-item" onclick="goSports()"><span class="bicon">⚽</span>Sports betting</div>
-  <div class="bottom-item" onclick="goSlip()"><span class="bicon">🎟️</span>Bet slip</div>
+<!-- BOTTOM MENU -->
+<div class="bottom">
+  <div class="bottom-item"><span class="bicon">🏠</span>Home</div>
+  <div class="bottom-item"><span class="bicon">👤</span>Account</div>
+  <div class="bottom-item"><span class="bicon">⚽</span>Sport</div>
+  <div class="bottom-item"><span class="bicon">🎟️</span>Slip</div>
 </div>
 
 <script>
-/* ----- CONFIG: put your BIN_ID and API_KEY here ----- */
-const BIN_ID = "692eeefbae596e708f7e9e72"; // <--- your JSONBin BIN ID
-const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S"; // <--- your X-Master-Key
-/* --------------------------------------------------- */
+/* JSONBIN CONFIG */
+const BIN_ID = "692eeefbae596e708f7e9e72";
+const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-/* Small helper: redirect to login if no logged user */
-function requireLogin() {
-  const u = localStorage.getItem('logged');
-  if(!u) {
-    // no logged user - go to login page
-    window.location.href = "player_login.html";
-    return null;
-  }
-  return u;
+/* CHECK LOGIN */
+const username = localStorage.getItem("logged");
+if (!username){
+   window.location.href = "player_login.html";
 }
 
-/* fetch users record from JSONBin */
-async function getUsers() {
-  try {
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-      headers: { "X-Master-Key": API_KEY }
+/* LOAD BALANCE */
+async function loadBalance(){
+  try{
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
+      headers:{"X-Master-Key":API_KEY}
     });
-    if(!res.ok) throw new Error("jsonbin fetch failed");
-    const d = await res.json();
-    return d.record || {};
-  } catch(err) {
-    console.error("getUsers error:", err);
-    return {};
+    const json = await res.json();
+    const users = json.record;
+    const bal = users[username]?.balance ?? 0;
+    document.getElementById("balance").innerText = bal.toFixed(2)+" TD";
+    document.getElementById("smallBal").innerText = bal.toFixed(2);
+    document.getElementById("smallBal").style.display="block";
+  }catch(e){
+    document.getElementById("balance").innerText="Error";
   }
 }
 
-/* show player balance and welcome */
-async function showPlayerInfo(){
-  const username = requireLogin();
-  if(!username) return;
-  document.getElementById('welcomeTxt').innerHTML = `<h2>Welcome, ${username}</h2>`;
-  // show loading
-  document.getElementById('balanceAmount').textContent = "Loading...";
-  // fetch users
-  const users = await getUsers();
-  const u = users[username];
-  const balance = (u && typeof u.balance !== 'undefined') ? Number(u.balance) : 0;
-  // format
-  document.getElementById('balanceAmount').textContent = balance.toFixed(2) + " TD";
-  // mini badge
-  const mb = document.getElementById('miniBalance');
-  mb.textContent = balance.toFixed(2);
-  mb.style.display = 'block';
-}
-
-/* open menu placeholder */
-function openMenu(){
-  alert("Menu (placeholder).");
-}
-
-/* logout */
+/* LOGOUT */
 function logout(){
-  localStorage.removeItem('logged');
-  window.location.href = "player_login.html";
+  localStorage.removeItem("logged");
+  window.location.href="player_login.html";
 }
 
-/* navigation placeholders */
-function openSection(id){
-  alert("Open section: " + id);
-}
-function goHome(){ window.scrollTo({top:0,behavior:'smooth'}); }
-function goAccount(){ window.location.href = "player_home.html"; }
-function goSports(){ openSection('sports'); }
-function goSlip(){ openSection('bet-slip'); }
-
-/* on load */
-document.addEventListener('DOMContentLoaded', function(){
-  showPlayerInfo();
-});
+loadBalance();
 </script>
 
 </body>
