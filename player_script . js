@@ -1,83 +1,60 @@
-// ----- CONFIG (ضع هنا الـ BIN و KEY اللي عندك) -----
-const BIN_ID = "692eeefbae596e708f7e9e72"; // from your message
-const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S"; // from your message
+// JSONBIN CONFIG
+const BIN_ID = "692eeefbae596e708f7e9e72";
+const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-// ----- helper: fetch users (from JSONBin) -----
-async function getUsers() {
-  try {
-    let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-      headers: { "X-Master-Key": API_KEY }
+async function fetchUsers() {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        headers: { "X-Master-Key": API_KEY }
     });
-    if(!res.ok) {
-      console.error('JSONBin fetch error', res.status);
-      return null;
-    }
-    let d = await res.json();
-    // JSONBin record stored under d.record
-    return d.record || {};
-  } catch (e) {
-    console.error(e);
-    return null;
-  }
+    const data = await res.json();
+    return data.record.users || {};
 }
 
-// ----- helper: save users (PUT) -----
 async function saveUsers(users) {
-  try {
     await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Master-Key": API_KEY
-      },
-      body: JSON.stringify(users)
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "X-Master-Key": API_KEY
+        },
+        body: JSON.stringify({ users })
     });
-    return true;
-  } catch (e) {
-    console.error('saveUsers error', e);
-    return false;
-  }
 }
 
-// ===== LOGIN =====
-// Login with username only (no password required for player)
 async function login() {
-  const u = (document.getElementById('loginUser') || {}).value || '';
-  if(!u) return alert('Enter username');
-  // get users
-  const users = await getUsers();
-  if(!users) return alert('Failed to fetch users');
-  if(!users[u]) return alert('User not found');
-  // set localStorage and redirect
-  localStorage.setItem('player_logged', u);
-  window.location.href = 'player_home.html';
+    let user = document.getElementById("username").value.trim();
+    let pass = document.getElementById("password").value.trim();
+
+    const users = await fetchUsers();
+
+    if (!users[user]) {
+        alert("User not found");
+        return;
+    }
+    if (users[user].password !== pass) {
+        alert("Wrong password");
+        return;
+    }
+
+    localStorage.setItem("player", user);
+    window.location.href = "player_home.html";
 }
 
-// ===== CREATE ACCOUNT =====
-async function createAccount(){
-  const u = (document.getElementById('newUser') || {}).value || '';
-  if(!u) return alert('Enter a username to create');
-  // fetch
-  let users = await getUsers();
-  if(!users) users = {}; // if empty bin
-  if(users[u]) return alert('Username already exists');
-  // create entry
-  users[u] = { password: '', balance: 0, history: [] };
-  const ok = await saveUsers(users);
-  if(ok) {
-    alert('Account created!');
-    // optional: auto-login
-    localStorage.setItem('player_logged', u);
-    window.location.href = 'player_home.html';
-  } else {
-    alert('Failed to save user');
-  }
+async function loadBalance() {
+    const user = localStorage.getItem("player");
+    if (!user) return;
+
+    const users = await fetchUsers();
+    const bal = users[user]?.balance || 0;
+
+    document.getElementById("balance").innerText = bal + " TD";
 }
 
-// Expose for html
-window.login = login;
-window.createAccount = createAccount;
+function logout() {
+    localStorage.removeItem("player");
+    window.location.href = "player_login.html";
+}
 
-// Export helpers for player_home inline calls
-window.getUsers = getUsers;
-window.saveUsers = saveUsers;
+if (window.location.pathname.includes("player_home.html")) {
+    loadBalance();
+}
