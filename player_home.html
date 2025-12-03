@@ -6,9 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ───────────────────────────── */
-/*        COLORS & THEME         */
-/* ───────────────────────────── */
 :root{
   --bg: #052d14;
   --card: #0d5e2b;
@@ -131,24 +128,18 @@ body{
 </head>
 <body>
 
-<!-- TOP BAR -->
 <div class="top">
   <h1>Home</h1>
 </div>
 
-<!-- PAGE CONTENT -->
 <div class="wrap">
 
-  <!-- BALANCE -->
   <div class="balance-box">
     <div class="balance-title">Current Balance</div>
     <div class="balance-num" id="balance">0.00 TD</div>
-
-    <!-- زر الخروج -->
     <div class="logout" onclick="logout(); return false;">Disconnect</div>
   </div>
 
-  <!-- 9 TILES -->
   <div class="grid">
     <div class="tile"><div class="icon">⚽</div><div class="label">Sports Betting</div></div>
     <div class="tile"><div class="icon">⏱️</div><div class="label">Live Betting</div></div>
@@ -165,10 +156,8 @@ body{
 
 </div>
 
-<!-- SMALL BALANCE -->
 <div class="small-balance" id="smallBal">0.00</div>
 
-<!-- BOTTOM MENU -->
 <div class="bottom">
   <div class="bottom-item"><span class="bicon">🏠</span>Home</div>
   <div class="bottom-item"><span class="bicon">👤</span>Account</div>
@@ -176,24 +165,21 @@ body{
   <div class="bottom-item"><span class="bicon">🎟️</span>Slip</div>
 </div>
 
-
 <script>
-/* ---------------- JSONBIN CONFIG ---------------- */
-const BIN_ID  = "6922eefbae596e708f7e9e72";
+/* JSONBIN CONFIG */
+const BIN_ID = "6922eefbae596e708f7e9e72";
 const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-/* ---------------- CHECK LOGIN ---------------- */
+/* CHECK LOGIN */
 const username = localStorage.getItem("logged");
-
 if (!username) {
     window.location.href = "player_login.html";
 }
 
-/* ---------------- LOAD BALANCE ---------------- */
+/* LOAD BALANCE */
 async function loadBalance(){
     try {
-
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
             headers: {
                 "X-Master-Key": API_KEY,
                 "X-Access-Key": API_KEY
@@ -201,23 +187,31 @@ async function loadBalance(){
         });
 
         const json = await res.json();
-        const users = json.users;
-        const bal = users[username]?.balance ?? 0;
+
+        // دعم جميع الصيغ المحتملة من JSONBin
+        const users =
+            json.record?.users ||
+            json.users ||
+            json.data?.users ||
+            {};
+
+        const bal = users[username] ? users[username].balance : 0;
 
         document.getElementById("balance").innerText = bal.toFixed(2) + " TD";
         document.getElementById("smallBal").innerText = bal.toFixed(2);
         document.getElementById("smallBal").style.display = "block";
 
     } catch(e){
-        document.getElementById("balance").innerText = "Error";
         console.log("Balance error:", e);
+        document.getElementById("balance").innerText = "Error";
     }
 }
 
+/* تحديث كل 5 ثواني */
 setInterval(loadBalance, 5000);
 loadBalance();
 
-/* ---------------- LOGOUT ---------------- */
+/* LOGOUT */
 function logout(){
     localStorage.removeItem("logged");
     window.location.href = "player_login.html";
