@@ -201,7 +201,7 @@ async function loadBalance(){
         });
 
         const json = await res.json();
-        const users = json.record?.users || json.users;
+        const users = json.users;
         const bal = users[username]?.balance ?? 0;
 
         document.getElementById("balance").innerText = bal.toFixed(2) + " TD";
