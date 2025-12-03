@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home</title>
+<title>Player Home</title>
 
 <style>
 body {
     margin: 0;
-    background: #0d2b4c;
+    background: #0d2b4c !important;
     font-family: Arial, sans-serif;
     color: white;
 }
 
-/* --- Top Bar --- */
+/* Top Bar */
 .top-bar {
     background: black;
     padding: 15px;
@@ -22,16 +22,17 @@ body {
     font-weight: bold;
 }
 
-/* --- Menu Icon Right --- */
+/* Menu Icon */
 .menu-icon {
     position: absolute;
     right: 15px;
     top: 12px;
     font-size: 26px;
     cursor: pointer;
+    color: white;
 }
 
-/* --- Grid Icons --- */
+/* Grid Layout */
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -50,8 +51,8 @@ body {
 }
 
 .box img {
-    width: 48px;
-    height: 48px;
+    width: 45px;
+    height: 45px;
     margin-bottom: 5px;
 }
 
@@ -59,7 +60,7 @@ body {
     font-size: 14px;
 }
 
-/* --- Bottom Menu --- */
+/* Bottom Menu */
 .bottom-menu {
     position: fixed;
     bottom: 0;
@@ -84,45 +85,83 @@ body {
     margin: auto;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<!-- Top Bar -->
+<!-- TOP BAR -->
 <div class="top-bar">
     Home
     <span class="menu-icon">☰</span>
 </div>
 
-<!-- Grid Icons -->
+<!-- GRID -->
 <div class="grid">
-    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/854/854878.png"><div class="label">Sports betting</div></div>
-    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/992/992700.png"><div class="label">Live betting</div></div>
-    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png"><div class="label">Highlights</div></div>
 
-    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/1086/1086581.png"><div class="label">Live casino</div></div>
-    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/2480/2480502.png"><div class="label">Casino</div></div>
-    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/1530/1530296.png"><div class="label">Virtual sports</div></div>
+    <div class="box">
+        <img src="https://cdn-icons-png.flaticon.com/512/854/854878.png">
+        <div class="label">Sports betting</div>
+    </div>
 
-    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png"><div class="label">Results</div></div>
-    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/622/622669.png"><div class="label">Search</div></div>
-    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/561/561127.png"><div class="label">Contact</div></div>
+    <div class="box">
+        <img src="https://cdn-icons-png.flaticon.com/512/992/992700.png">
+        <div class="label">Live betting</div>
+    </div>
+
+    <div class="box">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png">
+        <div class="label">Highlights</div>
+    </div>
+
+    <div class="box">
+        <img src="https://cdn-icons-png.flaticon.com/512/1086/1086581.png">
+        <div class="label">Live casino</div>
+    </div>
+
+    <div class="box">
+        <img src="https://cdn-icons-png.flaticon.com/512/2480/2480502.png">
+        <div class="label">Casino</div>
+    </div>
+
+    <div class="box">
+        <img src="https://cdn-icons-png.flaticon.com/512/1530/1530296.png">
+        <div class="label">Virtual sports</div>
+    </div>
+
+    <div class="box">
+        <img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png">
+        <div class="label">Results</div>
+    </div>
+
+    <div class="box">
+        <img src="https://cdn-icons-png.flaticon.com/512/622/622669.png">
+        <div class="label">Search</div>
+    </div>
+
+    <div class="box">
+        <img src="https://cdn-icons-png.flaticon.com/512/561/561127.png">
+        <div class="label">Contact</div>
+    </div>
+
 </div>
 
-<!-- Bottom Menu -->
+<!-- BOTTOM MENU -->
 <div class="bottom-menu">
     <div class="bottom-item">
         <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png">
         Home
     </div>
+
     <div class="bottom-item">
         <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
         Login
     </div>
+
     <div class="bottom-item">
         <img src="https://cdn-icons-png.flaticon.com/512/854/854878.png">
         Sport
     </div>
+
     <div class="bottom-item">
         <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png">
         Ticket
