@@ -1,68 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Player Login</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-body{margin:0;background:#041f11;color:#fff;font-family:Arial;text-align:center;padding-top:120px}
-.box{width:85%;max-width:320px;margin:auto;background:#08371c;padding:25px;border-radius:12px;box-shadow:0 0 20px rgba(0,0,0,0.4)}
-input{width:90%;padding:12px;margin:10px 0;border:none;border-radius:6px;font-size:15px}
-button{width:95%;padding:12px;background:#0ea74f;border:none;border-radius:8px;font-size:17px;margin-top:10px;color:#fff;cursor:pointer;font-weight:bold}
+body{
+    margin:0;
+    background:#011a01;
+    font-family:Arial;
+}
+.container{
+    width:90%;
+    margin:120px auto;
+    background:#022902;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+    box-shadow:0 0 15px #0f0;
+}
+input{
+    width:95%;
+    padding:12px;
+    margin:10px 0;
+    border:none;
+    border-radius:6px;
+}
+button{
+    width:100%;
+    padding:12px;
+    background:#00cc44;
+    border:none;
+    border-radius:6px;
+    font-size:18px;
+    margin-top:10px;
+    color:white;
+}
 </style>
-
 </head>
 <body>
 
-<div class="box">
-    <h2>Player Login</h2>
-    <input id="username" placeholder="Username">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="loginPlayer()">LOGIN</button>
+<div class="container">
+    <h2 style="color:#0f0;">Player Login</h2>
+    <input id="user" placeholder="User ID">
+    <input id="pass" placeholder="Password" type="password">
+    <button onclick="login()">Login</button>
 </div>
 
 <script>
-/* JSONBIN CONFIG */
 const BIN_ID = "692eeefbae596e708f7e9e72";
 const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-/* LOGIN FUNCTION */
-async function loginPlayer(){
-    let u = document.getElementById("username").value.trim();
-    let p = document.getElementById("password").value.trim();
+async function login(){
+    const u = document.getElementById("user").value.trim();
+    const p = document.getElementById("pass").value.trim();
 
-    if(!u || !p){
-        alert("Enter username + password");
-        return;
-    }
-
-    try{
-        let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
-            headers:{ "X-Master-Key": API_KEY }
-        });
-
-        let json = await res.json();
-        let users = json.record;
-
-        if(!users[u]){
-            alert("Username not found");
-            return;
+    let req = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{
+        headers:{
+            "X-Master-Key": API_KEY
         }
+    });
 
-        if(users[u].password !== p){
-            alert("Wrong password");
-            return;
-        }
+    let data = await req.json();
+    let users = data.record.users || {};
 
-        // SAVE LOGIN
+    if(users[u] && users[u].password === p){
         localStorage.setItem("logged", u);
-
-        // REDIRECT TO PLAYER HOME
-        window.location.href = "player_home.html";
-
-    }catch(e){
-        alert("Error connecting to server");
+        window.location.href="player_home.html";
+    }else{
+        alert("Wrong ID or Password");
     }
 }
 </script>
