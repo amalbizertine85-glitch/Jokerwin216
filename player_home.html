@@ -1,168 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Player Home</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0d1f0d;
-            font-family: Arial, sans-serif;
-            color: white;
-        }
+<meta charset="UTF-8">
+<title>Player Home</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        .header {
-            padding: 15px;
-            text-align: center;
-            background: #122612;
-            box-shadow: 0px 0px 10px #00ff0090;
-        }
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #0d1a0d;
+    }
 
-        .header h2 {
-            margin: 0;
-            color: #00ff66;
-        }
+    /* TOP BAR */
+    .topbar {
+        background: #000;
+        color: white;
+        padding: 15px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
 
-        .container {
-            margin: 25px auto;
-            width: 90%;
-            max-width: 600px;
-            background: #122612;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px #00ff0090;
-        }
+    /* GRID BOXES */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        padding: 10px;
+    }
 
-        .balance-box {
-            background: #1a331a;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-        }
+    .box {
+        background: #0c6ecb;
+        color: white;
+        padding: 20px 5px;
+        text-align: center;
+        border-radius: 3px;
+    }
 
-        .refresh-btn {
-            background: #00cc44;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            color: black;
-        }
+    .box i {
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
 
-        .refresh-btn:hover {
-            background: #00ff55;
-        }
+    .bottom-menu {
+        background: #000;
+        color: white;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
 
-        .history {
-            margin-top: 25px;
-        }
+    .bottom-menu div {
+        text-align: center;
+        font-size: 12px;
+    }
 
-        .history h3 {
-            margin-bottom: 10px;
-            color: #00ff55;
-        }
+    .balance-card {
+        background: #093b09;
+        margin: 10px;
+        padding: 15px;
+        border-radius: 6px;
+        text-align: center;
+        color: white;
+    }
 
-        .history-box {
-            background: #1a331a;
-            padding: 10px;
-            border-radius: 8px;
-            max-height: 250px;
-            overflow-y: auto;
-        }
+    .balance-card h2 {
+        margin: 0;
+    }
 
-        .history-item {
-            padding: 8px;
-            margin-bottom: 5px;
-            background: #0f1f0f;
-            border-left: 4px solid #00ff55;
-        }
-    </style>
+</style>
 </head>
-
 <body>
 
-<div class="header">
-    <h2>Welcome, <span id="username"></span></h2>
+<div class="topbar">Home</div>
+
+<div class="balance-card">
+    <h2 id="playerName">Welcome</h2>
+    <p>Balance: <span id="playerBalance">0.00</span> TND</p>
 </div>
 
-<div class="container">
-    <div class="balance-box">
-        <h3>Your Balance:</h3>
-        <h1 id="balance">0 TD</h1>
-        <button class="refresh-btn" onclick="loadPlayer()">Refresh</button>
-    </div>
+<div class="grid">
+    <div class="box"><i class="fa-solid fa-chart-line"></i><br>Sports betting</div>
+    <div class="box"><i class="fa-solid fa-stopwatch"></i><br>Live betting</div>
+    <div class="box"><i class="fa-regular fa-star"></i><br>Highlights</div>
 
-    <div class="history">
-        <h3>History</h3>
-        <div class="history-box" id="history-box">
-            <p>Loading...</p>
-        </div>
-    </div>
+    <div class="box"><i class="fa-solid fa-spade"></i><br>Live casino</div>
+    <div class="box"><i class="fa-solid fa-slot-machine"></i><br>Casino</div>
+    <div class="box"><i class="fa-solid fa-dog"></i><br>Virtual sports</div>
+
+    <div class="box"><i class="fa-solid fa-medal"></i><br>Results</div>
+    <div class="box"><i class="fa-solid fa-magnifying-glass"></i><br>Search</div>
+    <div class="box"><i class="fa-regular fa-envelope"></i><br>Contact</div>
+</div>
+
+<!-- BOTTOM MENU -->
+<div class="bottom-menu">
+    <div><i class="fa-solid fa-house"></i><br>Home</div>
+    <div><i class="fa-solid fa-user"></i><br>Profile</div>
+    <div><i class="fa-solid fa-chart-line"></i><br>Sports</div>
+    <div><i class="fa-solid fa-ticket"></i><br>Bet Slip</div>
 </div>
 
 <script>
-    const BIN_ID = "692eeefbae596e708f7e9e72";
-    const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
+const BIN_ID = "692eeefbae596e708f7e9e72";
+const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-    let currentPlayer = localStorage.getItem("current_player");
+async function loadPlayer() {
+    let u = localStorage.getItem("player");
 
-    if (!currentPlayer) {
+    if (!u) {
         window.location.href = "player_login.html";
+        return;
     }
 
-    document.getElementById("username").textContent = currentPlayer;
+    let r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        headers: { "X-Master-Key": API_KEY }
+    });
 
-    async function loadPlayer() {
-        try {
-            let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-                headers: { "X-Master-Key": API_KEY }
-            });
+    let data = await r.json();
+    let users = data.record;
 
-            let data = await res.json();
-            let users = data.record.users;
-
-            let userData = null;
-
-            // if object format
-            if (users[currentPlayer]) {
-                userData = users[currentPlayer];
-            }
-
-            // if array format
-            if (!userData && Array.isArray(users)) {
-                userData = users.find(u => u.username === currentPlayer);
-            }
-
-            if (!userData) {
-                document.getElementById("balance").textContent = "ERROR";
-                return;
-            }
-
-            document.getElementById("balance").textContent = userData.balance + " TD";
-
-            let historyBox = document.getElementById("history-box");
-            historyBox.innerHTML = "";
-
-            if (userData.history && userData.history.length > 0) {
-                userData.history.forEach(item => {
-                    let div = document.createElement("div");
-                    div.className = "history-item";
-                    div.textContent = item;
-                    historyBox.appendChild(div);
-                });
-            } else {
-                historyBox.innerHTML = "<p>No history found.</p>";
-            }
-
-        } catch (err) {
-            alert("Connection Error!");
-        }
+    if (users[u]) {
+        document.getElementById("playerName").textContent = "Welcome, " + u;
+        document.getElementById("playerBalance").textContent = users[u].balance.toFixed(2);
     }
+}
 
-    loadPlayer();
+loadPlayer();
 </script>
 
 </body>
