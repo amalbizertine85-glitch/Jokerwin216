@@ -1,164 +1,91 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Player Home</title>
-  <style>
-    :root{
-      --green-dark:#0b3b16;
-      --green:#0d6b2a;
-      --tile:#0a5ea8; /* unused - we will use green tiles */
-      --white:#fff;
-      --card:#0a3b1a;
-      --tile-green:#0a5e2d;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--green-dark);
-      color:var(--white);
-    }
+<meta charset="UTF-8">
+<title>Home</title>
 
-    /* Top bar */
-    .top-bar{
-      background:black;
-      padding:16px 12px;
-      text-align:center;
-      font-size:22px;
-      font-weight:bold;
-      position:sticky;
-      top:0;
-      z-index:10;
-    }
+<style>
+body {
+    margin: 0;
+    background: #002b0a;
+    font-family: Arial;
+}
 
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      padding:12px;
-      margin-top:8px;
-    }
-    .tile{
-      background:linear-gradient(180deg,#0e7040,#0a5a30);
-      border-radius:8px;
-      height:120px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      box-shadow:0 4px 12px rgba(0,0,0,0.4);
-    }
-    .tile .icon{
-      font-size:36px;
-      margin-bottom:8px;
-    }
-    .tile .label{
-      font-size:15px;
-      opacity:0.95;
-    }
+/* Top Bar */
+.top-bar {
+    background: black;
+    padding: 18px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+}
 
-    .bottom-menu{
-      position:fixed;
-      left:0;right:0;bottom:0;
-      height:66px;
-      background:#111;
-      display:flex;
-      align-items:center;
-      justify-content:space-around;
-      border-top:4px solid rgba(255,255,255,0.03);
-    }
-    .bottom-item{color:#fff;text-align:center;font-size:12px;opacity:0.9}
-    .bottom-item .ic{font-size:20px;display:block;margin-bottom:6px}
+/* GRID */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 15px;
+}
+.box {
+    background: #024d15;
+    height: 110px;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 15px;
+}
+.icon {
+    font-size: 35px;
+    margin-bottom: 5px;
+}
 
-    /* balance card */
-    .balance-card{
-      background:linear-gradient(180deg,#0b3b16,#0a3b1a);
-      color:var(--white);
-      border-radius:12px;
-      margin:14px;
-      padding:16px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.5);
-    }
-    .bal-num{font-size:36px;font-weight:bold;margin:6px 0}
-    .bal-tip{font-size:13px;color:rgba(255,255,255,0.9);opacity:0.9}
+/* Bottom menu */
+.bottom-menu {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    font-size: 14px;
+}
+</style>
 
-    .logout-btn{
-      background:#c0392b;color:#fff;border:none;padding:10px 12px;border-radius:8px;font-weight:bold;cursor:pointer;
-      margin-top:12px;
-    }
-
-    /* responsive tweak */
-    @media(min-width:700px){
-      .tile{height:150px}
-    }
-  </style>
 </head>
 <body>
-  <div class="top-bar">Home</div>
 
-  <div class="balance-card" id="balanceCard" style="display:none;">
-    <div>Welcome, <span id="playerName"></span></div>
-    <div class="bal-num" id="playerBalance">0.00</div>
-    <div class="bal-tip">Tip: amounts are numeric. Use dashboard to manage funds.</div>
-    <button class="logout-btn" onclick="logout()">Logout</button>
-  </div>
+<div class="top-bar">Home</div>
 
-  <div class="grid" id="grid">
-    <!-- 9 tiles -->
-    <div class="tile" onclick="go('sports')"><div class="icon">⚽️</div><div class="label">Sports betting</div></div>
-    <div class="tile" onclick="go('live')"><div class="icon">⏱️</div><div class="label">Live betting</div></div>
-    <div class="tile" onclick="go('highlights')"><div class="icon">⭐</div><div class="label">Highlights</div></div>
+<div class="grid">
 
-    <div class="tile" onclick="go('livecasino')"><div class="icon">🃏</div><div class="label">Live casino</div></div>
-    <div class="tile" onclick="go('casino')"><div class="icon">🎰</div><div class="label">Casino</div></div>
-    <div class="tile" onclick="go('virtual')"><div class="icon">🏁</div><div class="label">Virtual sports</div></div>
+    <div class="box"><div class="icon">⚽️</div>Sports</div>
+    <div class="box"><div class="icon">⏱️</div>Live betting</div>
+    <div class="box"><div class="icon">⭐</div>Highlights</div>
 
-    <div class="tile" onclick="go('results')"><div class="icon">❌</div><div class="label">Results</div></div>
-    <div class="tile" onclick="go('search')"><div class="icon">🔎</div><div class="label">Search</div></div>
-    <div class="tile" onclick="go('contact')"><div class="icon">✉️</div><div class="label">Contact</div></div>
-  </div>
+    <div class="box"><div class="icon">♠️</div>Live casino</div>
+    <div class="box"><div class="icon">🎰</div>Casino</div>
+    <div class="box"><div class="icon">🎮</div>Virtual sports</div>
 
-  <div style="height:100px"></div>
+    <div class="box"><div class="icon">🏅</div>Results</div>
+    <div class="box"><div class="icon">🔍</div>Search</div>
+    <div class="box"><div class="icon">✉️</div>Contact</div>
 
-  <div class="bottom-menu">
-    <div class="bottom-item" onclick="location.href='player_home.html'"><span class="ic">🏠</span>Home</div>
-    <div class="bottom-item" onclick="location.href='player_home.html'"><span class="ic">👤</span>Account settings</div>
-    <div class="bottom-item" onclick="go('sports')"><span class="ic">⚽️</span>Sports betting</div>
-    <div class="bottom-item" onclick="go('ticket')"><span class="ic">🎟️</span>Bet slip</div>
-  </div>
+</div>
 
-  <script src="player_script.js"></script>
-  <script>
-    // On load, check logged player
-    (async function init(){
-      const logged = localStorage.getItem('player_logged'); // username
-      if(!logged){
-        // redirect to login if not logged
-        window.location.href = 'player_login.html';
-        return;
-      }
-      document.getElementById('playerName').innerText = logged;
-      // fetch users and balance
-      const users = await getUsers();
-      if(!users || !users[logged]) {
-        // logged user not in bin -> force logout
-        alert('User not found or removed. Logging out.');
-        localStorage.removeItem('player_logged');
-        window.location.href = 'player_login.html';
-        return;
-      }
-      const bal = Number(users[logged].balance || 0).toFixed(2);
-      document.getElementById('playerBalance').innerText = bal + ' TD';
-      document.getElementById('balanceCard').style.display = 'block';
-    })();
+<div class="bottom-menu">
+    <div>Home</div>
+    <div id="balance">0.00 TD</div>
+    <div onclick="logout()" style="color:red;">Logout</div>
+</div>
 
-    function logout(){
-      localStorage.removeItem('player_logged');
-      window.location.href = 'player_login.html';
-    }
-    function go(name){ alert('Open: '+name); }
-  </script>
+<script src="player_script.js"></script>
 </body>
 </html>
