@@ -1,133 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Player Login</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: #0d1f0d; /* أخضر داكن */
-            font-family: Arial, sans-serif;
-            display: flex;
-            height: 100vh;
-            align-items: center;
-            justify-content: center;
-            color: white;
-        }
-
-        .login-box {
-            width: 350px;
-            padding: 25px;
-            background: #122612;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px #00ff0090;
-            text-align: center;
-        }
-
-        .login-box h2 {
-            margin-bottom: 20px;
-            color: #00ff66;
-        }
-
-        input {
-            width: 90%;
-            padding: 12px;
-            border: none;
-            outline: none;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            background: #1a331a;
-            color: white;
-        }
-
-        button {
-            padding: 12px 25px;
-            background: #00cc44;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            color: black;
-            width: 100%;
-        }
-
-        button:hover {
-            background: #00ff55;
-        }
-
-        .error {
-            margin-top: 10px;
-            color: #ff5555;
-            font-size: 14px;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Player Login</title>
+  <style>
+    :root{
+      --green-dark:#0b3b16;
+      --green:#0d6b2a;
+      --card:#114b22;
+      --white:#fff;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:var(--green-dark);
+      color:var(--white);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .card{
+      width:92%;
+      max-width:420px;
+      background:linear-gradient(180deg,var(--card),#0a3b1a);
+      border-radius:12px;
+      padding:26px;
+      box-shadow:0 8px 30px rgba(0,0,0,0.5);
+      text-align:center;
+    }
+    h1{margin:0 0 14px;font-size:26px}
+    .input{
+      width:100%;
+      padding:14px 12px;
+      border-radius:10px;
+      border:none;
+      margin:10px 0;
+      font-size:16px;
+      background:#0c4a26;
+      color:var(--white);
+    }
+    .btn{
+      display:block;
+      width:100%;
+      padding:12px;
+      border-radius:10px;
+      border:none;
+      margin-top:12px;
+      font-weight:bold;
+      font-size:16px;
+      cursor:pointer;
+    }
+    .btn-login{background:var(--green); color:#fff}
+    .btn-create{background:#f39c12; color:#111}
+    .hint{opacity:0.9;font-size:13px;margin-top:10px}
+    .small{font-size:13px;opacity:0.9;margin-top:8px}
+    .link{color:#fff;text-decoration:underline;cursor:pointer}
+    footer{margin-top:10px;font-size:12px;opacity:0.8}
+  </style>
 </head>
 <body>
+  <div class="card">
+    <h1>Player Login</h1>
 
-<div class="login-box">
-    <h2>Player Login</h2>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button onclick="login()">Login</button>
+    <input id="loginUser" class="input" placeholder="Username (e.g. 21451695)">
 
-    <div id="error" class="error"></div>
-</div>
+    <!-- We keep a password field visually (if you want) but login uses username only -->
+    <input id="loginPass" class="input" placeholder="Password (optional)" type="password">
 
-<script>
-    const BIN_ID = "692eeefbae596e708f7e9e72";
-    const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
+    <button class="btn btn-login" onclick="login()">Login</button>
 
-    async function login() {
-        let userInput = document.getElementById("username").value.trim();
-        let passInput = document.getElementById("password").value.trim();
-        let errorBox = document.getElementById("error");
+    <hr style="opacity:0.15;margin:18px 0">
 
-        if (userInput === "" || passInput === "") {
-            errorBox.textContent = "Please fill all fields.";
-            return;
-        }
+    <h2 style="font-size:18px;margin-bottom:6px">Create Account</h2>
+    <input id="newUser" class="input" placeholder="New Username">
+    <button class="btn btn-create" onclick="createAccount()">Create Account</button>
 
-        try {
-            let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-                headers: {
-                    "X-Master-Key": API_KEY
-                }
-            });
+    <div class="small hint">
+      - Accounts saved on JSONBin.<br>
+      - If username exists you'll get a message.
+    </div>
+    <footer>Jokerwin — Player portal</footer>
+  </div>
 
-            let json = await res.json();
-            let users = json.record.users;
-
-            // لو الـ users على شكل object
-            if (users[userInput]) {
-                if (users[userInput].password === passInput) {
-                    // حفظ اسم اللاعب في localStorage
-                    localStorage.setItem("current_player", userInput);
-                    window.location.href = "player_home.html";
-                } else {
-                    errorBox.textContent = "Wrong password.";
-                }
-                return;
-            }
-
-            // لو users على شكل array
-            if (Array.isArray(users)) {
-                let found = users.find(u => u.username === userInput && u.password === passInput);
-                if (found) {
-                    localStorage.setItem("current_player", userInput);
-                    window.location.href = "player_home.html";
-                } else {
-                    errorBox.textContent = "Invalid username or password.";
-                }
-                return;
-            }
-
-            errorBox.textContent = "User not found.";
-        } catch (e) {
-            errorBox.textContent = "Connection error.";
-        }
-    }
-</script>
-
+  <script src="player_script.js"></script>
 </body>
 </html>
