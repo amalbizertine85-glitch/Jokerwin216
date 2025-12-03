@@ -1,4 +1,4 @@
-٩<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,21 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-/* ───────────────────────────── */
-/*        COLORS & THEME         */
-/* ───────────────────────────── */
 :root{
-  --bg: #052d14;               /* الخلفية العامة ـ أخضر داكن جداً */
-  --card: #0d5e2b;             /* المربعات */
-  --card2:#127737;             /* تدرج */
+  --bg: #052d14;
+  --card: #0d5e2b;
+  --card2:#127737;
   --text:#ffffff;
   --balance:#08381a;
   --menu:#000000;
 }
 
-/* ───────────────────────────── */
-/*        RESET & GLOBAL         */
-/* ───────────────────────────── */
 body{
   margin:0;
   background:var(--bg);
@@ -28,9 +22,6 @@ body{
   font-family:Arial,Helvetica,sans-serif;
 }
 
-/* ───────────────────────────── */
-/*           TOP BAR             */
-/* ───────────────────────────── */
 .top{
   background:#000;
   height:60px;
@@ -46,18 +37,12 @@ body{
   font-size:22px;
 }
 
-/* ───────────────────────────── */
-/*             WRAP              */
-/* ───────────────────────────── */
 .wrap{
   padding:90px 15px 120px;
   max-width:900px;
   margin:auto;
 }
 
-/* ───────────────────────────── */
-/*            BALANCE            */
-/* ───────────────────────────── */
 .balance-box{
   background:var(--balance);
   border-radius:12px;
@@ -75,9 +60,6 @@ body{
   font-weight:800;
 }
 
-/* ───────────────────────────── */
-/*            GRID 3×3           */
-/* ───────────────────────────── */
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -104,9 +86,6 @@ body{
   text-align:center;
 }
 
-/* ───────────────────────────── */
-/*         BOTTOM MENU           */
-/* ───────────────────────────── */
 .bottom{
   position:fixed;
   left:0; right:0; bottom:0;
@@ -127,9 +106,6 @@ body{
   margin-bottom:5px;
 }
 
-/* ───────────────────────────── */
-/*          SMALL BALANCE        */
-/* ───────────────────────────── */
 .small-balance{
   position:fixed;
   bottom:85px;
@@ -168,7 +144,6 @@ body{
     <div class="logout" onclick="logout(); return false;">Disconnect</div>
   </div>
 
-  <!-- 9 TILES GRID -->
   <div class="grid">
     <div class="tile"><div class="icon">⚽</div><div class="label">Sports Betting</div></div>
     <div class="tile"><div class="icon">⏱️</div><div class="label">Live Betting</div></div>
@@ -185,10 +160,8 @@ body{
 
 </div>
 
-<!-- SMALL BALANCE -->
 <div class="small-balance" id="smallBal">0.00</div>
 
-<!-- BOTTOM MENU -->
 <div class="bottom">
   <div class="bottom-item"><span class="bicon">🏠</span>Home</div>
   <div class="bottom-item"><span class="bicon">👤</span>Account</div>
@@ -200,7 +173,7 @@ body{
 <script>
 /* --------------- JSONBIN CONFIG ---------------- */
 const BIN_ID = "6922eefbae596e708f7e9e72";
-const API_KEY = "$2a$10$hCaLB9eDEuJfi138M4RhCMOdm8.1y36yVtLwW0BYdZTfqjpHtLAY7S";
+const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
 /* --------------- CHECK LOGIN ---------------- */
 const username = localStorage.getItem("logged");
@@ -212,11 +185,12 @@ if (!username) {
 /* --------------- LOAD BALANCE ---------------- */
 async function loadBalance(){
     try {
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN}/${BIN_ID}`, {
             headers: {
-  "X-Master-Key": API_KEY,
-  "X-Access-Key": API_KEY
-}
+                "X-Master-Key": API_KEY,
+                "X-Access-Key": API_KEY
+            }
+        });
 
         const json = await res.json();
         const users = json.record.users;
@@ -229,10 +203,10 @@ async function loadBalance(){
 
     } catch(e){
         document.getElementById("balance").innerText = "Error";
+        console.log(e);
     }
 }
 
-/* تحديث تلقائي كل 5 ثواني */
 setInterval(loadBalance, 5000);
 loadBalance();
 
@@ -242,5 +216,6 @@ function logout(){
     window.location.href = "player_login.html";
 }
 </script>
+
 </body>
 </html>
