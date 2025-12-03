@@ -185,11 +185,11 @@ if (!username) {
 async function loadBalance(){
     try {
         const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-            headers: {
-                "X-Master-Key": API_KEY,
-                "X-Access-Key": API_KEY
-            }
-        });
+    headers: {
+        "X-Master-Key": API_KEY,
+        "X-Access-Key": API_KEY
+    }
+});
 
         const json = await res.json();
         const users = json.record.users;
