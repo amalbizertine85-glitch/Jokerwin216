@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Player Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0d1f0d; /* أخضر داكن */
+            font-family: Arial, sans-serif;
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .login-box {
+            width: 350px;
+            padding: 25px;
+            background: #122612;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px #00ff0090;
+            text-align: center;
+        }
+
+        .login-box h2 {
+            margin-bottom: 20px;
+            color: #00ff66;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            border: none;
+            outline: none;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            background: #1a331a;
+            color: white;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #00cc44;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: black;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #00ff55;
+        }
+
+        .error {
+            margin-top: 10px;
+            color: #ff5555;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-box">
+    <h2>Player Login</h2>
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+
+    <div id="error" class="error"></div>
+</div>
+
+<script>
+    const BIN_ID = "692eeefbae596e708f7e9e72";
+    const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
+
+    async function login() {
+        let userInput = document.getElementById("username").value.trim();
+        let passInput = document.getElementById("password").value.trim();
+        let errorBox = document.getElementById("error");
+
+        if (userInput === "" || passInput === "") {
+            errorBox.textContent = "Please fill all fields.";
+            return;
+        }
+
+        try {
+            let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                headers: {
+                    "X-Master-Key": API_KEY
+                }
+            });
+
+            let json = await res.json();
+            let users = json.record.users;
+
+            // لو الـ users على شكل object
+            if (users[userInput]) {
+                if (users[userInput].password === passInput) {
+                    // حفظ اسم اللاعب في localStorage
+                    localStorage.setItem("current_player", userInput);
+                    window.location.href = "player_home.html";
+                } else {
+                    errorBox.textContent = "Wrong password.";
+                }
+                return;
+            }
+
+            // لو users على شكل array
+            if (Array.isArray(users)) {
+                let found = users.find(u => u.username === userInput && u.password === passInput);
+                if (found) {
+                    localStorage.setItem("current_player", userInput);
+                    window.location.href = "player_home.html";
+                } else {
+                    errorBox.textContent = "Invalid username or password.";
+                }
+                return;
+            }
+
+            errorBox.textContent = "User not found.";
+        } catch (e) {
+            errorBox.textContent = "Connection error.";
+        }
+    }
+</script>
+
+</body>
+</html>
