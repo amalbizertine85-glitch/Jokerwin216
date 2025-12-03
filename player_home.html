@@ -1,73 +1,209 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Player Home</title>
-  <style>
-    :root{--dark:#063a1f;--card:#0e4f2b;--accent:#19b24b}
-    body{margin:0;background:var(--dark);font-family:Arial;color:#fff}
-    .top{background:#041a10;padding:18px;text-align:center;font-size:22px;font-weight:700}
-    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px}
-    .tile{background:var(--card);padding:18px;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-    .tile img{width:46px;height:46px;margin-bottom:8px}
-    .bottom-bar{position:fixed;left:0;right:0;bottom:0;background:#07160d;display:flex;justify-content:space-around;padding:10px 6px}
-    .bottom-bar a{color:#fff;text-decoration:none;text-align:center;font-size:13px}
-    .profile{padding:18px}
-    .balance{font-size:36px;font-weight:700;color:var(--accent)}
-    .logout{margin-top:12px;padding:10px;background:#b22222;border:none;border-radius:6px;color:#fff;cursor:pointer}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Player Home</title>
+<style>
+  :root{
+    --bg:#083712;       /* dark green page background */
+    --card:#0b7a34;     /* dark green tile */
+    --card-2:#0f8f3e;   /* slightly different accent */
+    --top:#000000;      /* top bar */
+    --text:#ffffff;
+    --accent:#ffd24a;
+  }
+  html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,Arial,Helvetica,sans-serif;color:var(--text);}
+  /* Top bar */
+  .topbar{background:var(--top);height:60px;display:flex;align-items:center;justify-content:center;position:fixed;left:0;right:0;top:0;z-index:50}
+  .topbar h1{margin:0;font-size:20px;font-weight:700;color:var(--text)}
+  .menu-icon{position:absolute;right:16px;top:16px;font-size:26px;color:var(--text);cursor:pointer}
+  /* content area */
+  .wrap{padding:84px 12px 120px;max-width:900px;margin:0 auto;}
+  .greet{margin-bottom:12px;text-align:center}
+  .greet h2{margin:8px 0;font-size:22px}
+  .balance-box{background:rgba(0,0,0,0.15);padding:18px;border-radius:12px;margin-bottom:18px;text-align:center}
+  .balance-amount{font-size:36px;font-weight:800;margin-top:6px}
+  /* grid */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .tile{
+    background:linear-gradient(180deg, var(--card), var(--card-2));
+    border-radius:8px;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    min-height:110px;box-shadow:0 6px 0 rgba(0,0,0,0.15) inset, 0 6px 18px rgba(0,0,0,0.4);
+    color:#fff;text-align:center;cursor:pointer;
+  }
+  .tile .icon{font-size:42px;margin-bottom:8px}
+  .tile .label{font-size:16px;opacity:0.95}
+  /* bottom menu */
+  .bottom-menu{position:fixed;left:0;right:0;bottom:0;height:70px;background:#0f0f0f;display:flex;align-items:center;justify-content:space-around;z-index:60}
+  .bottom-item{flex:1;text-align:center;color:#fff;font-size:12px;padding-top:6px}
+  .bottom-item .bicon{display:block;font-size:22px;margin-bottom:6px}
+  /* responsive tweaks */
+  @media (max-width:420px){
+    .tile{min-height:98px;padding:14px}
+    .tile .icon{font-size:36px}
+  }
+  /* small badge */
+  .badge{position:fixed;left:12px;bottom:82px;background:#0a8a3a;color:#fff;padding:6px 8px;border-radius:8px;font-weight:700;z-index:70}
+  /* logout button */
+  .logout-btn{display:inline-block;margin-top:8px;padding:8px 14px;border-radius:8px;background:#111;color:#fff;cursor:pointer}
+</style>
 </head>
 <body>
-  <div class="top">Home</div>
 
-  <div class="profile" id="profileBox" style="display:none;">
-    <div>Welcome, <span id="pUser"></span></div>
-    <div class="balance" id="pBalance">0.00 TD</div>
-    <button class="logout" onclick="logout()">Disconnect</button>
+<!-- Top bar -->
+<div class="topbar">
+  <h1>Home</h1>
+  <div class="menu-icon" onclick="openMenu()">☰</div>
+</div>
+
+<!-- Content -->
+<div class="wrap">
+  <div class="greet">
+    <div id="welcomeTxt"><h2>Welcome, player</h2></div>
+    <div class="balance-box">
+      <div style="opacity:0.85">Current Balance</div>
+      <div class="balance-amount" id="balanceAmount">0.00</div>
+      <div style="margin-top:8px"><button class="logout-btn" onclick="logout()">Disconnect</button></div>
+    </div>
   </div>
 
-  <div class="grid" id="mainGrid">
-    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" alt="⚽" /><div>Sports betting</div></div>
-    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/23f1.svg" alt="timer" /><div>Live betting</div></div>
-    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b50.svg" alt="star" /><div>Highlights</div></div>
+  <!-- grid 3x3 -->
+  <div class="grid">
+    <div class="tile" onclick="openSection('sports')">
+      <div class="icon">⚽</div>
+      <div class="label">Sports betting</div>
+    </div>
 
-    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f0cf.svg" alt="cards" /><div>Live casino</div></div>
-    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3b0.svg" alt="slot" /><div>Casino</div></div>
-    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" alt="virtual" /><div>Virtual sports</div></div>
+    <div class="tile" onclick="openSection('live')">
+      <div class="icon">⏱️</div>
+      <div class="label">Live betting</div>
+    </div>
 
-    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c5.svg" alt="medal" /><div>Results</div></div>
-    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f50d.svg" alt="search" /><div>Search</div></div>
-    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2709.svg" alt="mail" /><div>Contact</div></div>
+    <div class="tile" onclick="openSection('highlights')">
+      <div class="icon">⭐</div>
+      <div class="label">Highlights</div>
+    </div>
+
+    <div class="tile" onclick="openSection('livecasino')">
+      <div class="icon">🃏</div>
+      <div class="label">Live casino</div>
+    </div>
+
+    <div class="tile" onclick="openSection('casino')">
+      <div class="icon">🎰</div>
+      <div class="label">Casino</div>
+    </div>
+
+    <div class="tile" onclick="openSection('virtual')">
+      <div class="icon">🏁</div>
+      <div class="label">Virtual sports</div>
+    </div>
+
+    <div class="tile" onclick="openSection('results')">
+      <div class="icon">🏅</div>
+      <div class="label">Results</div>
+    </div>
+
+    <div class="tile" onclick="openSection('search')">
+      <div class="icon">🔎</div>
+      <div class="label">Search</div>
+    </div>
+
+    <div class="tile" onclick="openSection('contact')">
+      <div class="icon">✉️</div>
+      <div class="label">Contact</div>
+    </div>
   </div>
+</div>
 
-  <div class="bottom-bar">
-    <a href="player_home.html">Home</a>
-    <a href="player_login.html">Login</a>
-    <a href="#">Sports betting</a>
-    <a href="#">Bet slip</a>
-  </div>
+<!-- small badge example -->
+<div class="badge" id="miniBalance" style="display:none">0.00</div>
 
-  <script src="player_script.js"></script>
-  <script>
-    // when page loads, check if logged
-    (async function(){
-      let logged = localStorage.getItem("player_logged");
-      if(!logged) return;
-      // show profile and balance
-      document.getElementById('profileBox').style.display = 'block';
-      document.getElementById('mainGrid').style.display = 'none';
-      const users = await getUsers();
-      const u = users[logged];
-      document.getElementById('pUser').innerText = logged;
-      document.getElementById('pBalance').innerText = (u && u.balance ? u.balance.toFixed(2) : '0.00') + ' TD';
-    })();
+<!-- bottom menu -->
+<div class="bottom-menu">
+  <div class="bottom-item" onclick="goHome()"><span class="bicon">🏠</span>Home</div>
+  <div class="bottom-item" onclick="goAccount()"><span class="bicon">👤</span>Account</div>
+  <div class="bottom-item" onclick="goSports()"><span class="bicon">⚽</span>Sports betting</div>
+  <div class="bottom-item" onclick="goSlip()"><span class="bicon">🎟️</span>Bet slip</div>
+</div>
 
-    function logout(){
-      localStorage.removeItem("player_logged");
-      window.location.href = "player_login.html";
-    }
-  </script>
+<script>
+/* ----- CONFIG: put your BIN_ID and API_KEY here ----- */
+const BIN_ID = "692eeefbae596e708f7e9e72"; // <--- your JSONBin BIN ID
+const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S"; // <--- your X-Master-Key
+/* --------------------------------------------------- */
+
+/* Small helper: redirect to login if no logged user */
+function requireLogin() {
+  const u = localStorage.getItem('logged');
+  if(!u) {
+    // no logged user - go to login page
+    window.location.href = "player_login.html";
+    return null;
+  }
+  return u;
+}
+
+/* fetch users record from JSONBin */
+async function getUsers() {
+  try {
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      headers: { "X-Master-Key": API_KEY }
+    });
+    if(!res.ok) throw new Error("jsonbin fetch failed");
+    const d = await res.json();
+    return d.record || {};
+  } catch(err) {
+    console.error("getUsers error:", err);
+    return {};
+  }
+}
+
+/* show player balance and welcome */
+async function showPlayerInfo(){
+  const username = requireLogin();
+  if(!username) return;
+  document.getElementById('welcomeTxt').innerHTML = `<h2>Welcome, ${username}</h2>`;
+  // show loading
+  document.getElementById('balanceAmount').textContent = "Loading...";
+  // fetch users
+  const users = await getUsers();
+  const u = users[username];
+  const balance = (u && typeof u.balance !== 'undefined') ? Number(u.balance) : 0;
+  // format
+  document.getElementById('balanceAmount').textContent = balance.toFixed(2) + " TD";
+  // mini badge
+  const mb = document.getElementById('miniBalance');
+  mb.textContent = balance.toFixed(2);
+  mb.style.display = 'block';
+}
+
+/* open menu placeholder */
+function openMenu(){
+  alert("Menu (placeholder).");
+}
+
+/* logout */
+function logout(){
+  localStorage.removeItem('logged');
+  window.location.href = "player_login.html";
+}
+
+/* navigation placeholders */
+function openSection(id){
+  alert("Open section: " + id);
+}
+function goHome(){ window.scrollTo({top:0,behavior:'smooth'}); }
+function goAccount(){ window.location.href = "player_home.html"; }
+function goSports(){ openSection('sports'); }
+function goSlip(){ openSection('bet-slip'); }
+
+/* on load */
+document.addEventListener('DOMContentLoaded', function(){
+  showPlayerInfo();
+});
+</script>
 
 </body>
 </html>
