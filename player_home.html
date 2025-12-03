@@ -2,140 +2,132 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Player Home</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<title>Home</title>
 
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background: #0d1a0d;
-    }
-
-    /* TOP BAR */
-    .topbar {
-        background: #000;
-        color: white;
-        padding: 15px;
-        text-align: center;
-        font-size: 22px;
-        font-weight: bold;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-    }
-
-    /* GRID BOXES */
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 5px;
-        padding: 10px;
-    }
-
-    .box {
-        background: #0c6ecb;
-        color: white;
-        padding: 20px 5px;
-        text-align: center;
-        border-radius: 3px;
-    }
-
-    .box i {
-        font-size: 40px;
-        margin-bottom: 10px;
-    }
-
-    .bottom-menu {
-        background: #000;
-        color: white;
-        display: flex;
-        justify-content: space-around;
-        padding: 10px 0;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-    }
-
-    .bottom-menu div {
-        text-align: center;
-        font-size: 12px;
-    }
-
-    .balance-card {
-        background: #093b09;
-        margin: 10px;
-        padding: 15px;
-        border-radius: 6px;
-        text-align: center;
-        color: white;
-    }
-
-    .balance-card h2 {
-        margin: 0;
-    }
-
-</style>
-</head>
-<body>
-
-<div class="topbar">Home</div>
-
-<div class="balance-card">
-    <h2 id="playerName">Welcome</h2>
-    <p>Balance: <span id="playerBalance">0.00</span> TND</p>
-</div>
-
-<div class="grid">
-    <div class="box"><i class="fa-solid fa-chart-line"></i><br>Sports betting</div>
-    <div class="box"><i class="fa-solid fa-stopwatch"></i><br>Live betting</div>
-    <div class="box"><i class="fa-regular fa-star"></i><br>Highlights</div>
-
-    <div class="box"><i class="fa-solid fa-spade"></i><br>Live casino</div>
-    <div class="box"><i class="fa-solid fa-slot-machine"></i><br>Casino</div>
-    <div class="box"><i class="fa-solid fa-dog"></i><br>Virtual sports</div>
-
-    <div class="box"><i class="fa-solid fa-medal"></i><br>Results</div>
-    <div class="box"><i class="fa-solid fa-magnifying-glass"></i><br>Search</div>
-    <div class="box"><i class="fa-regular fa-envelope"></i><br>Contact</div>
-</div>
-
-<!-- BOTTOM MENU -->
-<div class="bottom-menu">
-    <div><i class="fa-solid fa-house"></i><br>Home</div>
-    <div><i class="fa-solid fa-user"></i><br>Profile</div>
-    <div><i class="fa-solid fa-chart-line"></i><br>Sports</div>
-    <div><i class="fa-solid fa-ticket"></i><br>Bet Slip</div>
-</div>
-
-<script>
-const BIN_ID = "692eeefbae596e708f7e9e72";
-const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
-
-async function loadPlayer() {
-    let u = localStorage.getItem("player");
-
-    if (!u) {
-        window.location.href = "player_login.html";
-        return;
-    }
-
-    let r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-        headers: { "X-Master-Key": API_KEY }
-    });
-
-    let data = await r.json();
-    let users = data.record;
-
-    if (users[u]) {
-        document.getElementById("playerName").textContent = "Welcome, " + u;
-        document.getElementById("playerBalance").textContent = users[u].balance.toFixed(2);
-    }
+body {
+    margin: 0;
+    background: #0d2b4c;
+    font-family: Arial, sans-serif;
+    color: white;
 }
 
-loadPlayer();
-</script>
+/* --- Top Bar --- */
+.top-bar {
+    background: black;
+    padding: 15px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* --- Menu Icon Right --- */
+.menu-icon {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+    font-size: 26px;
+    cursor: pointer;
+}
+
+/* --- Grid Icons --- */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 10px;
+}
+
+.box {
+    background: #0a5ea8;
+    height: 110px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.box img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 5px;
+}
+
+.label {
+    font-size: 14px;
+}
+
+/* --- Bottom Menu --- */
+.bottom-menu {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 55px;
+    background: #1e1e1e;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.bottom-item {
+    text-align: center;
+    color: white;
+    font-size: 12px;
+}
+
+.bottom-item img {
+    width: 25px;
+    height: 25px;
+    display: block;
+    margin: auto;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+    Home
+    <span class="menu-icon">☰</span>
+</div>
+
+<!-- Grid Icons -->
+<div class="grid">
+    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/854/854878.png"><div class="label">Sports betting</div></div>
+    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/992/992700.png"><div class="label">Live betting</div></div>
+    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828970.png"><div class="label">Highlights</div></div>
+
+    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/1086/1086581.png"><div class="label">Live casino</div></div>
+    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/2480/2480502.png"><div class="label">Casino</div></div>
+    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/1530/1530296.png"><div class="label">Virtual sports</div></div>
+
+    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/1828/1828843.png"><div class="label">Results</div></div>
+    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/622/622669.png"><div class="label">Search</div></div>
+    <div class="box"><img src="https://cdn-icons-png.flaticon.com/512/561/561127.png"><div class="label">Contact</div></div>
+</div>
+
+<!-- Bottom Menu -->
+<div class="bottom-menu">
+    <div class="bottom-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png">
+        Home
+    </div>
+    <div class="bottom-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png">
+        Login
+    </div>
+    <div class="bottom-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/854/854878.png">
+        Sport
+    </div>
+    <div class="bottom-item">
+        <img src="https://cdn-icons-png.flaticon.com/512/992/992651.png">
+        Ticket
+    </div>
+</div>
 
 </body>
 </html>
