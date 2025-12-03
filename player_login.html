@@ -1,90 +1,54 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Player Login</title>
-  <style>
-    :root{
-      --green-dark:#0b3b16;
-      --green:#0d6b2a;
-      --card:#114b22;
-      --white:#fff;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Arial, Helvetica, sans-serif;
-      background:var(--green-dark);
-      color:var(--white);
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .card{
-      width:92%;
-      max-width:420px;
-      background:linear-gradient(180deg,var(--card),#0a3b1a);
-      border-radius:12px;
-      padding:26px;
-      box-shadow:0 8px 30px rgba(0,0,0,0.5);
-      text-align:center;
-    }
-    h1{margin:0 0 14px;font-size:26px}
-    .input{
-      width:100%;
-      padding:14px 12px;
-      border-radius:10px;
-      border:none;
-      margin:10px 0;
-      font-size:16px;
-      background:#0c4a26;
-      color:var(--white);
-    }
-    .btn{
-      display:block;
-      width:100%;
-      padding:12px;
-      border-radius:10px;
-      border:none;
-      margin-top:12px;
-      font-weight:bold;
-      font-size:16px;
-      cursor:pointer;
-    }
-    .btn-login{background:var(--green); color:#fff}
-    .btn-create{background:#f39c12; color:#111}
-    .hint{opacity:0.9;font-size:13px;margin-top:10px}
-    .small{font-size:13px;opacity:0.9;margin-top:8px}
-    .link{color:#fff;text-decoration:underline;cursor:pointer}
-    footer{margin-top:10px;font-size:12px;opacity:0.8}
-  </style>
+<meta charset="UTF-8" />
+<title>Player Login</title>
+<style>
+body {
+    margin: 0;
+    background: #002b0a;
+    font-family: Arial;
+    color: white;
+}
+.login-box {
+    width: 90%;
+    max-width: 350px;
+    margin: 120px auto;
+    background: #013d12;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #000;
+    text-align: center;
+}
+input {
+    width: 90%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 12px;
+    background: #0b4d18;
+    color: white;
+}
+button {
+    width: 95%;
+    padding: 12px;
+    margin-top: 15px;
+    background: #03c42c;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+}
+</style>
 </head>
 <body>
-  <div class="card">
-    <h1>Player Login</h1>
 
-    <input id="loginUser" class="input" placeholder="Username (e.g. 21451695)">
+<div class="login-box">
+    <h2>Player Login</h2>
+    <input id="username" placeholder="User ID">
+    <input id="password" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+</div>
 
-    <!-- We keep a password field visually (if you want) but login uses username only -->
-    <input id="loginPass" class="input" placeholder="Password (optional)" type="password">
-
-    <button class="btn btn-login" onclick="login()">Login</button>
-
-    <hr style="opacity:0.15;margin:18px 0">
-
-    <h2 style="font-size:18px;margin-bottom:6px">Create Account</h2>
-    <input id="newUser" class="input" placeholder="New Username">
-    <button class="btn btn-create" onclick="createAccount()">Create Account</button>
-
-    <div class="small hint">
-      - Accounts saved on JSONBin.<br>
-      - If username exists you'll get a message.
-    </div>
-    <footer>Jokerwin — Player portal</footer>
-  </div>
-
-  <script src="player_script.js"></script>
+<script src="player_script.js"></script>
 </body>
 </html>
