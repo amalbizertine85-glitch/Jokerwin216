@@ -31,10 +31,11 @@ body{
   position:fixed;
   top:0; left:0; right:0;
   z-index:100;
+  font-size:28px;
+  letter-spacing:8px;
 }
-.top h1{
-  margin:0;
-  font-size:22px;
+.top span{
+  margin:0 6px;
 }
 
 .wrap{
@@ -101,7 +102,12 @@ button{
 <body>
 
 <div class="top">
-  <h1>Login</h1>
+  <span>♠️</span>
+  <span>⚽️</span>
+  <span>🥅</span>
+  <span>🃏</span>
+  <span>🎰</span>
+  <span>🎲</span>
 </div>
 
 <div class="wrap">
@@ -134,9 +140,7 @@ async function login(){
     const p = document.getElementById("pass").value.trim();
 
     let req = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{
-        headers:{
-            "X-Master-Key": API_KEY
-        }
+        headers:{ "X-Master-Key": API_KEY }
     });
 
     let data = await req.json();
