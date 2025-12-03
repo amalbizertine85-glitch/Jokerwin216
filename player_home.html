@@ -197,40 +197,47 @@ body{
 </div>
 
 <script>
-/* JSONBIN CONFIG */
-const BIN_ID = "692eeefbae596e708f7e9e72";
-const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
+/* --------------- JSONBIN CONFIG ---------------- */
+const BIN_ID = "6922eefbae596e7087fe9e72";
+const API_KEY = "$2a$10$hCaLB9eDEuJfi138M4RhCMOdm8.1y36yVtLwW0BYdZTfqjpHtLAY7S";
 
-/* CHECK LOGIN */
+/* --------------- CHECK LOGIN ---------------- */
 const username = localStorage.getItem("logged");
-if (!username){
-   window.location.href = "player_login.html";
+
+if (!username) {
+    window.location.href = "player_login.html";
 }
 
-/* LOAD BALANCE */
+/* --------------- LOAD BALANCE ---------------- */
 async function loadBalance(){
-  try{
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
-      headers:{"X-Master-Key":API_KEY}
-    });
-    const json = await res.json();
-    const users = json.record;
-    const bal = users[username]?.balance ?? 0;
-    document.getElementById("balance").innerText = bal.toFixed(2)+" TD";
-    document.getElementById("smallBal").innerText = bal.toFixed(2);
-    document.getElementById("smallBal").style.display="block";
-  }catch(e){
-    document.getElementById("balance").innerText="Error";
-  }
+    try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+            headers: {"X-Master-Key": API_KEY}
+        });
+
+        const json = await res.json();
+        const users = json.record;
+
+        const bal = users[username]?.balance ?? 0;
+
+        document.getElementById("balance").innerText = bal.toFixed(2) + " TD";
+        document.getElementById("smallBal").innerText = bal.toFixed(2);
+        document.getElementById("smallBal").style.display = "block";
+
+    } catch(e){
+        document.getElementById("balance").innerText = "Error";
+    }
 }
 
-/* LOGOUT */
-function logout(){
-  localStorage.removeItem("logged");
-  window.location.href="player_login.html";
-}
-
+/* تحديث تلقائي كل 5 ثواني */
+setInterval(loadBalance, 5000);
 loadBalance();
+
+/* --------------- LOGOUT ---------------- */
+function logout(){
+    localStorage.removeItem("logged");
+    window.location.href = "player_login.html";
+}
 </script>
 
 </body>
