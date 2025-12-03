@@ -1,91 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Home</title>
-
-<style>
-body {
-    margin: 0;
-    background: #002b0a;
-    font-family: Arial;
-}
-
-/* Top Bar */
-.top-bar {
-    background: black;
-    padding: 18px;
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-}
-
-/* GRID */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    padding: 15px;
-}
-.box {
-    background: #024d15;
-    height: 110px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 15px;
-}
-.icon {
-    font-size: 35px;
-    margin-bottom: 5px;
-}
-
-/* Bottom menu */
-.bottom-menu {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    background: #000;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    color: white;
-    font-size: 14px;
-}
-</style>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Player Home</title>
+  <style>
+    :root{--dark:#063a1f;--card:#0e4f2b;--accent:#19b24b}
+    body{margin:0;background:var(--dark);font-family:Arial;color:#fff}
+    .top{background:#041a10;padding:18px;text-align:center;font-size:22px;font-weight:700}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px}
+    .tile{background:var(--card);padding:18px;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .tile img{width:46px;height:46px;margin-bottom:8px}
+    .bottom-bar{position:fixed;left:0;right:0;bottom:0;background:#07160d;display:flex;justify-content:space-around;padding:10px 6px}
+    .bottom-bar a{color:#fff;text-decoration:none;text-align:center;font-size:13px}
+    .profile{padding:18px}
+    .balance{font-size:36px;font-weight:700;color:var(--accent)}
+    .logout{margin-top:12px;padding:10px;background:#b22222;border:none;border-radius:6px;color:#fff;cursor:pointer}
+  </style>
 </head>
 <body>
+  <div class="top">Home</div>
 
-<div class="top-bar">Home</div>
+  <div class="profile" id="profileBox" style="display:none;">
+    <div>Welcome, <span id="pUser"></span></div>
+    <div class="balance" id="pBalance">0.00 TD</div>
+    <button class="logout" onclick="logout()">Disconnect</button>
+  </div>
 
-<div class="grid">
+  <div class="grid" id="mainGrid">
+    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" alt="⚽" /><div>Sports betting</div></div>
+    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/23f1.svg" alt="timer" /><div>Live betting</div></div>
+    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2b50.svg" alt="star" /><div>Highlights</div></div>
 
-    <div class="box"><div class="icon">⚽️</div>Sports</div>
-    <div class="box"><div class="icon">⏱️</div>Live betting</div>
-    <div class="box"><div class="icon">⭐</div>Highlights</div>
+    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f0cf.svg" alt="cards" /><div>Live casino</div></div>
+    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3b0.svg" alt="slot" /><div>Casino</div></div>
+    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/26bd.svg" alt="virtual" /><div>Virtual sports</div></div>
 
-    <div class="box"><div class="icon">♠️</div>Live casino</div>
-    <div class="box"><div class="icon">🎰</div>Casino</div>
-    <div class="box"><div class="icon">🎮</div>Virtual sports</div>
+    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f3c5.svg" alt="medal" /><div>Results</div></div>
+    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f50d.svg" alt="search" /><div>Search</div></div>
+    <div class="tile"><img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/2709.svg" alt="mail" /><div>Contact</div></div>
+  </div>
 
-    <div class="box"><div class="icon">🏅</div>Results</div>
-    <div class="box"><div class="icon">🔍</div>Search</div>
-    <div class="box"><div class="icon">✉️</div>Contact</div>
+  <div class="bottom-bar">
+    <a href="player_home.html">Home</a>
+    <a href="player_login.html">Login</a>
+    <a href="#">Sports betting</a>
+    <a href="#">Bet slip</a>
+  </div>
 
-</div>
+  <script src="player_script.js"></script>
+  <script>
+    // when page loads, check if logged
+    (async function(){
+      let logged = localStorage.getItem("player_logged");
+      if(!logged) return;
+      // show profile and balance
+      document.getElementById('profileBox').style.display = 'block';
+      document.getElementById('mainGrid').style.display = 'none';
+      const users = await getUsers();
+      const u = users[logged];
+      document.getElementById('pUser').innerText = logged;
+      document.getElementById('pBalance').innerText = (u && u.balance ? u.balance.toFixed(2) : '0.00') + ' TD';
+    })();
 
-<div class="bottom-menu">
-    <div>Home</div>
-    <div id="balance">0.00 TD</div>
-    <div onclick="logout()" style="color:red;">Logout</div>
-</div>
+    function logout(){
+      localStorage.removeItem("player_logged");
+      window.location.href = "player_login.html";
+    }
+  </script>
 
-<script src="player_script.js"></script>
 </body>
 </html>
