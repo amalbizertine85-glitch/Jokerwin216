@@ -1,54 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-<meta charset="UTF-8" />
-<title>Player Login</title>
-<style>
-body {
-    margin: 0;
-    background: #002b0a;
-    font-family: Arial;
-    color: white;
-}
-.login-box {
-    width: 90%;
-    max-width: 350px;
-    margin: 120px auto;
-    background: #013d12;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 20px #000;
-    text-align: center;
-}
-input {
-    width: 90%;
-    padding: 12px;
-    border: none;
-    border-radius: 5px;
-    margin-top: 12px;
-    background: #0b4d18;
-    color: white;
-}
-button {
-    width: 95%;
-    padding: 12px;
-    margin-top: 15px;
-    background: #03c42c;
-    border: none;
-    border-radius: 6px;
-    font-size: 18px;
-}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Player Login</title>
+  <style>
+    body{margin:0;background:#0b2d1f; font-family: Arial, Helvetica, sans-serif; color:#fff; display:flex; align-items:center; justify-content:center; min-height:100vh;}
+    .card{width:320px;background:rgba(0,0,0,0.12);padding:22px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.6);}
+    h2{text-align:center;margin:0 0 18px;color:#19b24b}
+    input{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;box-sizing:border-box;}
+    .btn{width:100%;padding:12px;background:#19b24b;color:#fff;border:none;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:8px;}
+    .note{font-size:13px;color:#ddd;text-align:center;margin-top:10px;}
+  </style>
 </head>
 <body>
-
-<div class="login-box">
+  <div class="card">
     <h2>Player Login</h2>
-    <input id="username" placeholder="User ID">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-</div>
+    <input id="username" placeholder="Username or ID" />
+    <input id="password" placeholder="Password" />
+    <button class="btn" onclick="login()">Login</button>
+    <p class="note">لو ما عندك حساب اطلبه من الادمن</p>
+  </div>
 
-<script src="player_script.js"></script>
+  <script src="player_script.js"></script>
 </body>
 </html>
