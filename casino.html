@@ -1,243 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Casino Games</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>3 Buzzing Wilds — Game</title>
 
 <style>
-body{
+  :root{
+    --panel:#042a00;
+    --accent:#1bd14b;
+    --danger:#c62828;
+    --ui:#092a18;
+  }
+
+  body{
     margin:0;
-    background:#03250f;
-    font-family:Arial, Helvetica, sans-serif;
+    font-family:Inter,Arial,Helvetica,sans-serif;
     color:#fff;
-}
+    background:url("buzz-bg.jpg") center/cover no-repeat fixed;
+  }
 
-/* HEADER */
-.top{
-    height:60px;
-    background:#000;
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
-    font-weight:bold;
-    position:fixed;
-    top:0; left:0; right:0;
-    z-index:50;
-}
+  /* NO TOP BAR */
+  .top{ display:none; }
 
-/* CONTAINER */
-.wrap{
-    padding:80px 12px 30px;
-}
+  /* MAIN CONTAINER */
+  .container{
+    max-width:900px;
+    margin:auto;
+    padding-top:20px;
+  }
 
-/* GRID */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:12px;
-}
-
-.card{
-    background:#0b5e2f;
-    border-radius:10px;
-    padding-bottom:10px;
-    box-shadow:0 6px 15px rgba(0,0,0,0.4);
-}
-
-.card img{
+  /* REELS AREA */
+  .reels{
     width:100%;
-    height:90px;
-    object-fit:cover;
-    border-top-left-radius:10px;
-    border-top-right-radius:10px;
-}
-
-.card .name{
-    text-align:center;
-    padding-top:6px;
-    font-size:15px;
-    font-weight:bold;
-}
-
-/* BOTTOM MENU */
-.bottom{
-    position:fixed;
-    bottom:0; left:0; right:0;
-    height:70px;
-    background:#000;
+    padding:12px;
+    box-sizing:border-box;
     display:flex;
-    justify-content:space-around;
+    justify-content:center;
+    gap:10px;
+    border-radius:14px;
+    background:rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
+  }
+
+  .reel{
+    width:18%;
+    height:300px;
+    background:rgba(0,50,0,0.6);
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,.7);
+    overflow:hidden;
+    position:relative;
+  }
+
+  .reel-track{
+    position:absolute;
+    top:0; left:0; right:0;
+    transition: transform 900ms cubic-bezier(.2,.9,.2,1);
+  }
+
+  .symbol{
+    width:100%;
+    height:100px;
+    display:flex;
+    justify-content:center;
     align-items:center;
-}
+  }
+  .symbol img{
+    width:90%;
+    height:auto;
+    border-radius:10px;
+  }
 
-.bottom-item{
-    color:#fff;
+  /* CONTROLS */
+  .controls{
+    margin-top:18px;
+    padding:16px;
+    background:rgba(0,20,0,0.8);
+    border-radius:14px;
     text-align:center;
-    font-size:12px;
-}
+    box-shadow:0 6px 20px rgba(0,0,0,.6);
+  }
 
-.bottom-item .bicon{
-    display:block;
+  .stat{
+    font-size:20px;
+    margin:8px 0;
+  }
+
+  .row{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:12px;
+    flex-wrap:wrap;
+  }
+
+  .btn{
+    background:#073b15;
+    border:2px solid #0a5b20;
+    padding:10px 14px;
+    border-radius:12px;
+    font-weight:700;
+    cursor:pointer;
+    color:#fff;
+    min-width:70px;
+    font-size:17px;
+  }
+
+  .spin{
+    background:linear-gradient(180deg,#1aff60,#0c782c);
+    border-color:#0c782c;
     font-size:22px;
-    margin-bottom:5px;
-}
+    padding:12px 24px;
+  }
+
+  .quit{
+    background:var(--danger);
+    border-color:#000;
+  }
+
 </style>
 </head>
+
 <body>
 
-<div class="top">Casino</div>
+<div class="container">
 
-<div class="wrap">
+  <!-- REELS -->
+  <div class="reels">
+    <div class="reel"><div class="reel-track" id="track-0"></div></div>
+    <div class="reel"><div class="reel-track" id="track-1"></div></div>
+    <div class="reel"><div class="reel-track" id="track-2"></div></div>
+    <div class="reel"><div class="reel-track" id="track-3"></div></div>
+    <div class="reel"><div class="reel-track" id="track-4"></div></div>
+  </div>
 
-<div class="grid">
+  <!-- CONTROLS -->
+  <div class="controls">
+    <div class="stat">Credit: <span id="balance">0.00</span> TND</div>
+    <div class="stat">Bet: <span id="bet">1.00</span> TND</div>
 
-<!-- GAME 1 -->
-<!-- GAME 1 -->
-<div class="card" onclick="window.location.href='buzzing_game.html'">
-    <img src="buzzing.jpeg" />
-    <div class="name">3 Buzzing W1lds</div>
-</div>
-
-<!-- GAME 2 -->
-<div class="card">
-    <img src="monkeys.jpg" />
-    <div class="name">3 Dancing Monkeys</div>
-</div>
-
-<!-- GAME 3 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?genie,magic" />
-    <div class="name">3 Genie Wishs</div>
-</div>
-
-<!-- GAME 4 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?warriors,asia" />
-    <div class="name">3 Kingdoms Red</div>
-</div>
-
-<!-- GAME 5 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?poker,cards" />
-    <div class="name">4 Of A K1nd</div>
-</div>
-
-<!-- GAME 6 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?lucky,leprechaun" />
-    <div class="name">5 Frozen Charms</div>
-</div>
-
-<!-- GAME 7 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?lion,statue" />
-    <div class="name">5 L1ons</div>
-</div>
-
-<!-- GAME 8 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?lion,dance" />
-    <div class="name">5 Lions Dance</div>
-</div>
-
-<!-- GAME 9 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?lion,gold" />
-    <div class="name">5 Lions Gold</div>
-</div>
-
-<!-- GAME 10 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?dragons,asia" />
-    <div class="name">8 Dragons</div>
-</div>
-
-<!-- GAME 11 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?gold,dragon" />
-    <div class="name">8 Golden Dragn</div>
-</div>
-
-<!-- GAME 12 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?admiral,navy" />
-    <div class="name">Admiral Nels0n</div>
-</div>
-
-<!-- GAME 13 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?elephant,safari" />
-    <div class="name">African Elephnt</div>
-</div>
-
-<!-- GAME 14 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?aladdin,magic" />
-    <div class="name">Aladdin Sorcer</div>
-</div>
-
-<!-- GAME 15 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?treasure,gold" />
-    <div class="name">Aladdin Treasur</div>
-</div>
-
-<!-- GAME 16 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?monkey,wild" />
-    <div class="name">7 Monkeys</div>
-</div>
-
-<!-- GAME 17 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?pig,cartoon" />
-    <div class="name">7 Piggies</div>
-</div>
-
-<!-- GAME 18 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?pig,animal" />
-    <div class="name">7 Piggies 5000</div>
-</div>
-
-<!-- GAME 19 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?slot,777" />
-    <div class="name">777 Rush</div>
-</div>
-
-<!-- GAME 20 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?joker,clown" />
-    <div class="name">6 Jokers</div>
-</div>
-
-<!-- GAME 21 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?fortune,clover" />
-    <div class="name">7 Clovers Fortn</div>
-</div>
-
-<!-- GAME 22 -->
-<div class="card">
-    <img src="https://source.unsplash.com/500x400/?dragon,fire" />
-    <div class="name">5 Lions Reborn</div>
-</div>
+    <div class="row">
+      <button class="btn" id="dec">- 0.2</button>
+      <button class="btn spin" id="spinBtn">SPIN</button>
+      <button class="btn" id="inc">+ 0.2</button>
+      <button class="btn quit" id="quitBtn">Quit</button>
+    </div>
+  </div>
 
 </div>
-</div>
 
-<div class="bottom">
-  <a href="player_home.html" class="bottom-item">
-    <span class="bicon">🏠</span>Home
-</a>
-  <div class="bottom-item"><span class="bicon">👤</span>Account</div>
-  <div class="bottom-item"><span class="bicon">⚽</span>Sport</div>
-  <div class="bottom-item"><span class="bicon">🎟️</span>Slip</div>
-</div>
+<script>
+/* نفس الرموز الآن — صورة واحدة */
+const SYMBOLS = ["buzzing.jpeg"];
+
+const BIN_ID = "692eeefbae596e708f7e9e72";
+const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
+
+let username = localStorage.getItem("logged") || null;
+let balance = 0;
+let bet = 1.00;
+
+const rows = 3;
+const reelsCount = 5;
+
+/* تجهيز الريلز */
+for (let r = 0; r < reelsCount; r++){
+  const track = document.getElementById(`track-${r}`);
+  for (let i = 0; i < rows * 6; i++){
+    const d = document.createElement("div");
+    d.className = "symbol";
+    let img = document.createElement("img");
+    img.src = SYMBOLS[0];
+    d.appendChild(img);
+    track.appendChild(d);
+  }
+}
+
+/* JSON BIN */
+async function fetchBin(){
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+    headers: { "X-Master-Key": API_KEY }
+  });
+  const data = await res.json();
+  return data.record || {};
+}
+
+async function putBin(rec){
+  await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json",
+      "X-Master-Key": API_KEY
+    },
+    body:JSON.stringify(rec)
+  });
+}
+
+async function loadBalance(){
+  const rec = await fetchBin();
+  if(rec.users && rec.users[username]){
+    balance = Number(rec.users[username].balance || 0);
+  }
+  updateUI();
+}
+
+async function saveBalance(){
+  const rec = await fetchBin();
+  if(!rec.users) rec.users = {};
+  if(!rec.users[username]) rec.users[username] = {};
+  rec.users[username].balance = balance;
+  await putBin(rec);
+}
+
+function updateUI(){
+  document.getElementById("balance").innerText = balance.toFixed(2);
+  document.getElementById("bet").innerText = bet.toFixed(2);
+}
+
+/* BET BUTTONS */
+document.getElementById("dec").onclick = ()=>{
+  if(bet > 0.2){
+    bet = Math.round((bet - 0.2) * 100) / 100;
+    updateUI();
+  }
+};
+document.getElementById("inc").onclick = ()=>{
+  bet = Math.round((bet + 0.2) * 100) / 100;
+  updateUI();
+};
+
+document.getElementById("quitBtn").onclick = () => {
+  window.location = "casino.html";
+};
+
+/* SPIN */
+let spinning = false;
+
+async function spin(){
+  if(spinning) return;
+  if(balance < bet) return alert("Not enough balance!");
+
+  spinning = true;
+  document.getElementById("spinBtn").disabled = true;
+
+  balance -= bet;
+  updateUI();
+  await saveBalance();
+
+  const final = [];
+  for(let r=0; r<reelsCount; r++){
+    final.push([SYMBOLS[0], SYMBOLS[0], SYMBOLS[0]]);
+  }
+
+  const promises = [];
+  for(let r=0; r<reelsCount; r++){
+    const track = document.getElementById(`track-${r}`);
+
+    const frag = document.createDocumentFragment();
+    for(let k=0;k<6;k++){
+      SYMBOLS.forEach(sym=>{
+        const d=document.createElement("div");
+        d.className="symbol";
+        const img=document.createElement("img");
+        img.src=sym;
+        d.appendChild(img);
+        frag.appendChild(d);
+      });
+    }
+
+    final[r].forEach(sym=>{
+      const d=document.createElement("div");
+      d.className="symbol";
+      const img=document.createElement("img");
+      img.src=sym;
+      d.appendChild(img);
+      frag.appendChild(d);
+    });
+
+    while(track.firstChild) track.removeChild(track.firstChild);
+    track.appendChild(frag);
+
+    const symbolHeight = 100;
+    const total = track.children.length;
+    const distance = -((total - rows) * symbolHeight);
+
+    promises.push(new Promise(res=>{
+      setTimeout(()=>{
+        track.style.transition="transform 1s cubic-bezier(.2,.9,.2,1)";
+        track.style.transform=`translateY(${distance}px)`;
+
+        setTimeout(()=>{
+          while(track.firstChild) track.removeChild(track.firstChild);
+          final[r].forEach(sym=>{
+            const d=document.createElement("div");
+            d.className="symbol";
+            let img=document.createElement("img");
+            img.src=sym;
+            d.appendChild(img);
+            track.appendChild(d);
+          });
+          track.style.transition="";
+          track.style.transform="translateY(0)";
+          res();
+        },1100);
+      }, r * 120);
+    }));
+  }
+
+  await Promise.all(promises);
+  spinning = false;
+  document.getElementById("spinBtn").disabled = false;
+}
+
+document.getElementById("spinBtn").onclick = spin;
+
+loadBalance();
+updateUI();
+</script>
 
 </body>
 </html>
