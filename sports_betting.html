@@ -71,14 +71,11 @@ button{
   <select id="leagueSelect">
     <option value="">Select League</option>
 
-    <!-- الدوريات الجاهزة -->
     <option value="39">Premier League (England)</option>
     <option value="140">La Liga (Spain)</option>
     <option value="78">Bundesliga (Germany)</option>
     <option value="135">Serie A (Italy)</option>
     <option value="61">Ligue 1 (France)</option>
-    <option value="2">CAF Champions League</option>
-    <option value="3">CAF Confederation Cup</option>
     <option value="233">Tunis Ligue 1</option>
 
   </select>
@@ -95,6 +92,7 @@ const API_KEY = "b758296ec3c79c6b2597cd41d373ffd1";
 async function loadMatches(){
   const league = document.getElementById("leagueSelect").value;
   const box = document.getElementById("matches");
+
   box.innerHTML = "<div style='padding:20px;font-size:18px;'>Loading...</div>";
 
   if(!league){
@@ -103,10 +101,15 @@ async function loadMatches(){
   }
 
   try{
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date();
+    const nextWeek = new Date();
+    nextWeek.setDate(today.getDate() + 7);
+
+    const from = today.toISOString().split("T")[0];
+    const to = nextWeek.toISOString().split("T")[0];
 
     const url =
-      `https://v3.football.api-sports.io/fixtures?league=${league}&season=2023&date=${today}`;
+      `https://v3.football.api-sports.io/fixtures?league=${league}&season=2023&from=${from}&to=${to}`;
 
     const res = await fetch(url, {
       headers:{
@@ -117,7 +120,7 @@ async function loadMatches(){
     const data = await res.json();
 
     if(!data.response || data.response.length === 0){
-      box.innerHTML = "<div style='padding:20px;font-size:18px;'>No matches found.</div>";
+      box.innerHTML = "<div style='padding:20px;font-size:18px;'>No upcoming matches.</div>";
       return;
     }
 
