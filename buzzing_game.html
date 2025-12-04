@@ -4,273 +4,414 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>3 Buzzing Wilds — Game</title>
-
 <style>
   :root{
     --bg:#000;
-    --panel:#042a00;
-    --accent:#1bd14b;
+    --panel:#041a09;
+    --accent:#18d24f;
     --muted:#c7f7cf;
     --danger:#c62828;
     --ui:#092a18;
   }
   html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,Arial,Helvetica,sans-serif;color:#fff}
-  .top{height:60px;background:#000;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;position:sticky;top:0;z-index:10}
+  /* full background image */
+  body{
+    background-image: url('buzzing.jpeg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    /* dark overlay */
+  }
+  body::after{
+    content:"";
+    position:fixed; left:0; right:0; top:0; bottom:0;
+    background: linear-gradient(180deg, rgba(0,0,0,0.65), rgba(0,0,0,0.8));
+    pointer-events:none;
+    z-index:0;
+  }
 
-  /* container */
-  .container{max-width:900px;margin:10px auto;padding:12px;}
-
-  /* reels area */
-  .reels{
-    width:100%;
-    background:linear-gradient(180deg,#071b09,#031006);
-    border-radius:12px;
-    padding:14px;
+  .app{
+    position:relative;
+    z-index:1;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:18px 12px 90px; /* leave space for bottom nav */
     box-sizing:border-box;
+  }
+
+  /* title (overlay) */
+  .title{
+    color:#fff;
+    font-weight:800;
+    font-size:22px;
+    margin-top:6px;
+    margin-bottom:10px;
+    text-align:center;
+  }
+
+  /* reel frame */
+  .frame{
+    width:100%;
+    max-width:980px;
+    border-radius:16px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.25));
+    padding:18px;
+    box-sizing:border-box;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  .reels{
     display:flex;
     gap:10px;
     justify-content:center;
     align-items:flex-start;
-    overflow:hidden;
+    padding:8px;
   }
+
   .reel{
     width:18%;
-    height:320px;
-    background:var(--panel);
-    border-radius:10px;
+    min-width:58px;
+    max-width:140px;
+    background:linear-gradient(180deg,#05240f,#03100b);
+    border-radius:12px;
+    height:330px;
     overflow:hidden;
     position:relative;
-    box-shadow:0 8px 20px rgba(0,0,0,.6);
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
   }
+
   .reel-track{
-    position:absolute;
-    top:0; left:0; right:0;
-    transition: transform 900ms cubic-bezier(.2,.9,.2,1);
+    position:absolute; left:0; right:0; top:0;
+    transition: transform 1000ms cubic-bezier(.2,.9,.2,1);
   }
+
   .symbol{
-    width:100%;
-    height:106px;
+    height:108px;
     display:flex;
     align-items:center;
     justify-content:center;
     box-sizing:border-box;
   }
-  .symbol img{max-width:100%; max-height:100%; object-fit:contain; border-radius:6px;}
+  .symbol img{
+    width:88%;
+    height:92%;
+    object-fit:cover;
+    border-radius:10px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  }
 
   /* controls */
   .controls{
     margin-top:14px;
-    background:var(--ui);
-    padding:14px;
-    border-radius:10px;
+    background: rgba(5,28,18,0.9);
+    padding:18px;
+    border-radius:12px;
     text-align:center;
   }
-  .stat{font-size:18px;margin:6px 0}
-  .controls .row{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;flex-wrap:wrap}
-  .btn{background:#07200e;color:#fff;border:2px solid #083a19;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;min-width:64px}
-  .btn:active{transform:translateY(1px)}
-  .spin{background:linear-gradient(180deg,#0df05c,#0b8b3a);color:#002206;border:2px solid #0b8b3a;font-size:20px;padding:12px 18px}
-  .quit{background:var(--danger);border:2px solid rgba(255,255,255,0.08);padding:10px 12px;border-radius:8px;color:#fff}
-  .small{font-size:14px;color:var(--muted)}
+  .stat{font-size:20px;margin:6px 0;font-weight:700}
+  .row{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:10px}
+  .btn{
+    background:rgba(6,36,18,0.95);
+    color:#fff;
+    border:2px solid rgba(12,80,38,0.6);
+    padding:12px 18px;
+    border-radius:12px;
+    font-weight:800;
+    font-size:16px;
+    min-width:84px;
+    cursor:pointer;
+  }
+  .spin{
+    background: linear-gradient(180deg,#16f07c,#08a24a);
+    color:#002206;
+    border:2px solid rgba(0,120,50,0.9);
+    font-size:20px;
+    padding:14px 26px;
+    min-width:120px;
+  }
+  .quit{
+    background:var(--danger);
+    border:2px solid rgba(255,255,255,0.06);
+    color:#fff;
+    padding:10px 12px;
+    border-radius:10px;
+    cursor:pointer;
+  }
+  .small{font-size:13px;color:var(--muted);margin-top:8px}
 
+  /* bottom nav removed overlay: we put space for it and make it translucent */
+  .bottom-space{height:78px}
+
+  /* bottom nav (kept same as site) */
+  .bottom{
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    height:68px;
+    background:rgba(0,0,0,0.97);
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    border-top:1px solid rgba(255,255,255,0.03);
+    z-index:9;
+  }
+  .bottom a{color:#fff;text-decoration:none;font-size:14px}
   /* responsive */
   @media (max-width:520px){
     .reel{height:300px}
     .symbol{height:100px}
+    .spin{min-width:90px;padding:12px 18px}
   }
 </style>
 </head>
 <body>
+  <div class="app">
+    <div class="title">3 Buzzing Wilds</div>
 
-<div class="top">3 Buzzing Wilds</div>
-<div class="container">
+    <div class="frame" id="frame">
+      <div class="reels" id="reels">
+        <div class="reel"><div class="reel-track" id="track-0"></div></div>
+        <div class="reel"><div class="reel-track" id="track-1"></div></div>
+        <div class="reel"><div class="reel-track" id="track-2"></div></div>
+        <div class="reel"><div class="reel-track" id="track-3"></div></div>
+        <div class="reel"><div class="reel-track" id="track-4"></div></div>
+      </div>
 
-  <div class="reels">
-    <div class="reel"><div class="reel-track" id="track-0"></div></div>
-    <div class="reel"><div class="reel-track" id="track-1"></div></div>
-    <div class="reel"><div class="reel-track" id="track-2"></div></div>
-    <div class="reel"><div class="reel-track" id="track-3"></div></div>
-    <div class="reel"><div class="reel-track" id="track-4"></div></div>
-  </div>
+      <div class="controls">
+        <div class="stat">Credit: <span id="balance">0.00</span> TND</div>
+        <div class="stat">Bet: <span id="bet">1.00</span> TND</div>
 
-  <div class="controls">
-    <div class="stat">Credit: <span id="balance">0.00</span> TND</div>
-    <div class="stat">Bet: <span id="bet">1.00</span> TND</div>
+        <div class="row">
+          <button class="btn" id="dec">- 0.2</button>
+          <button class="btn spin" id="spinBtn">SPIN</button>
+          <button class="btn" id="inc">+ 0.2</button>
+          <button class="quit" id="quitBtn">Quit</button>
+        </div>
 
-    <div class="row">
-      <button class="btn" id="dec">- 0.2</button>
-      <button class="btn spin" id="spinBtn">SPIN</button>
-      <button class="btn" id="inc">+ 0.2</button>
-      <button class="quit" id="quitBtn">Quit</button>
+        <div class="small">Every spin deducts the bet. Win rate set to 0% (no payouts).</div>
+      </div>
     </div>
+
+    <div class="bottom-space"></div>
   </div>
 
-</div>
+  <div class="bottom">
+    <a href="player_home.html">Home</a>
+    <a href="#">Account</a>
+    <a href="#">Sport</a>
+    <a href="#">Slip</a>
+  </div>
 
 <script>
+/* -------------------------
+   CONFIG (your BIN + KEY)
+   ------------------------- */
 const BIN_ID = "692eeefbae596e708f7e9e72";
 const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-/* كل الرموز نفس الصورة الآن */
-const SYMBOLS = [ "buzzing.jpeg" ];
-
-let username = localStorage.getItem("logged") || null;
-let balance = 0;
-let bet = 1.00;
+/* Simple setup: single symbol image (you can add more filenames) */
+const SYMBOLS = [ "buzzing.jpeg" ]; // using same image for each symbol as requested
 
 const rows = 3;
 const reelsCount = 5;
+const username = localStorage.getItem("logged") || null;
 
-/* Init tracks */
-for(let r=0; r<reelsCount; r++){
+/* state */
+let balance = 0;
+let bet = 1.00;
+let spinning = false;
+
+/* DOM */
+const balanceEl = document.getElementById("balance");
+const betEl = document.getElementById("bet");
+const spinBtn = document.getElementById("spinBtn");
+const decBtn = document.getElementById("dec");
+const incBtn = document.getElementById("inc");
+const quitBtn = document.getElementById("quitBtn");
+
+/* init tracks with repeated symbols to create long column (for smooth translate) */
+for(let r=0;r<reelsCount;r++){
   const track = document.getElementById(`track-${r}`);
   for(let i=0;i<rows*6;i++){
-    const d = document.createElement("div");
-    d.className = "symbol";
+    const el = document.createElement("div");
+    el.className = "symbol";
     const img = document.createElement("img");
     img.src = SYMBOLS[0];
-    d.appendChild(img);
-    track.appendChild(d);
+    img.alt = "sym";
+    el.appendChild(img);
+    track.appendChild(el);
   }
 }
 
-/* JSON BIN */
+/* JSONBin helpers */
 async function fetchBin(){
-  const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-    headers:{ "X-Master-Key":API_KEY }
-  });
-  const data = await res.json();
-  return data.record || {};
+  try{
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { "X-Master-Key": API_KEY }
+    });
+    if(!res.ok) throw new Error("fetch failed");
+    const j = await res.json();
+    return j.record || {};
+  }catch(e){
+    console.warn("fetchBin err", e);
+    return {};
+  }
+}
+async function putBin(record){
+  try{
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      method:"PUT",
+      headers:{
+        "Content-Type":"application/json",
+        "X-Master-Key":API_KEY
+      },
+      body: JSON.stringify(record)
+    });
+    if(!res.ok) throw new Error("put failed");
+    return await res.json();
+  }catch(e){
+    console.warn("putBin err", e);
+    return null;
+  }
 }
 
-async function putBin(rec){
-  await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-    method:"PUT",
-    headers:{
-      "Content-Type":"application/json",
-      "X-Master-Key":API_KEY
-    },
-    body:JSON.stringify(rec)
-  });
-}
-
+/* load & save user balance (stored under users[username].balance ) */
 async function loadBalance(){
   const rec = await fetchBin();
-  if(rec.users && rec.users[username]){
-    balance = Number(rec.users[username].balance||0);
+  if(rec.users && username && rec.users[username]){
+    balance = Number(rec.users[username].balance || 0);
+  } else {
+    // if not found, fallback to 1000 for demo (or 0 if you prefer)
+    balance = rec.balance ?? 1000; // if your bin top-level has balance
+    // If you want default 0: balance = 0;
   }
   updateUI();
 }
 async function saveBalance(){
+  if(!username) return; // skip if no logged user
   const rec = await fetchBin();
   if(!rec.users) rec.users = {};
   rec.users[username] = rec.users[username] || {};
-  rec.users[username].balance = balance;
+  rec.users[username].balance = Number(balance);
   await putBin(rec);
 }
 
+/* UI */
 function updateUI(){
-  document.getElementById("balance").innerText = balance.toFixed(2);
-  document.getElementById("bet").innerText = bet.toFixed(2);
+  balanceEl.innerText = Number(balance || 0).toFixed(2);
+  betEl.innerText = Number(bet).toFixed(2);
 }
 
-/* Controls */
-document.getElementById("dec").onclick = ()=>{
+/* controls */
+decBtn.addEventListener("click", ()=>{
   if(bet > 0.2){
-    bet = Math.round((bet - 0.2)*100)/100;
+    bet = Math.round((bet - 0.2) * 100) / 100;
     updateUI();
   }
-};
-document.getElementById("inc").onclick = ()=>{
-  bet = Math.round((bet + 0.2)*100)/100;
+});
+incBtn.addEventListener("click", ()=>{
+  bet = Math.round((bet + 0.2) * 100) / 100;
   updateUI();
-};
-document.getElementById("quitBtn").onclick = ()=>{
-  window.location="casino.html";
-};
+});
+quitBtn.addEventListener("click", ()=>{
+  window.location.href = "casino.html";
+});
 
-/* Spin */
-let spinning = false;
+/* Spin animation + logic (no payouts) */
 async function spin(){
   if(spinning) return;
-  if(balance < bet) return alert("Not enough balance!");
-
+  if(balance < bet){
+    alert("Not enough balance!");
+    return;
+  }
   spinning = true;
-  document.getElementById("spinBtn").disabled = true;
+  spinBtn.disabled = true;
 
-  balance -= bet;
+  // deduct bet and save
+  balance = Math.round((balance - bet) * 100) / 100;
   updateUI();
   await saveBalance();
 
-  const final = [];
-  for(let r=0;r<reelsCount;r++){
-    final.push([SYMBOLS[0], SYMBOLS[0], SYMBOLS[0]]);
-  }
+  // build final arrays (all same symbol in this version)
+  const final = Array.from({length:reelsCount}, ()=> Array.from({length:rows}, ()=> SYMBOLS[0]));
 
+  // animate each reel: build long list then translate to final
+  const duration = 1000;
+  const delays = [0, 90, 180, 260, 340];
   const promises = [];
+
   for(let r=0;r<reelsCount;r++){
     const track = document.getElementById(`track-${r}`);
+    // build new content
     const frag = document.createDocumentFragment();
-
-    for(let k=0;k<5;k++){
-      SYMBOLS.forEach(sym=>{
-        const d=document.createElement("div");
-        d.className="symbol";
-        const img=document.createElement("img");
-        img.src=sym;
+    // repeat symbols several times
+    for(let k=0;k<6;k++){
+      for(let s=0;s<SYMBOLS.length;s++){
+        const d = document.createElement("div");
+        d.className = "symbol";
+        const img = document.createElement("img");
+        img.src = SYMBOLS[s];
         d.appendChild(img);
         frag.appendChild(d);
-      });
+      }
     }
-
+    // append final row symbols
     final[r].forEach(sym=>{
-      const d=document.createElement("div");
-      d.className="symbol";
-      const img=document.createElement("img");
-      img.src=sym;
+      const d = document.createElement("div");
+      d.className = "symbol";
+      const img = document.createElement("img");
+      img.src = sym;
       d.appendChild(img);
       frag.appendChild(d);
     });
 
+    // replace track content
     while(track.firstChild) track.removeChild(track.firstChild);
     track.appendChild(frag);
 
-    const symbolHeight = 100;
+    // calculate translate (symbol height measured from DOM)
+    const symbolEl = track.querySelector(".symbol");
+    const symbolH = symbolEl ? symbolEl.getBoundingClientRect().height : 108;
     const total = track.children.length;
-    const distance = -( (total - rows) * symbolHeight );
+    const translateY = - ( (total - rows) * symbolH );
 
-    promises.push(new Promise(res=>{
+    promises.push(new Promise(resolve=>{
       setTimeout(()=>{
-        track.style.transition="transform 1s cubic-bezier(.2,.9,.2,1)";
-        track.style.transform=`translateY(${distance}px)`;
+        track.style.transition = `transform ${duration}ms cubic-bezier(.2,.9,.2,1)`;
+        track.style.transform = `translateY(${translateY}px)`;
         setTimeout(()=>{
+          // cleanup: keep only final symbols (rows)
           while(track.firstChild) track.removeChild(track.firstChild);
           final[r].forEach(sym=>{
-            const d=document.createElement("div");
-            d.className="symbol";
-            const img=document.createElement("img");
-            img.src=sym;
+            const d = document.createElement("div");
+            d.className = "symbol";
+            const img = document.createElement("img");
+            img.src = sym;
             d.appendChild(img);
             track.appendChild(d);
           });
-          track.style.transition="";
-          track.style.transform="translateY(0)";
-          res();
-        },1100);
-      },r*100);
+          track.style.transition = "";
+          track.style.transform = `translateY(0)`;
+          resolve();
+        }, duration + 60);
+      }, delays[r]);
     }));
   }
 
   await Promise.all(promises);
+
+  // no payout per spec (win rate 0)
   spinning = false;
-  document.getElementById("spinBtn").disabled = false;
+  spinBtn.disabled = false;
 }
 
-document.getElementById("spinBtn").onclick = spin;
+spinBtn.addEventListener("click", spin);
 
+/* initial */
 loadBalance();
 updateUI();
 </script>
