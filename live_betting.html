@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Live Betting — In-Play</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#04160f;color:#fff}
+  .top{height:60px;background:#000;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .wrap{max-width:1000px;margin:14px auto;padding:12px}
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  select,button{padding:8px;border-radius:6px;border:0;background:#063216;color:#fff;font-weight:700}
+  .list{display:flex;flex-direction:column;gap:10px}
+  .item{background:linear-gradient(180deg,#072717,#0b3a29);padding:10px;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
+  .teams{font-size:16px}
+  .score{font-weight:900;font-size:18px}
+  .status{opacity:.9;color:#e3fbdc}
+</style>
+</head>
+<body>
+  <div class="top">Live Betting — In-Play</div>
+  <div class="wrap">
+    <div class="controls">
+      <label>League:
+        <select id="leagueSelect"></select>
+      </label>
+      <button id="btnRefresh">Refresh</button>
+      <div style="margin-left:auto;color:#cfead1">Auto-refresh every 15s</div>
+    </div>
+
+    <div id="liveList" class="list"></div>
+  </div>
+
+<script>
+const RAPIDAPI_KEY = "PUT_YOUR_RAPIDAPI_KEY_HERE";
+const LEAGUES = [
+  {id:39, label:"Premier League"},
+  {id:140, label:"LaLiga"},
+  {id:135, label:"Serie A"},
+  {id:78, label:"Bundesliga"},
+  {id:61, label:"Ligue 1"},
+  {id:2, label:"Champions League"},
+  {id:1, label:"World Cup"},
+  {id:236, label:"Tunisian League"}
+];
+const sel = document.getElementById("leagueSelect");
+LEAGUES.forEach(l=> sel.appendChild(Object.assign(document.createElement("option"),{value:l.id,textContent:l.label})));
+
+async function fetchLive(leagueId){
+  try{
+    const url = `https://v3.football.api-sports.io/fixtures?league=${leagueId}&status=LIVE`;
+    const res = await fetch(url, { headers: { "x-apisports-key": RAPIDAPI_KEY } });
+    if(!res.ok) throw new Error("fetch failed");
+    const j = await res.json();
+    return j.response || [];
+  }catch(e){
+    console.error(e);
+    return [];
+  }
+}
+
+function renderLive(list){
+  const out = document.getElementById("liveList");
+  out.innerHTML = "";
+  if(!list.length){
+    out.innerHTML = `<div style="opacity:.7">No live matches right now.</div>`;
+    return;
+  }
+  list.forEach(item=>{
+    const t = item.teams || item;
+    const score = item.goals || {home:0,away:0};
+    const status = item.fixture?.status?.long || item.status || "";
+    const d = document.createElement("div");
+    d.className = "item";
+    d.innerHTML = `<div class="teams">${t.home?.name||item.home?.name} <span style="opacity:.6">vs</span> ${t.away?.name||item.away?.name}<div class="status">${status}</div></div>
+      <div style="text-align:right">
+        <div class="score">${(score.home!=null?score.home:0)} - ${(score.away!=null?score.away:0)}</div>
+        <div style="opacity:.75;font-size:13px">${new Date(item.fixture?.date||item.event_date).toLocaleTimeString()}</div>
+      </div>`;
+    out.appendChild(d);
+  });
+}
+
+async function load(){
+  const lid = sel.value;
+  const list = await fetchLive(lid);
+  renderLive(list);
+}
+document.getElementById("btnRefresh").addEventListener("click", load);
+sel.addEventListener("change", load);
+load();
+setInterval(load, 15000);
+</script>
+</body>
+</html>
