@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sports Betting — Upcoming Matches</title>
+<style>
+  body{font-family:Arial,Helvetica,sans-serif;margin:0;background:#041a0b;color:#fff}
+  .top{height:60px;background:#000;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .wrap{max-width:1000px;margin:14px auto;padding:12px}
+  .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  select,optgroup,button{padding:8px;border-radius:6px;border:0;background:#073016;color:#fff;font-weight:700}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+  .card{background:linear-gradient(180deg,#073016,#0b3a1d);padding:12px;border-radius:10px;box-shadow:0 8px 18px rgba(0,0,0,.5)}
+  .teams{display:flex;justify-content:space-between;align-items:center;font-size:16px}
+  .meta{margin-top:8px;color:#cfead1;font-size:14px}
+  .refresh{margin-left:auto}
+  .empty{opacity:.7}
+</style>
+</head>
+<body>
+  <div class="top">Sports Betting — Upcoming</div>
+  <div class="wrap">
+    <div class="controls">
+      <label>
+        League:
+        <select id="leagueSelect">
+          <!-- default options: change below -->
+        </select>
+      </label>
+
+      <button id="btnRefresh" class="refresh">Refresh</button>
+      <div style="margin-left:10px;color:#cfead1">Auto-refresh every 20s</div>
+    </div>
+
+    <div id="status" style="margin-bottom:8px;color:#ffd;"></div>
+
+    <div id="matches" class="grid"></div>
+  </div>
+
+<script>
+/*
+  CONFIG:
+  - Put your RapidAPI / API-Football key in RAPIDAPI_KEY.
+  - If you use native api-sports key, change headers accordingly (see comment below).
+*/
+const RAPIDAPI_KEY = "PUT_YOUR_RAPIDAPI_KEY_HERE"; // <-- paste your RapidAPI key
+const RAPIDAPI_HOST = "v3.football.api-sports.io";  // common host for v3 api
+
+// Default leagues mapping (common IDs used by API-Football).
+// If an ID doesn't match your API, replace with the correct league IDs.
+const LEAGUES = [
+  {id:39, label:"Premier League"},
+  {id:140, label:"LaLiga"},
+  {id:135, label:"Serie A"},
+  {id:78, label:"Bundesliga"},
+  {id:61, label:"Ligue 1"},
+  {id:2, label:"Champions League"},
+  {id:1, label:"World Cup"},
+  /* Tunisian league: if you know the id put it here; otherwise remove or update */
+  {id:236, label:"Tunisian League"}
+];
+
+const leagueSelect = document.getElementById("leagueSelect");
+LEAGUES.forEach(l=> {
+  const opt = document.createElement("option");
+  opt.value = l.id;
+  opt.textContent = l.label;
+  leagueSelect.appendChild(opt);
+});
+
+const matchesEl = document.getElementById("matches");
+const statusEl = document.getElementById("status");
+const refreshBtn = document.getElementById("btnRefresh");
+
+// fetch upcoming fixtures for selected league (next 30 matches)
+async function fetchUpcoming(leagueId){
+  statusEl.textContent = "Loading upcoming matches...";
+  try{
+    const from = new Date().toISOString().slice(0,10);
+    // the API supports date range; here we request next 7 days
+    const toDate = new Date();
+    toDate.setDate(toDate.getDate()+7);
+    const to = toDate.toISOString().slice(0,10);
+
+    const url = `https://v3.football.api-sports.io/fixtures?league=${leagueId}&from=${from}&to=${to}&status=SCHEDULED`;
+    const res = await fetch(url, {
+      headers:{
+        "x-apisports-key": RAPIDAPI_KEY, // if you are using api-sports direct key
+        // When using RapidAPI marketplace, include these instead:
+        // "x-rapidapi-key": RAPIDAPI_KEY,
+        // "x-rapidapi-host": RAPIDAPI_HOST
+      }
+    });
+    if(!res.ok) throw new Error("Network response not ok");
+    const j = await res.json();
+    return j.response || [];
+  }catch(err){
+    console.error(err);
+    statusEl.textContent = "Failed to load matches — check API key / network.";
+    return [];
+  } finally {
+    // noop
+  }
+}
+
+function renderMatches(list){
+  matchesEl.innerHTML = "";
+  if(!list.length){
+    matchesEl.innerHTML = `<div class="empty">No upcoming matches found.</div>`;
+    statusEl.textContent = "";
+    return;
+  }
+  statusEl.textContent = `${list.length} upcoming fixtures`;
+  list.forEach(item=>{
+    const fixture = item.fixture || item; // depending on response shape
+    const league = item.league?.name || "";
+    const teams = item.teams || {};
+    const home = teams.home?.name || (item.home?.name||"Home");
+    const away = teams.away?.name || (item.away?.name||"Away");
+    const date = fixture.date ? new Date(fixture.date).toLocaleString() : (fixture.event_date||"");
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="teams">
+        <div>${home}</div>
+        <div style="opacity:.6">vs</div>
+        <div>${away}</div>
+      </div>
+      <div class="meta">${league} • ${date}</div>
+    `;
+    matchesEl.appendChild(card);
+  });
+}
+
+async function loadAndRender(){
+  const lid = leagueSelect.value;
+  const data = await fetchUpcoming(lid);
+  renderMatches(data);
+}
+
+refreshBtn.addEventListener("click", loadAndRender);
+leagueSelect.addEventListener("change", loadAndRender);
+
+// auto refresh
+loadAndRender();
+setInterval(loadAndRender, 20000);
+</script>
+</body>
+</html>
