@@ -7,112 +7,183 @@
 
 <style>
   :root{
-    --bg:#000; /* حسب طلبك: خلفية سوداء */
+    --bg:#000;
     --panel:#042a00;
     --accent:#1bd14b;
     --muted:#c7f7cf;
     --danger:#c62828;
-    --ui:#092a18;
+    --ui:rgba(0,0,0,0.55);
   }
-  html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,Arial,Helvetica,sans-serif;color:#fff}
-  .top{height:60px;background:#000;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;position:sticky;top:0;z-index:10}
-  .container{max-width:900px;margin:10px auto;padding:12px;}
-  /* reels area */
+
+  html,body{
+      height:100%;
+      margin:0;
+      background:#000;
+      font-family:Arial,Helvetica,sans-serif;
+      color:#fff;
+  }
+
+  body{
+      background:url("buzzing.jpeg") center/cover no-repeat fixed;
+  }
+
+  .top{
+      height:60px;
+      background:#000c;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      font-size:20px;
+      position:sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter:blur(4px);
+  }
+
+  .container{
+      max-width:900px;
+      margin:10px auto;
+      padding:12px;
+      background:rgba(0,0,0,0.5);
+      border-radius:12px;
+  }
+
+  /* REELS */
   .reels{
-    width:100%;
-    background:linear-gradient(180deg,#071b09,#031006);
-    border-radius:12px;
-    padding:14px;
-    box-sizing:border-box;
-    display:flex;
-    gap:10px;
-    justify-content:center;
-    align-items:flex-start;
-    overflow:hidden;
+      width:100%;
+      border-radius:12px;
+      padding:14px;
+      box-sizing:border-box;
+      display:flex;
+      gap:10px;
+      justify-content:center;
+      overflow:hidden;
+      background:rgba(0,0,0,0.45);
   }
+
   .reel{
-    width:18%;
-    height:320px;
-    background:var(--panel);
-    border-radius:10px;
-    overflow:hidden;
-    position:relative;
-    box-shadow:0 8px 20px rgba(0,0,0,.6);
-    display:flex;
-    align-items:flex-start;
-    justify-content:center;
+      width:18%;
+      height:300px;
+      background:rgba(0,0,0,0.55);
+      border-radius:10px;
+      overflow:hidden;
+      position:relative;
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      box-shadow:0 0 12px #000;
+      backdrop-filter:blur(6px);
   }
+
   .reel-track{
-    position:absolute;
-    top:0; left:0; right:0;
-    transition: transform 900ms cubic-bezier(.2,.9,.2,1);
+      position:absolute;
+      top:0;
+      width:100%;
+      transition: transform 900ms cubic-bezier(.2,.9,.2,1);
   }
+
   .symbol{
-    width:100%;
-    height:106px; /* 3 symbols visible -> 3*106 ~ 318 */
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-sizing:border-box;
+      width:100%;
+      height:100px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
   }
-  .symbol img{max-width:100%; max-height:100%; object-fit:contain; border-radius:6px;}
 
-  /* controls */
+  .symbol img{
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
+  }
+
+  /* CONTROLS */
   .controls{
-    margin-top:14px;
-    background:var(--ui);
-    padding:14px;
-    border-radius:10px;
-    text-align:center;
+      margin-top:14px;
+      background:rgba(0,0,0,0.65);
+      padding:14px;
+      border-radius:10px;
+      text-align:center;
   }
+
   .stat{font-size:18px;margin:6px 0}
-  .controls .row{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;flex-wrap:wrap}
-  .btn{background:#07200e;color:#fff;border:2px solid #083a19;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;min-width:64px}
-  .btn:active{transform:translateY(1px)}
-  .spin{background:linear-gradient(180deg,#0df05c,#0b8b3a);color:#002206;border:2px solid #0b8b3a;font-size:20px;padding:12px 18px}
-  .quit{background:var(--danger);border:2px solid rgba(255,255,255,0.08);padding:10px 12px;border-radius:8px;color:#fff}
-  .small{font-size:14px;color:var(--muted)}
 
-  /* footer nav */
-  .bottom{position:fixed;left:0;right:0;bottom:0;height:68px;background:#000;display:flex;justify-content:space-around;align-items:center;border-top:1px solid rgba(255,255,255,0.03)}
-  .bottom a{color:#fff;text-decoration:none;font-size:13px;text-align:center}
-  .logo-slim{height:36px}
+  .row{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      margin-top:10px;
+  }
 
-  /* responsive */
-  @media (max-width:520px){
-    .reel{height:300px}
-    .symbol{height:100px}
+  .btn{
+      background:#004d15;
+      color:#fff;
+      border:2px solid #0a0;
+      padding:10px 14px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+  }
+
+  .spin{
+      background:#11c751;
+      border-color:#11c751;
+      font-size:20px;
+  }
+
+  .quit{
+      background:#c62828;
+      padding:10px 12px;
+      border-radius:8px;
+      color:#fff;
+  }
+
+  /* BOTTOM MENU */
+  .bottom{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      height:68px;
+      background:#000;
+      display:flex;
+      justify-content:space-around;
+      align-items:center;
+      border-top:1px solid rgba(255,255,255,0.1);
+  }
+
+  .bottom a{
+      color:#fff;
+      text-decoration:none;
+      text-align:center;
   }
 </style>
 </head>
+
 <body>
 
 <div class="top">3 Buzzing Wilds</div>
+
 <div class="container">
 
-  <div class="reels" aria-hidden="false">
-    <!-- 5 reels -->
-    <div class="reel" id="reel-0"><div class="reel-track" id="track-0"></div></div>
-    <div class="reel" id="reel-1"><div class="reel-track" id="track-1"></div></div>
-    <div class="reel" id="reel-2"><div class="reel-track" id="track-2"></div></div>
-    <div class="reel" id="reel-3"><div class="reel-track" id="track-3"></div></div>
-    <div class="reel" id="reel-4"><div class="reel-track" id="track-4"></div></div>
+  <div class="reels">
+    <div class="reel"><div class="reel-track" id="track-0"></div></div>
+    <div class="reel"><div class="reel-track" id="track-1"></div></div>
+    <div class="reel"><div class="reel-track" id="track-2"></div></div>
+    <div class="reel"><div class="reel-track" id="track-3"></div></div>
+    <div class="reel"><div class="reel-track" id="track-4"></div></div>
   </div>
 
-  <div class="controls" style="margin-top:12px">
-    <div class="stat">Credit: <span id="balance">0.00</span> TND</div>
-    <div class="stat">Bet: <span id="bet">1.00</span> TND</div>
+  <div class="controls">
+      <div class="stat">Credit: <span id="balance">0.00</span> TND</div>
+      <div class="stat">Bet: <span id="bet">1.00</span> TND</div>
 
-    <div class="row">
-      <button class="btn" id="dec">- 0.2</button>
-      <button class="btn spin" id="spinBtn">SPIN</button>
-      <button class="btn" id="inc">+ 10</button>
-      <button class="quit" id="quitBtn">Quit</button>
-    </div>
-
-    <div class="row" style="margin-top:12px">
-      <div class="small">Every spin deducts the bet. Win rate set to 0% (no payouts).</div>
-    </div>
+      <div class="row">
+        <button class="btn" id="dec">- 0.2</button>
+        <button class="btn spin" id="spinBtn">SPIN</button>
+        <button class="btn" id="inc">+ 0.2</button>
+        <button class="quit" id="quitBtn">Quit</button>
+      </div>
   </div>
 
 </div>
@@ -125,269 +196,88 @@
 </div>
 
 <script>
-/* -----------------------------
-   Configuration (you gave these)
-   ----------------------------- */
 const BIN_ID = "692eeefbae596e708f7e9e72";
 const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-/* -----------------------------
-   Symbols (local images in repo)
-   You can add more images to repo and reference them here.
-   ----------------------------- */
-const SYMBOLS = [
-  "buzzing-symbol-1.png",
-  "buzzing-symbol-2.png",
-  "buzzing-symbol-3.png",
-  "buzzing-symbol-4.png",
-  "buzzing-symbol-5.png",
-  "buzzing-symbol-6.png"
-];
-/* If these files don't exist in repo, reels will show broken images.
-   You can replace entries with remote URLs if needed. */
-
-/* -----------------------------
-   Game state
-   ----------------------------- */
-let username = localStorage.getItem("logged") || null;
+let username = localStorage.getItem("logged");
 let balance = 0;
 let bet = 1.00;
-const reelsCount = 5;
-const rows = 3;
 
-/* DOM */
-const balanceEl = document.getElementById("balance");
-const betEl = document.getElementById("bet");
-const spinBtn = document.getElementById("spinBtn");
-const decBtn = document.getElementById("dec");
-const incBtn = document.getElementById("inc");
-const quitBtn = document.getElementById("quitBtn");
+const SYMBOLS = [
+  "buzzing.jpeg",
+  "buzzing.jpeg",
+  "buzzing.jpeg"
+];
 
-/* init reel tracks */
-for(let r=0;r<reelsCount;r++){
-  const track = document.getElementById(`track-${r}`);
-  // build initial symbols (repeat to allow smooth translate)
-  for(let i=0;i<rows*6;i++){
-    const div = document.createElement("div");
-    div.className = "symbol";
-    const img = document.createElement("img");
-    // pick random symbol
-    const s = SYMBOLS[Math.floor(Math.random()*SYMBOLS.length)];
-    img.src = s;
-    img.alt = "sym";
-    div.appendChild(img);
-    track.appendChild(div);
-  }
+function initReels(){
+    for(let r=0;r<5;r++){
+        const track = document.getElementById(`track-${r}`);
+        for(let i=0;i<12;i++){
+            const div = document.createElement("div"); div.className="symbol";
+            const img = document.createElement("img"); img.src = SYMBOLS[i%3];
+            div.appendChild(img); track.appendChild(div);
+        }
+    }
 }
 
-/* -----------------------------
-   Helpers: JSONBin load/save
-   ----------------------------- */
-async function fetchBin(){
-  const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-    headers: { "X-Master-Key": API_KEY }
-  });
-  if(!res.ok) throw new Error("JSONBin fetch failed");
-  const data = await res.json();
-  return data.record || {};
-}
-
-async function putBin(record){
-  const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      "X-Master-Key": API_KEY
-    },
-    body: JSON.stringify(record)
-  });
-  if(!res.ok) throw new Error("JSONBin PUT failed");
-  return await res.json();
-}
-
-/* Load user balance from BIN (supports structure with users object) */
 async function loadBalance(){
-  try{
-    const rec = await fetchBin();
-    let users = rec.users || rec; // fallback if top-level
-    if(username && users[username] && typeof users[username].balance === "number"){
-      balance = users[username].balance;
-    }else if (username && users[username] && users[username].balance != null){
-      balance = Number(users[username].balance) || 0;
-    } else {
-      // if logged user not found, set 0
-      balance = 0;
-    }
-  }catch(e){
-    console.warn("loadBalance err", e);
-    balance = 0;
-  }
-  updateUI();
-}
-
-/* Save only user's balance back into BIN.users[username].balance */
-async function saveBalance(){
-  try{
-    const rec = await fetchBin();
-    if(!rec.users) rec.users = {};
-    if(!username) {
-      // no logged user, skip saving globally
-      return;
-    }
-    rec.users[username] = rec.users[username] || {};
-    rec.users[username].balance = Number(balance);
-    await putBin(rec);
-  }catch(e){
-    console.warn("saveBalance err", e);
-  }
-}
-
-/* update UI elements */
-function updateUI(){
-  balanceEl.innerText = Number(balance || 0).toFixed(2);
-  betEl.innerText = Number(bet).toFixed(2);
-}
-
-/* -----------------------------
-   Bet controls
-   ----------------------------- */
-decBtn.addEventListener("click", ()=> {
-  if(bet > 0.2){
-    bet = Math.round((bet - 0.2) * 100) / 100;
-    updateUI();
-  }
-});
-incBtn.addEventListener("click", ()=> {
-  bet = Math.round((bet + 10) * 100) / 100;
-  updateUI();
-});
-
-/* Quit */
-quitBtn.addEventListener("click", ()=> {
-  window.location.href = "casino.html";
-});
-
-/* -----------------------------
-   Spin logic: animation + no-win guarantee
-   ----------------------------- */
-let spinning = false;
-async function spin(){
-  if(spinning) return;
-  if(balance < bet){
-    alert("Not enough balance!");
-    return;
-  }
-  spinning = true;
-  spinBtn.disabled = true;
-
-  // deduct immediately and save
-  balance = Math.round((balance - bet) * 100) / 100;
-  updateUI();
-  await saveBalance();
-
-  // for each reel: pick final symbols ensuring no winning payline
-  // We'll pick random symbols for every reel but then enforce that
-  // the middle-row across all reels are not all equal (no straight match).
-  const final = []; // final[reel] = [sym0,sym1,sym2]
-  for(let r=0;r<reelsCount;r++){
-    const pick = [];
-    for(let y=0;y<rows;y++){
-      pick.push(SYMBOLS[Math.floor(Math.random()*SYMBOLS.length)]);
-    }
-    final.push(pick);
-  }
-  // enforce no full-line match on middle row (index 1)
-  const middle = final.map(f=>f[1]);
-  const allSame = middle.every(s=>s===middle[0]);
-  if(allSame){
-    // change last reel middle symbol to different one
-    let choices = SYMBOLS.filter(s=>s!==middle[0]);
-    final[reelsCount-1][1] = choices[Math.floor(Math.random()*choices.length)];
-  }
-
-  // animation: for each reel, animate track transform and update images at end
-  const delays = [0,80,160,240,320]; // stagger
-  const duration = 1100; // ms
-  const extraRounds = 3; // how many times the track cycles
-
-  const promises = [];
-  for(let r=0;r<reelsCount;r++){
-    const track = document.getElementById(`track-${r}`);
-    // build a column of images: we'll create a new track content then animate translateY
-    // create temp container
-    const frag = document.createDocumentFragment();
-    // push multiple sets to allow smooth movement
-    for(let k=0;k<(extraRounds+1);k++){
-      for(let s=0;s<SYMBOLS.length;s++){
-        const div = document.createElement("div");
-        div.className="symbol";
-        const img = document.createElement("img");
-        img.src = SYMBOLS[s];
-        div.appendChild(img);
-        frag.appendChild(div);
-      }
-    }
-    // finally append the final three symbols (so they land aligned)
-    final[r].forEach(sym=>{
-      const div = document.createElement("div");
-      div.className="symbol";
-      const img = document.createElement("img");
-      img.src = sym;
-      div.appendChild(img);
-      frag.appendChild(div);
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{
+        headers:{ "X-Master-Key":API_KEY }
     });
-
-    // replace track content
-    while(track.firstChild) track.removeChild(track.firstChild);
-    track.appendChild(frag);
-
-    // compute translate distance: we want it to end with the final three symbols in view.
-    const symbolHeight = track.querySelector(".symbol").getBoundingClientRect().height || 106;
-    const totalSymbols = track.children.length;
-    const translateY = - ( (totalSymbols - rows) * symbolHeight );
-
-    // do staggered animation
-    promises.push(new Promise(resolve=>{
-      setTimeout(()=>{
-        track.style.transition = `transform ${duration}ms cubic-bezier(.2,.9,.2,1)`;
-        track.style.transform = `translateY(${translateY}px)`;
-        // after animation end
-        setTimeout(()=>{
-          // cleanup: rebuild track with exactly three symbols (final)
-          while(track.firstChild) track.removeChild(track.firstChild);
-          final[r].forEach(sym=>{
-            const div = document.createElement("div");
-            div.className="symbol";
-            const img = document.createElement("img");
-            img.src = sym;
-            div.appendChild(img);
-            track.appendChild(div);
-          });
-          track.style.transition = "";
-          track.style.transform = `translateY(0)`;
-          resolve();
-        }, duration + 50);
-      }, delays[r]);
-    }));
-  }
-
-  // await all reels done
-  await Promise.all(promises);
-
-  // END: no win credit per spec (win rate = 0)
-  spinning = false;
-  spinBtn.disabled = false;
-  // if you want to show a message:
-  // alert("Spin complete (no payout configured)");
+    const data = await res.json();
+    const users = data.record.users || {};
+    balance = users[username]?.balance || 0;
+    document.getElementById("balance").innerText = balance.toFixed(2);
+}
+async function saveBalance(){
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{
+        headers:{ "X-Master-Key":API_KEY }
+    });
+    const data = await res.json();
+    const rec = data.record;
+    rec.users[username].balance = balance;
+    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json",
+            "X-Master-Key":API_KEY
+        },
+        body:JSON.stringify(rec)
+    });
 }
 
-/* attach spin */
-spinBtn.addEventListener("click", spin);
+function updateUI(){
+    document.getElementById("balance").innerText = balance.toFixed(2);
+    document.getElementById("bet").innerText = bet.toFixed(2);
+}
 
-/* initial load */
+document.getElementById("dec").onclick = ()=>{
+    if(bet > 0.2){ bet = +(bet - 0.2).toFixed(2); updateUI(); }
+};
+
+document.getElementById("inc").onclick = ()=>{
+    bet = +(bet + 0.2).toFixed(2);
+    updateUI();
+};
+
+document.getElementById("quitBtn").onclick = ()=>{
+    window.location.href = "casino.html";
+};
+
+document.getElementById("spinBtn").onclick = async ()=>{
+    if(balance < bet){
+        alert("Not enough balance!");
+        return;
+    }
+    balance -= bet;
+    updateUI();
+    await saveBalance();
+};
+
+initReels();
 loadBalance();
 updateUI();
-
 </script>
+
 </body>
 </html>
