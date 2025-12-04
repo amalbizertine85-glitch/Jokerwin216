@@ -12,158 +12,80 @@
     --accent:#1bd14b;
     --muted:#c7f7cf;
     --danger:#c62828;
-    --ui:rgba(0,0,0,0.55);
+    --ui:#092a18;
   }
+  html,body{height:100%;margin:0;background:var(--bg);font-family:Inter,Arial,Helvetica,sans-serif;color:#fff}
+  .top{height:60px;background:#000;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;position:sticky;top:0;z-index:10}
 
-  html,body{
-      height:100%;
-      margin:0;
-      background:#000;
-      font-family:Arial,Helvetica,sans-serif;
-      color:#fff;
-  }
+  /* container */
+  .container{max-width:900px;margin:10px auto;padding:12px;}
 
-  body{
-      background:url("buzzing.jpeg") center/cover no-repeat fixed;
-  }
-
-  .top{
-      height:60px;
-      background:#000c;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-weight:700;
-      font-size:20px;
-      position:sticky;
-      top:0;
-      z-index:10;
-      backdrop-filter:blur(4px);
-  }
-
-  .container{
-      max-width:900px;
-      margin:10px auto;
-      padding:12px;
-      background:rgba(0,0,0,0.5);
-      border-radius:12px;
-  }
-
-  /* REELS */
+  /* reels area */
   .reels{
-      width:100%;
-      border-radius:12px;
-      padding:14px;
-      box-sizing:border-box;
-      display:flex;
-      gap:10px;
-      justify-content:center;
-      overflow:hidden;
-      background:rgba(0,0,0,0.45);
+    width:100%;
+    background:linear-gradient(180deg,#071b09,#031006);
+    border-radius:12px;
+    padding:14px;
+    box-sizing:border-box;
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    align-items:flex-start;
+    overflow:hidden;
   }
-
   .reel{
-      width:18%;
-      height:300px;
-      background:rgba(0,0,0,0.55);
-      border-radius:10px;
-      overflow:hidden;
-      position:relative;
-      display:flex;
-      align-items:flex-start;
-      justify-content:center;
-      box-shadow:0 0 12px #000;
-      backdrop-filter:blur(6px);
+    width:18%;
+    height:320px;
+    background:var(--panel);
+    border-radius:10px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 8px 20px rgba(0,0,0,.6);
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
   }
-
   .reel-track{
-      position:absolute;
-      top:0;
-      width:100%;
-      transition: transform 900ms cubic-bezier(.2,.9,.2,1);
+    position:absolute;
+    top:0; left:0; right:0;
+    transition: transform 900ms cubic-bezier(.2,.9,.2,1);
   }
-
   .symbol{
-      width:100%;
-      height:100px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
+    width:100%;
+    height:106px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
   }
+  .symbol img{max-width:100%; max-height:100%; object-fit:contain; border-radius:6px;}
 
-  .symbol img{
-      max-width:100%;
-      max-height:100%;
-      object-fit:contain;
-  }
-
-  /* CONTROLS */
+  /* controls */
   .controls{
-      margin-top:14px;
-      background:rgba(0,0,0,0.65);
-      padding:14px;
-      border-radius:10px;
-      text-align:center;
+    margin-top:14px;
+    background:var(--ui);
+    padding:14px;
+    border-radius:10px;
+    text-align:center;
   }
-
   .stat{font-size:18px;margin:6px 0}
+  .controls .row{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:10px;flex-wrap:wrap}
+  .btn{background:#07200e;color:#fff;border:2px solid #083a19;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer;min-width:64px}
+  .btn:active{transform:translateY(1px)}
+  .spin{background:linear-gradient(180deg,#0df05c,#0b8b3a);color:#002206;border:2px solid #0b8b3a;font-size:20px;padding:12px 18px}
+  .quit{background:var(--danger);border:2px solid rgba(255,255,255,0.08);padding:10px 12px;border-radius:8px;color:#fff}
+  .small{font-size:14px;color:var(--muted)}
 
-  .row{
-      display:flex;
-      justify-content:center;
-      gap:10px;
-      margin-top:10px;
-  }
-
-  .btn{
-      background:#004d15;
-      color:#fff;
-      border:2px solid #0a0;
-      padding:10px 14px;
-      border-radius:10px;
-      font-weight:700;
-      cursor:pointer;
-  }
-
-  .spin{
-      background:#11c751;
-      border-color:#11c751;
-      font-size:20px;
-  }
-
-  .quit{
-      background:#c62828;
-      padding:10px 12px;
-      border-radius:8px;
-      color:#fff;
-  }
-
-  /* BOTTOM MENU */
-  .bottom{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:0;
-      height:68px;
-      background:#000;
-      display:flex;
-      justify-content:space-around;
-      align-items:center;
-      border-top:1px solid rgba(255,255,255,0.1);
-  }
-
-  .bottom a{
-      color:#fff;
-      text-decoration:none;
-      text-align:center;
+  /* responsive */
+  @media (max-width:520px){
+    .reel{height:300px}
+    .symbol{height:100px}
   }
 </style>
 </head>
-
 <body>
 
 <div class="top">3 Buzzing Wilds</div>
-
 <div class="container">
 
   <div class="reels">
@@ -175,109 +97,182 @@
   </div>
 
   <div class="controls">
-      <div class="stat">Credit: <span id="balance">0.00</span> TND</div>
-      <div class="stat">Bet: <span id="bet">1.00</span> TND</div>
+    <div class="stat">Credit: <span id="balance">0.00</span> TND</div>
+    <div class="stat">Bet: <span id="bet">1.00</span> TND</div>
 
-      <div class="row">
-        <button class="btn" id="dec">- 0.2</button>
-        <button class="btn spin" id="spinBtn">SPIN</button>
-        <button class="btn" id="inc">+ 0.2</button>
-        <button class="quit" id="quitBtn">Quit</button>
-      </div>
+    <div class="row">
+      <button class="btn" id="dec">- 0.2</button>
+      <button class="btn spin" id="spinBtn">SPIN</button>
+      <button class="btn" id="inc">+ 0.2</button>
+      <button class="quit" id="quitBtn">Quit</button>
+    </div>
   </div>
 
-</div>
-
-<div class="bottom">
-  <a href="player_home.html">Home</a>
-  <a href="#">Account</a>
-  <a href="#">Sport</a>
-  <a href="#">Slip</a>
 </div>
 
 <script>
 const BIN_ID = "692eeefbae596e708f7e9e72";
 const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-let username = localStorage.getItem("logged");
+/* كل الرموز نفس الصورة الآن */
+const SYMBOLS = [ "buzzing.jpeg" ];
+
+let username = localStorage.getItem("logged") || null;
 let balance = 0;
 let bet = 1.00;
 
-const SYMBOLS = [
-  "buzzing.jpeg",
-  "buzzing.jpeg",
-  "buzzing.jpeg"
-];
+const rows = 3;
+const reelsCount = 5;
 
-function initReels(){
-    for(let r=0;r<5;r++){
-        const track = document.getElementById(`track-${r}`);
-        for(let i=0;i<12;i++){
-            const div = document.createElement("div"); div.className="symbol";
-            const img = document.createElement("img"); img.src = SYMBOLS[i%3];
-            div.appendChild(img); track.appendChild(div);
-        }
-    }
+/* Init tracks */
+for(let r=0; r<reelsCount; r++){
+  const track = document.getElementById(`track-${r}`);
+  for(let i=0;i<rows*6;i++){
+    const d = document.createElement("div");
+    d.className = "symbol";
+    const img = document.createElement("img");
+    img.src = SYMBOLS[0];
+    d.appendChild(img);
+    track.appendChild(d);
+  }
+}
+
+/* JSON BIN */
+async function fetchBin(){
+  const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+    headers:{ "X-Master-Key":API_KEY }
+  });
+  const data = await res.json();
+  return data.record || {};
+}
+
+async function putBin(rec){
+  await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+    method:"PUT",
+    headers:{
+      "Content-Type":"application/json",
+      "X-Master-Key":API_KEY
+    },
+    body:JSON.stringify(rec)
+  });
 }
 
 async function loadBalance(){
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{
-        headers:{ "X-Master-Key":API_KEY }
-    });
-    const data = await res.json();
-    const users = data.record.users || {};
-    balance = users[username]?.balance || 0;
-    document.getElementById("balance").innerText = balance.toFixed(2);
+  const rec = await fetchBin();
+  if(rec.users && rec.users[username]){
+    balance = Number(rec.users[username].balance||0);
+  }
+  updateUI();
 }
 async function saveBalance(){
-    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`,{
-        headers:{ "X-Master-Key":API_KEY }
-    });
-    const data = await res.json();
-    const rec = data.record;
-    rec.users[username].balance = balance;
-    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json",
-            "X-Master-Key":API_KEY
-        },
-        body:JSON.stringify(rec)
-    });
+  const rec = await fetchBin();
+  if(!rec.users) rec.users = {};
+  rec.users[username] = rec.users[username] || {};
+  rec.users[username].balance = balance;
+  await putBin(rec);
 }
 
 function updateUI(){
-    document.getElementById("balance").innerText = balance.toFixed(2);
-    document.getElementById("bet").innerText = bet.toFixed(2);
+  document.getElementById("balance").innerText = balance.toFixed(2);
+  document.getElementById("bet").innerText = bet.toFixed(2);
 }
 
+/* Controls */
 document.getElementById("dec").onclick = ()=>{
-    if(bet > 0.2){ bet = +(bet - 0.2).toFixed(2); updateUI(); }
+  if(bet > 0.2){
+    bet = Math.round((bet - 0.2)*100)/100;
+    updateUI();
+  }
 };
-
 document.getElementById("inc").onclick = ()=>{
-    bet = +(bet + 0.2).toFixed(2);
-    updateUI();
+  bet = Math.round((bet + 0.2)*100)/100;
+  updateUI();
 };
-
 document.getElementById("quitBtn").onclick = ()=>{
-    window.location.href = "casino.html";
+  window.location="casino.html";
 };
 
-document.getElementById("spinBtn").onclick = async ()=>{
-    if(balance < bet){
-        alert("Not enough balance!");
-        return;
+/* Spin */
+let spinning = false;
+async function spin(){
+  if(spinning) return;
+  if(balance < bet) return alert("Not enough balance!");
+
+  spinning = true;
+  document.getElementById("spinBtn").disabled = true;
+
+  balance -= bet;
+  updateUI();
+  await saveBalance();
+
+  const final = [];
+  for(let r=0;r<reelsCount;r++){
+    final.push([SYMBOLS[0], SYMBOLS[0], SYMBOLS[0]]);
+  }
+
+  const promises = [];
+  for(let r=0;r<reelsCount;r++){
+    const track = document.getElementById(`track-${r}`);
+    const frag = document.createDocumentFragment();
+
+    for(let k=0;k<5;k++){
+      SYMBOLS.forEach(sym=>{
+        const d=document.createElement("div");
+        d.className="symbol";
+        const img=document.createElement("img");
+        img.src=sym;
+        d.appendChild(img);
+        frag.appendChild(d);
+      });
     }
-    balance -= bet;
-    updateUI();
-    await saveBalance();
-};
 
-initReels();
+    final[r].forEach(sym=>{
+      const d=document.createElement("div");
+      d.className="symbol";
+      const img=document.createElement("img");
+      img.src=sym;
+      d.appendChild(img);
+      frag.appendChild(d);
+    });
+
+    while(track.firstChild) track.removeChild(track.firstChild);
+    track.appendChild(frag);
+
+    const symbolHeight = 100;
+    const total = track.children.length;
+    const distance = -( (total - rows) * symbolHeight );
+
+    promises.push(new Promise(res=>{
+      setTimeout(()=>{
+        track.style.transition="transform 1s cubic-bezier(.2,.9,.2,1)";
+        track.style.transform=`translateY(${distance}px)`;
+        setTimeout(()=>{
+          while(track.firstChild) track.removeChild(track.firstChild);
+          final[r].forEach(sym=>{
+            const d=document.createElement("div");
+            d.className="symbol";
+            const img=document.createElement("img");
+            img.src=sym;
+            d.appendChild(img);
+            track.appendChild(d);
+          });
+          track.style.transition="";
+          track.style.transform="translateY(0)";
+          res();
+        },1100);
+      },r*100);
+    }));
+  }
+
+  await Promise.all(promises);
+  spinning = false;
+  document.getElementById("spinBtn").disabled = false;
+}
+
+document.getElementById("spinBtn").onclick = spin;
+
 loadBalance();
 updateUI();
 </script>
-
 </body>
 </html>
