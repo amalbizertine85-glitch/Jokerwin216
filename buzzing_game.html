@@ -1,121 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>3 Buzzing W1lds — Game</title>
+<meta charset="UTF-8">
+<title>3 Buzzing Wilds</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-  :root{ --bg:#052d14; --panel:#0b5e2f; --accent:#0f0; --white:#fff;}
-  body{margin:0;background:var(--bg);font-family:Arial;color:var(--white);}
-  .top{height:60px;background:#000;display:flex;align-items:center;justify-content:center;font-size:22px;position:fixed;top:0;left:0;right:0;z-index:50;}
-  .wrap{padding:90px 14px 120px;max-width:900px;margin:0 auto;}
-  .game-area{background:linear-gradient(180deg,#0b3a21,#083018);border-radius:12px;padding:12px;box-shadow:0 6px 30px rgba(0,0,0,.6);}
-  .hero{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center;}
-  .hero img{width:320px;max-width:48%;border-radius:8px;border:6px solid rgba(255,255,255,0.03);object-fit:cover;}
-  .controls{width:100%;display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap;}
-  .balance-box{background:#062; padding:8px 14px;border-radius:10px;font-weight:800;}
-  .btn{background:#000;color:#fff;border:none;padding:12px 18px;border-radius:999px;cursor:pointer;font-weight:700}
-  .small{padding:8px 12px;border-radius:8px;background:#0a5a2e;font-weight:700;}
-  .bet-controls{display:flex;gap:8px;align-items:center;}
-  .quit{position:fixed;right:12px;bottom:88px;background:#d33;padding:8px 12px;border-radius:8px;color:#fff;border:none;cursor:pointer;}
-  .bottom{position:fixed;left:0;right:0;bottom:0;height:70px;background:#000;display:flex;justify-content:space-around;align-items:center}
-  .bottom-item{color:#fff;text-align:center;font-size:12px}
-  @media(max-width:480px){ .hero img{max-width:100%;width:100%} }
+body{
+    margin:0;
+    background:#022400;
+    font-family:Arial, sans-serif;
+    color:#fff;
+}
+
+/* TOP */
+.top{
+    height:60px;
+    background:#000;
+    text-align:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+    font-weight:bold;
+}
+
+/* GAME REELS IMAGE */
+.game-area{
+    width:100%;
+    text-align:center;
+}
+.game-area img{
+    width:100%;
+    max-height:380px;
+    object-fit:cover;
+}
+
+/* CONTROLS */
+.controls{
+    margin-top:10px;
+    text-align:center;
+    background:#013b00;
+    padding:20px 0;
+    border-top:3px solid #0f0;
+}
+
+.btn{
+    background:#111;
+    color:#fff;
+    padding:10px 18px;
+    font-size:20px;
+    border-radius:10px;
+    margin:0 10px;
+    display:inline-block;
+    border:2px solid #0f0;
+}
+
+.spin{
+    background:#0b5;
+    font-size:26px;
+    padding:14px 22px;
+}
+
+/* QUIT BUTTON */
+.quit{
+    position:fixed;
+    bottom:90px;
+    right:15px;
+    background:#900;
+    padding:10px 15px;
+    font-size:16px;
+    border-radius:8px;
+}
+
+/* BOTTOM MENU */
+.bottom{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:70px;
+    background:#000;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+}
+
+.bottom-item{
+    text-align:center;
+    color:#fff;
+    font-size:13px;
+}
 </style>
 </head>
+
 <body>
-  <div class="top">3 Buzzing W1lds</div>
 
-  <div class="wrap">
-    <div class="game-area">
-      <div class="hero">
-        <img id="gameImg" src="buzzing.jpeg" alt="3 Buzzing W1lds">
-      </div>
+<div class="top">3 Buzzing Wilds</div>
 
-      <div class="controls">
-        <div class="balance-box">Balance: <span id="balanceDisplay">0.00 TD</span></div>
+<div class="game-area">
+    <img src="buzzing.jpeg">
+</div>
 
-        <div class="bet-controls">
-          <button class="btn" id="betMinus">− 0.2</button>
-          <div class="small">Bet: <span id="betDisplay">1.00</span> TD</div>
-          <button class="btn" id="betPlus">+ 10</button>
-        </div>
+<div class="controls">
+    <div style="font-size:18px;">Credit: <span id="balance">0</span> TND</div>
+    <div style="margin-top:10px; font-size:18px;">Bet: <span id="bet">1</span> TND</div>
 
-        <button class="btn" id="spinBtn" style="min-width:120px;">SPIN</button>
-      </div>
+    <br>
 
-      <div style="text-align:center;margin-top:12px;color:rgba(255,255,255,0.8);font-size:13px">
-        ملاحظة: النسخة التجريبية — نسبة الفوز = 0 (لا توجد زيادات في الرصيد).
-      </div>
-    </div>
-  </div>
+    <span class="btn" onclick="decreaseBet()">-</span>
+    <span class="btn spin" onclick="spin()">⟳</span>
+    <span class="btn" onclick="increaseBet()">+</span>
+</div>
 
-  <button class="quit" id="quitBtn">Quit</button>
+<a class="quit" href="casino.html">Quit</a>
 
-  <div class="bottom">
-    <a href="player_home.html" class="bottom-item"><span class="bicon">🏠</span>Home</a>
-    <div class="bottom-item"><span class="bicon">👤</span>Account</div>
-    <div class="bottom-item"><span class="bicon">⚽</span>Sport</div>
-    <div class="bottom-item"><span class="bicon">🎟️</span>Slip</div>
-  </div>
+<div class="bottom">
+    <div class="bottom-item">Home</div>
+    <div class="bottom-item">Account</div>
+    <div class="bottom-item">Sport</div>
+    <div class="bottom-item">Slip</div>
+</div>
+
 
 <script>
-/* إعدادات افتراضية */
-const START_BALANCE = parseFloat(localStorage.getItem('balance') || '1000'); // غيّر لو تحب
-let balance = START_BALANCE;
-let bet = parseFloat(localStorage.getItem('bet') || '1.00');
+// ---------------------------
+// JSONBIN SETTINGS
+// ---------------------------
+const BIN_ID = "692eeefbae596e708f7e9e72";
+const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-/* عناصر */
-const balanceDisplay = document.getElementById('balanceDisplay');
-const betDisplay = document.getElementById('betDisplay');
-const spinBtn = document.getElementById('spinBtn');
-const betMinus = document.getElementById('betMinus');
-const betPlus = document.getElementById('betPlus');
-const quitBtn = document.getElementById('quitBtn');
+let balance = 0;
+let bet = 1;
 
-/* تحديث العرض */
-function render(){
-  balanceDisplay.innerText = balance.toFixed(2) + ' TD';
-  betDisplay.innerText = bet.toFixed(2);
-  localStorage.setItem('balance', balance.toFixed(2));
-  localStorage.setItem('bet', bet.toFixed(2));
+// Load Balance
+async function loadBalance(){
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+        headers: { "X-Master-Key": API_KEY }
+    });
+    const data = await res.json();
+    balance = data.record.balance;
+    document.getElementById("balance").innerText = balance.toFixed(2);
 }
-render();
 
-/* أزرار تعديل الرهان */
-betMinus.addEventListener('click', ()=> {
-  bet = Math.max(0.2, +(bet - 0.2).toFixed(2));
-  render();
-});
-betPlus.addEventListener('click', ()=> {
-  bet = +(bet + 10).toFixed(2);
-  render();
-});
+// Save Balance
+async function saveBalance(){
+    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json",
+            "X-Master-Key": API_KEY
+        },
+        body:JSON.stringify({ balance })
+    });
+}
 
-/* زر التشغيل — هنا تقلّ الرصيد على طول وتظهر أن اللعبة اشتغلت.
-   نسبة الفوز = 0 => لا توجد زيادات. */
-spinBtn.addEventListener('click', ()=> {
-  if (balance < bet) { alert('Not enough balance'); return; }
-  // تَدَفُع
-  balance = +(balance - bet).toFixed(2);
-  render();
+// Bet functions
+function decreaseBet(){
+    if(bet > 0.2){
+        bet = bet - 0.2;
+        bet = Math.round(bet * 100)/100;
+        document.getElementById("bet").innerText = bet;
+    }
+}
 
-  // تأثير لعبة وهمي: ممكن تعرض أنقاص وتأثير لفترة
-  spinBtn.disabled = true;
-  spinBtn.innerText = 'Spinning...';
-  setTimeout(()=> {
-    // لا ربح — فقط ارجع الحالة
-    spinBtn.disabled = false;
-    spinBtn.innerText = 'SPIN';
-    // يمكنك هنا إضافة رسومات أو أصوات أو سجل عمليات لو تحب
-  }, 1200);
-});
+function increaseBet(){
+    bet += 10;
+    document.getElementById("bet").innerText = bet;
+}
 
-/* زر Quit */
-quitBtn.addEventListener('click', ()=> {
-  // نرجع للاصلي
-  window.location.href = 'player_home.html';
-});
+// SPIN (Win rate = 0)
+async function spin(){
+    if(balance < bet){
+        alert("Not enough balance!");
+        return;
+    }
+
+    balance -= bet;
+    document.getElementById("balance").innerText = balance.toFixed(2);
+
+    await saveBalance();
+}
+    
+loadBalance();
+
 </script>
 </body>
 </html>
