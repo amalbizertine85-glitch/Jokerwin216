@@ -2,229 +2,140 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Player Home</title>
+<title>Home</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-:root{
-  --bg: #052d14;
-  --card: #0d5e2b;
-  --card2:#127737;
-  --text:#ffffff;
-  --balance:#08381a;
-  --menu:#000000;
-}
-
 body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font-family:Arial,Helvetica,sans-serif;
+    margin:0;
+    background:#000;
+    font-family:Arial, sans-serif;
+    color:#fff;
 }
 
-.top{
-  background:#000;
-  height:60px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:fixed;
-  top:0; left:0; right:0;
-  z-index:100;
-}
-.top h1{
-  margin:0;
-  font-size:22px;
+/* TITLE */
+.header{
+    text-align:center;
+    padding:18px 0;
+    font-size:22px;
+    font-weight:700;
+    color:#1aff4a;
 }
 
-.wrap{
-  padding:90px 15px 120px;
-  max-width:900px;
-  margin:auto;
-}
-
-.balance-box{
-  background:var(--balance);
-  border-radius:12px;
-  padding:18px;
-  text-align:center;
-  margin-bottom:25px;
-}
-.balance-title{
-  opacity:0.85;
-  font-size:16px;
-}
-.balance-num{
-  margin-top:6px;
-  font-size:38px;
-  font-weight:800;
-}
-
+/* GRID */
 .grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-}
-.tile{
-  background:linear-gradient(180deg,var(--card),var(--card2));
-  border-radius:10px;
-  padding:20px 10px;
-  min-height:120px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 6px 20px rgba(0,0,0,0.45);
-  cursor:pointer;
-}
-.tile .icon{
-  font-size:42px;
-  margin-bottom:8px;
-}
-.tile .label{
-  font-size:16px;
-  text-align:center;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    padding:20px 16px 120px;
 }
 
+.card{
+    background:#0e0e0e;
+    border:1px solid #0f0;
+    border-radius:18px;
+    padding:26px 10px;
+    text-align:center;
+    transition:0.22s;
+    box-shadow:0 0 12px rgba(0,255,0,0.15);
+}
+.card:hover{
+    transform:scale(1.05);
+    box-shadow:0 0 18px rgba(0,255,0,0.35);
+}
+
+.card .icon{
+    font-size:45px;
+    margin-bottom:10px;
+    color:#1aff4a;
+}
+.card .label{
+    font-size:16px;
+    letter-spacing:1px;
+}
+
+/* BOTTOM MENU */
 .bottom{
-  position:fixed;
-  left:0; right:0; bottom:0;
-  height:70px;
-  background:var(--menu);
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#000;
+    height:70px;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    border-top:1px solid #0f0;
 }
 .bottom-item{
-  color:#fff;
-  text-align:center;
-  font-size:12px;
+    text-align:center;
+    color:#fff;
+    font-size:13px;
 }
 .bottom-item .bicon{
-  font-size:22px;
-  display:block;
-  margin-bottom:5px;
+    display:block;
+    font-size:22px;
+    margin-bottom:2px;
+    color:#1aff4a;
 }
 
-.small-balance{
-  position:fixed;
-  bottom:85px;
-  left:15px;
-  background:#0b6e34;
-  padding:7px 12px;
-  border-radius:10px;
-  font-weight:700;
-  display:none;
-}
-
-.logout{
-  background:#000;
-  padding:8px 14px;
-  border-radius:8px;
-  margin-top:12px;
-  cursor:pointer;
-}
 </style>
 </head>
+
 <body>
 
-<div class="top">
-  <h1>Home</h1>
+<div class="header">JOKERWIN</div>
+
+<div class="grid">
+    <div class="card" onclick="location.href='casino.html'">
+        <div class="icon">🎰</div>
+        <div class="label">Casino</div>
+    </div>
+
+    <div class="card">
+        <div class="icon">🃏</div>
+        <div class="label">Live Casino</div>
+    </div>
+
+    <div class="card" onclick="location.href='sports_betting.html'">
+        <div class="icon">⚽</div>
+        <div class="label">Sports Betting</div>
+    </div>
+
+    <div class="card" onclick="location.href='live_betting.html'">
+        <div class="icon">⏱️</div>
+        <div class="label">Live Betting</div>
+    </div>
+
+    <div class="card">
+        <div class="icon">🎮</div>
+        <div class="label">Virtual Games</div>
+    </div>
+
+    <div class="card">
+        <div class="icon">💳</div>
+        <div class="label">Wallet</div>
+    </div>
 </div>
-
-<div class="wrap">
-
-  <div class="balance-box">
-    <div class="balance-title">Current Balance</div>
-    <div class="balance-num" id="balance">0.00 TD</div>
-    <div class="logout" onclick="logout();">Disconnect</div>
-  </div>
-
-  <div class="grid">
-    <div class="tile" onclick="window.location.href='sports_betting.html'">
-  <div class="icon">⚽</div>
-  <div class="label">Sports Betting</div>
-</div>
-    <div class="tile" onclick="window.location.href='live_betting.html'">
-  <div class="icon">⏱️</div>
-  <div class="label">Live Betting</div>
-</div>
-    <div class="tile"><div class="icon">⭐</div><div class="label">Highlights</div></div>
-
-    <div class="tile"><div class="icon">🃏</div><div class="label">Live Casino</div></div>
-    <div class="tile" onclick="window.location.href='casino.html'">
-    <div class="icon">🎰</div>
-    <div class="label">Casino</div>
-</div>
-    <div class="tile"><div class="icon">🏁</div><div class="label">Virtual Sports</div></div>
-
-    <div class="tile"><div class="icon">🥅</div><div class="label">Results</div></div>
-    <div class="tile"><div class="icon">🔍</div><div class="label">Search</div></div>
-    <div class="tile"><div class="icon">📩</div><div class="label">Contact</div></div>
-  </div>
-
-</div>
-
-<div class="small-balance" id="smallBal">0.00</div>
 
 <div class="bottom">
-  <div class="bottom-item"><span class="bicon">🏠</span>Home</div>
-  <div class="bottom-item" onclick="window.location.href='account.html'">
-  <span class="bicon">👤</span>Account
+    <div class="bottom-item" onclick="location.href='player_home.html'">
+        <span class="bicon">🏠</span>
+        Home
+    </div>
+    <div class="bottom-item">
+        <span class="bicon">⚽</span>
+        Sports
+    </div>
+    <div class="bottom-item" onclick="location.href='casino.html'">
+        <span class="bicon">🎰</span>
+        Casino
+    </div>
+    <div class="bottom-item">
+        <span class="bicon">👤</span>
+        Account
+    </div>
 </div>
-  <div class="bottom-item"><span class="bicon">⚽</span>Sport</div>
-  <div class="bottom-item"><span class="bicon">🎟️</span>Slip</div>
-</div>
-
-<script>
-/* JSONBIN CONFIG */
-const BIN_ID = "692eeefbae596e708f7e9e72";
-const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
-
-/* CHECK LOGIN */
-const username = localStorage.getItem("logged");
-if (!username) {
-    window.location.href = "player_login.html";
-}
-
-/* LOAD BALANCE */
-async function loadBalance(){
-    try {
-        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-            headers: {
-                "X-Master-Key": API_KEY
-            }
-        });
-
-        const json = await res.json();
-
-        const users =
-            json.record?.users ||
-            json.users ||
-            {};
-
-        const bal = users[username]?.balance ?? 0;
-
-        document.getElementById("balance").innerText = bal.toFixed(2) + " TD";
-        document.getElementById("smallBal").innerText = bal.toFixed(2);
-        document.getElementById("smallBal").style.display = "block";
-
-    } catch(e){
-        console.log("Balance error:", e);
-        document.getElementById("balance").innerText = "Error";
-    }
-}
-
-/* auto refresh */
-loadBalance();
-setInterval(loadBalance, 5000);
-
-/* LOGOUT */
-function logout(){
-    localStorage.removeItem("logged");
-    window.location.href = "player_login.html";
-}
-</script>
 
 </body>
 </html>
