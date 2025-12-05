@@ -2,137 +2,125 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Home</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JOKERWIN</title>
 
 <style>
-body{
-    margin:0;
-    background:#000;
-    font-family:Arial, sans-serif;
-    color:#fff;
-}
+    body {
+        margin: 0;
+        background: #000;
+        font-family: Arial, sans-serif;
+        color: white;
+    }
 
-/* TITLE */
-.header{
-    text-align:center;
-    padding:18px 0;
-    font-size:22px;
-    font-weight:700;
-    color:#1aff4a;
-}
+    .title {
+        text-align: center;
+        font-size: 32px;
+        margin-top: 20px;
+        color: #00ff40;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
 
-/* GRID */
-.grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;
-    padding:20px 16px 120px;
-}
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 18px;
+        padding: 20px;
+        margin-top: 20px;
+    }
 
-.card{
-    background:#0e0e0e;
-    border:1px solid #0f0;
-    border-radius:18px;
-    padding:26px 10px;
-    text-align:center;
-    transition:0.22s;
-    box-shadow:0 0 12px rgba(0,255,0,0.15);
-}
-.card:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 18px rgba(0,255,0,0.35);
-}
+    .card {
+        background: #111;
+        border-radius: 16px;
+        padding: 28px 0;
+        text-align: center;
+        font-size: 20px;
+        color: white;
+        border: 2px solid #00ff40;
+        box-shadow: 0 0 15px #00ff40;
+        transition: 0.15s ease;
+    }
+    .card:active {
+        transform: scale(0.95);
+    }
 
-.card .icon{
-    font-size:45px;
-    margin-bottom:10px;
-    color:#1aff4a;
-}
-.card .label{
-    font-size:16px;
-    letter-spacing:1px;
-}
+    .card img {
+        width: 60px;
+        margin-bottom: 12px;
+    }
 
-/* BOTTOM MENU */
-.bottom{
-    position:fixed;
-    bottom:0;
-    left:0;
-    right:0;
-    background:#000;
-    height:70px;
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-    border-top:1px solid #0f0;
-}
-.bottom-item{
-    text-align:center;
-    color:#fff;
-    font-size:13px;
-}
-.bottom-item .bicon{
-    display:block;
-    font-size:22px;
-    margin-bottom:2px;
-    color:#1aff4a;
-}
+    /* Bottom Navigation */
+    .bottom-bar {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background: #000;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 0 6px;
+        border-top: 2px solid #00ff40;
+    }
 
+    .nav-item {
+        text-align: center;
+        color: white;
+        font-size: 14px;
+    }
+    .nav-item img {
+        width: 30px;
+        display: block;
+        margin: auto;
+    }
 </style>
-</head>
 
+</head>
 <body>
 
-<div class="header">JOKERWIN</div>
+<div class="title">JOKERWIN</div>
 
 <div class="grid">
     <div class="card" onclick="location.href='casino.html'">
-        <div class="icon">🎰</div>
-        <div class="label">Casino</div>
+        <img src="https://i.imgur.com/4YQdK0A.png">
+        Casino
     </div>
 
-    <div class="card">
-        <div class="icon">🃏</div>
-        <div class="label">Live Casino</div>
+    <div class="card" onclick="location.href='live_casino.html'">
+        <img src="https://i.imgur.com/VQnW5uX.png">
+        Live Casino
     </div>
 
     <div class="card" onclick="location.href='sports_betting.html'">
-        <div class="icon">⚽</div>
-        <div class="label">Sports Betting</div>
+        <img src="https://i.imgur.com/qUxq8Bg.png">
+        Sports Betting
     </div>
 
     <div class="card" onclick="location.href='live_betting.html'">
-        <div class="icon">⏱️</div>
-        <div class="label">Live Betting</div>
-    </div>
-
-    <div class="card">
-        <div class="icon">🎮</div>
-        <div class="label">Virtual Games</div>
-    </div>
-
-    <div class="card">
-        <div class="icon">💳</div>
-        <div class="label">Wallet</div>
+        <img src="https://i.imgur.com/9E8yFZQ.png">
+        Live Betting
     </div>
 </div>
 
-<div class="bottom">
-    <div class="bottom-item" onclick="location.href='player_home.html'">
-        <span class="bicon">🏠</span>
+<!-- Bottom Bar -->
+<div class="bottom-bar">
+    <div class="nav-item" onclick="location.href='player_home.html'">
+        <img src="https://i.imgur.com/nO4lGxC.png">
         Home
     </div>
-    <div class="bottom-item">
-        <span class="bicon">⚽</span>
+
+    <div class="nav-item" onclick="location.href='sports_betting.html'">
+        <img src="https://i.imgur.com/qUxq8Bg.png">
         Sports
     </div>
-    <div class="bottom-item" onclick="location.href='casino.html'">
-        <span class="bicon">🎰</span>
+
+    <div class="nav-item" onclick="location.href='casino.html'">
+        <img src="https://i.imgur.com/4YQdK0A.png">
         Casino
     </div>
-    <div class="bottom-item">
-        <span class="bicon">👤</span>
+
+    <div class="nav-item" onclick="location.href='account.html'">
+        <img src="https://i.imgur.com/dPZEX0M.png">
         Account
     </div>
 </div>
