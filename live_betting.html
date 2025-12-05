@@ -91,5 +91,38 @@ sel.addEventListener("change", load);
 load();
 setInterval(load, 15000);
 </script>
+  <!-- BOTTOM BAR -->
+<div class="bottom-bar">
+    <div class="home-btn" onclick="window.location.href='player_home.html'">
+        <span class="icon">🏠</span>
+        Home
+    </div>
+</div>
+
+<style>
+.bottom-bar{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    height:70px;
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.home-btn{
+    text-align:center;
+    color:#fff;
+    font-size:14px;
+    cursor:pointer;
+}
+
+.home-btn .icon{
+    font-size:26px;
+    display:block;
+    margin-bottom:4px;
+}
+</style>
 </body>
 </html>
