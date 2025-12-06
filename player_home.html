@@ -7,269 +7,191 @@
 
 <style>
   :root{
-    --bg:#052e24;        /* أخضر داكن مشابه للموقع */
-    --neon:#00ff40;      /* نيون أخضر */
-    --panel: #0b3a2e;
+    --bg:#052e24;
+    --neon:#00ff40;
+    --panel:#0b3a2e;
     --panel-2:#073026;
-    --muted: rgba(255,255,255,0.78);
-    --muted-2: rgba(255,255,255,0.55);
-    --accent: rgba(0,255,64,0.10);
+    --muted:rgba(255,255,255,0.78);
     --max-w:1200px;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:#fff;font-family:"Segoe UI",Arial,Helvetica,sans-serif;-webkit-font-smoothing:antialiased}
-  a{color:inherit;text-decoration:none}
+  body{margin:0;background:var(--bg);color:#fff;font-family:"Segoe UI",Arial,sans-serif}
+  a{text-decoration:none;color:inherit}
 
-  /* ===== HEADER (logo + connect) ===== */
-  header{position:sticky;top:0;z-index:90;background:linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.06));border-bottom:1px solid rgba(0,0,0,0.2)}
-  .topbar{
-    max-width:var(--max-w);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;gap:12px;
+  /* HEADER */
+  header{
+    position:sticky;top:0;z-index:99;
+    background:rgba(0,0,0,0.18);
+    border-bottom:1px solid rgba(255,255,255,0.1);
   }
-  .brand{display:flex;align-items:center;gap:12px}
-  .brand img{height:48px;width:auto;display:block}
-  /* keep a small alt text if image missing */
-  .connect-btn{background:linear-gradient(180deg,#ffd24a,#ffb400);padding:8px 14px;border-radius:24px;color:#08120a;font-weight:800;border:0;cursor:pointer}
+  .topbar{
+    max-width:var(--max-w);
+    margin:0 auto;
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .brand img{
+    height:48px;width:auto;
+  }
+  .connect-btn{
+    background:linear-gradient(180deg,#ffd24a,#ffb400);
+    padding:8px 14px;
+    border-radius:24px;
+    border:0;
+    font-weight:800;
+    cursor:pointer;
+  }
 
-  /* PILL NAVBAR */
-.menu-wrap{
-  width:100%;
-  display:flex;
-  justify-content:center;
-  margin-top:12px;
-}
+  /* NAVBAR PILL */
+  .menu-wrap{
+    display:flex;
+    justify-content:center;
+    margin-bottom:10px;
+  }
+  .menu{
+    background:rgba(255,255,255,0.07);
+    backdrop-filter:blur(8px);
+    padding:10px 18px;
+    border-radius:40px;
+    display:flex;
+    gap:22px;
+    overflow-x:auto;
+  }
+  .menu::-webkit-scrollbar{display:none;}
+  .menu a{
+    color:#b6c7c7;
+    font-weight:700;
+    font-size:15px;
+    padding:8px 14px;
+    border-radius:20px;
+    white-space:nowrap;
+  }
+  .menu a.active{
+    color:var(--neon);
+    background:rgba(0,255,64,0.12);
+    box-shadow:inset 0 -3px 0 var(--neon);
+  }
 
-.menu{
-  background:rgba(255,255,255,0.07);
-  backdrop-filter:blur(8px);
-  padding:10px 14px;
-  border-radius:40px;
-
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:22px;
-
-  max-width:900px;
-  width:100%;
-  overflow-x:auto;
-
-  scrollbar-width:none;
-}
-.menu::-webkit-scrollbar{display:none;}
-
-.menu a{
-  color:#b6c7c7;
-  font-weight:700;
-  font-size:15px;
-  padding:8px 14px;
-  text-decoration:none;
-  white-space:nowrap;
-  border-radius:20px;
-  transition:.15s;
-}
-
-.menu a.active{
-  color:#00ff4d;
-  background:rgba(0,255,77,0.12);
-  box-shadow:inset 0 -3px 0 #00ff4d;
-}
-  /* ===== SLIDER HERO ===== */
-  .slider{height:200px;border-radius:12px;overflow:hidden;background:linear-gradient(90deg,#071b09,#02221a);box-shadow:0 14px 40px rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.02)}
-  .slides{display:flex;height:100%;transition:transform .65s ease}
-  .slide{min-width:100%;height:100%;background-size:cover;background-position:center;display:flex;align-items:center;padding-left:28px}
-  .slide .caption{max-width:760px}
-  .slide h2{margin:0;font-size:26px;color:var(--neon)}
-  .slide p{margin:6px 0 0;color:var(--muted)}
-
-  .dots{position:relative;display:flex;gap:8px;justify-content:center;margin-top:10px}
-  .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,0.15);cursor:pointer}
-  .dot.active{background:var(--neon);box-shadow:0 6px 18px rgba(0,255,64,0.12)}
-
-  /* ===== HERO ROW: jackpot + quick tiles ===== */
-  .hero-row{display:grid;grid-template-columns:1fr 320px;gap:16px;margin-top:18px}
-  @media(max-width:980px){.hero-row{grid-template-columns:1fr}}
-  .jackpot{background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.12));padding:18px;border-radius:12px;border:1px solid var(--accent);display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .jack-left h3{margin:0;color:var(--neon);font-size:16px}
-  .jack-left .amount{font-size:28px;font-weight:900;margin-top:8px}
-  .quick-list{display:flex;flex-direction:column;gap:12px}
-  .quick{background:linear-gradient(180deg,var(--panel),var(--panel-2));padding:12px;border-radius:12px;display:flex;gap:12px;align-items:center;border:1px solid rgba(255,255,255,0.03);cursor:pointer}
-  .quick img{width:56px;height:56px;border-radius:10px;object-fit:cover}
-  .quiet-title{font-weight:800}
-
-  /* ===== GAMES GRID ===== */
-  .section{margin-top:20px}
-  .section .title{display:flex;justify-content:space-between;align-items:center}
-  .section h4{margin:0;color:var(--neon)}
-  .grid{margin-top:12px;display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
-  @media(max-width:1100px){.grid{grid-template-columns:repeat(4,1fr)}}
-  @media(max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}}
-  .game-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:10px;padding:10px;text-align:center;cursor:pointer;border:1px solid rgba(255,255,255,0.03)}
-  .game-card img{width:100%;height:110px;object-fit:cover;border-radius:8px}
-  .game-card .gname{margin-top:8px;font-weight:800}
-
-  /* hide bottom bar (user asked to remove) - nothing to show */
+  /* SLIDER */
+  .slider{
+    width:100%;
+    height:200px;
+    border-radius:12px;
+    overflow:hidden;
+    margin-bottom:14px;
+    box-shadow:0 14px 40px rgba(0,0,0,0.5);
+    border:1px solid rgba(255,255,255,0.1);
+  }
+  .slides{
+    display:flex;
+    height:100%;
+    transition:transform .6s ease;
+  }
+  .slide{
+    min-width:100%;
+    height:100%;
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:center;
+    padding-left:28px;
+  }
+  .caption h2{margin:0;font-size:26px;color:var(--neon)}
+  .caption p{margin:8px 0 0;color:var(--muted)}
+  .dots{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    margin-top:8px;
+  }
+  .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:rgba(255,255,255,0.25);
+    cursor:pointer;
+  }
+  .dot.active{
+    background:var(--neon);
+    box-shadow:0 0 8px var(--neon);
+  }
 </style>
 </head>
+
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="topbar">
-      <div style="display:flex;align-items:center;gap:12px;">
-        <!-- user provided logo image -->
-        <div class="brand">
-          <img src="joker216-logo.png" alt="Joker216 logo">
-        </div>
-      </div>
+<!-- HEADER -->
+<header>
+  <div class="topbar">
+    <div class="brand"><img src="joker216-logo.png" alt=""></div>
+    <button class="connect-btn" onclick="location.href='player_login.html'">SE CONNECTER</button>
+  </div>
 
-      <!-- login on right -->
-      <div style="display:flex;align-items:center;gap:12px;">
-        <button class="connect-btn" onclick="location.href='player_login.html'">SE CONNECTER</button>
+  <div class="menu-wrap">
+    <nav class="menu">
+      <a href="player_home.html" class="active">Accueil</a>
+      <a href="sports_betting.html">Sport</a>
+      <a href="casino.html">Le Casino</a>
+      <a href="live_casino.html">Casino en Direct</a>
+      <a href="crash.html">Jeux de Crash</a>
+    </nav>
+  </div>
+</header>
+
+<!-- SLIDER -->
+<div class="slider" id="slider">
+  <div class="slides" id="slides">
+
+    <div class="slide" style="background-image:url('1.png')">
+      <div class="caption">
+        <h2>Welcome to Joker216</h2>
+        <p>Unlock your winning smile.</p>
       </div>
     </div>
 
-    <!-- TOP MENU PILL (centered) -->
-    <div class="menu-wrap">
-  <nav class="menu">
-    <a class="active" href="player_home.html">Accueil</a>
-    <a href="sports_betting.html">Sport</a>
-    <a href="casino.html">Le Casino</a>
-    <a href="live_casino.html">Casino en Direct</a>
-    <a href="crash.html">Jeux de Crash</a>
-  </nav>
+    <div class="slide" style="background-image:url('2.png')">
+      <div class="caption">
+        <h2>Live Dealers</h2>
+        <p>Real-time action & big wins.</p>
+      </div>
+    </div>
+
+    <div class="slide" style="background-image:url('3.png')">
+      <div class="caption">
+        <h2>Hot Matches</h2>
+        <p>Bet on top leagues today.</p>
+      </div>
+    </div>
+
+  </div>
 </div>
-  </header>
 
-  <!-- MAIN WRAP -->
-  <div class="wrap">
-
-    <!-- HERO SLIDER -->
-    <div class="slides" id="slidesContainer">
-
-  <div class="slide" style="background-image:url('1.png')">
-    <div class="caption">
-      <h2>Welcome to Joker216</h2>
-      <p class="muted">Unlock your winning smile — Play top casino games & live events.</p>
-    </div>
-  </div>
-
-  <div class="slide" style="background-image:url('2.png')">
-    <div class="caption">
-      <h2>Live Dealers & Big Wins</h2>
-      <p class="muted">Join live tables and feel the thrill of real-time action.</p>
-    </div>
-  </div>
-
-  <div class="slide" style="background-image:url('3.png')">
-    <div class="caption">
-      <h2>Hot Matches Today</h2>
-      <p class="muted">Bet on the top matches from the biggest leagues.</p>
-    </div>
-  </div>
-
-</div>
-        <div class="slide" style="background-image:url('fdm2.jpg')">
-          <div class="caption">
-            <h2>Live Dealers</h2>
-            <p>Real action — real wins.</p>
-          </div>
-        </div>
-
-        <div class="slide" style="background-image:url('fdm5.jpg')">
-          <div class="caption">
-            <h2>Hot Matches</h2>
-            <p>Bet on top events and leagues.</p>
-          </div>
-        </div>
-      </div>
-
-      <div style="display:flex;justify-content:center;margin-top:8px;">
-        <div id="dots" class="dots"></div>
-      </div>
-    </div>
-
-    <!-- HERO ROW -->
-    <div class="hero-row">
-      <div>
-        <div class="jackpot">
-          <div class="jack-left">
-            <h3>JACKPOT DIAMOND</h3>
-            <div class="amount">€ 1,234,567</div>
-            <p style="color:var(--muted);margin:6px 0 0">Progressive jackpot — Play now and try your luck!</p>
-          </div>
-          <div style="width:120px;text-align:center">
-            <img src="jackpot.png" alt="" style="width:100%;height:auto;border-radius:8px;object-fit:cover">
-          </div>
-        </div>
-
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px">
-          <div class="quick" onclick="location.href='casino.html'"><img src="casino_icon.jpg"><div><div class="quiet-title">Casino</div><div style="color:var(--muted)">Slots & Tables</div></div></div>
-          <div class="quick" onclick="location.href='sports_betting.html'"><img src="sport_icon.jpg"><div><div class="quiet-title">Sport</div><div style="color:var(--muted)">Matches</div></div></div>
-          <div class="quick" onclick="location.href='live_casino.html'"><img src="live_icon.jpg"><div><div class="quiet-title">Live Casino</div><div style="color:var(--muted)">Dealers</div></div></div>
-          <div class="quick" onclick="location.href='crash.html'"><img src="crash_icon.jpg"><div><div class="quiet-title">Crash</div><div style="color:var(--muted)">Fast</div></div></div>
-        </div>
-      </div>
-
-      <aside class="quick-list">
-        <div class="quick" onclick="location.href='casino.html'"><img src="monopoly.jpg"><div><div class="quiet-title">Monopoly Live</div><div style="color:var(--muted)">Live Game</div></div></div>
-        <div class="quick" onclick="location.href='live_casino.html'"><img src="crazytime.jpg"><div><div class="quiet-title">Crazy Time</div><div style="color:var(--muted)">Popular Live</div></div></div>
-        <div class="quick" onclick="location.href='live_casino.html'"><img src="2hand.jpg"><div><div class="quiet-title">2 Hand Casino</div><div style="color:var(--muted)">Heads-up</div></div></div>
-      </aside>
-    </div>
-
-    <!-- POPULAR SLOTS GRID -->
-    <div class="section">
-      <div class="title"><h4>Popular Slots</h4><div style="color:var(--muted)">Most played</div></div>
-      <div class="grid">
-        <div class="game-card"><img src="buzzing.jpeg" alt=""><div class="gname">3 Buzzing Wilds</div></div>
-        <div class="game-card"><img src="monkeys.jpg" alt=""><div class="gname">3 Dancing Monkeys</div></div>
-        <div class="game-card"><img src="genie.jpg" alt=""><div class="gname">3 Genie Wishes</div></div>
-        <div class="game-card"><img src="highflyer.jpg" alt=""><div class="gname">High Flyer</div></div>
-        <div class="game-card"><img src="aviator.jpg" alt=""><div class="gname">Aviator</div></div>
-        <div class="game-card"><img src="slap.jpg" alt=""><div class="gname">Slap</div></div>
-      </div>
-    </div>
-
-  </div> <!-- wrap -->
+<div class="dots" id="dots"></div>
 
 <script>
-/* SLIDER + DOTS */
-(function(){
-  const slides = document.getElementById('slides');
-  const total = slides.children.length;
-  const dotsWrap = document.getElementById('dots');
-  let idx = 0, timer = null;
+/* SLIDER SCRIPT */
+let index = 0;
+const slides = document.getElementById("slides");
+const dotsContainer = document.getElementById("dots");
+const total = slides.children.length;
 
-  for(let i=0;i<total;i++){
-    const d = document.createElement('div');
-    d.className = 'dot' + (i===0 ? ' active':'');
-    d.dataset.i = i;
-    d.onclick = ()=>go(parseInt(d.dataset.i));
-    dotsWrap.appendChild(d);
-  }
-  const dots = dotsWrap.children;
+/* create dots */
+for(let i=0;i<total;i++){
+  const d = document.createElement("div");
+  d.className = "dot" + (i===0 ? " active":"");
+  d.onclick = ()=>go(i);
+  dotsContainer.appendChild(d);
+}
+const dots = dotsContainer.children;
 
-  function go(i){
-    idx = i;
-    slides.style.transform = `translateX(-${i*100}%)`;
-    for(let j=0;j<dots.length;j++) dots[j].classList.toggle('active', j===i);
-    reset();
+function go(i){
+  index = i;
+  slides.style.transform = `translateX(-${i*100}%)`;
+  for(let x=0;x<dots.length;x++){
+    dots[x].classList.toggle("active", x===i);
   }
-
-  function next(){
-    go((idx+1)%total);
-  }
-  function reset(){
-    if(timer) clearInterval(timer);
-    timer = setInterval(next,4500);
-  }
-  reset();
-
-  // pause on hover
-  const sliderEl = document.getElementById('slider');
-  sliderEl.addEventListener('mouseenter', ()=> clearInterval(timer));
-  sliderEl.addEventListener('mouseleave', ()=> reset());
-})();
+}
+setInterval(()=>go((index+1)%total), 3500);
 </script>
 
 </body>
