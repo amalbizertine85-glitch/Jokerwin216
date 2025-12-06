@@ -2,127 +2,130 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Login — Joker216</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JOKER216 — Login</title>
 
 <style>
-  body{
-    margin:0;
-    font-family:"Segoe UI",Arial,sans-serif;
-    background:url("joker_login.jpeg") no-repeat center top/cover;
-    height:100vh;
-    color:white;
-  }
+    body{
+        margin:0;
+        font-family:"Segoe UI", Arial, sans-serif;
+        background:#002721;
+        color:#fff;
+    }
 
-  /* HEADER */
-  header{
-    width:100%;
-    padding:14px 16px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-  }
+    /* Header */
+    header{
+        background:#013427;
+        padding:10px 16px;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        border-bottom:1px solid rgba(255,255,255,0.07);
+    }
+    header img{
+        height:50px;
+    }
 
-  header img{
-    height:55px;
-  }
+    .login-btn{
+        background:linear-gradient(180deg,#ffd24a,#ffb400);
+        padding:10px 18px;
+        border-radius:18px;
+        color:#000;
+        font-weight:700;
+    }
 
-  /* SE CONNECTER BUTTON */
-  .login-btn{
-    background:linear-gradient(180deg,#ffd24a,#ffb400);
-    padding:10px 22px;
-    border-radius:20px;
-    font-weight:700;
-    color:#0b1920;
-    text-decoration:none;
-  }
+    /* MAIN LOGIN CARD */
+    .login-card{
+        max-width:420px;
+        margin:40px auto;
+        background:rgba(0,0,0,0.25);
+        padding:30px;
+        border-radius:18px;
+        box-shadow:0 10px 40px rgba(0,0,0,0.4);
+        background-image:url("joker_login.jpeg");
+        background-size:cover;
+        background-position:center;
+    }
 
-  /* LOGIN BOX */
-  .box{
-    width:90%;
-    max-width:420px;
-    margin:90px auto 0 auto;
-    padding:25px;
-    border-radius:18px;
-    background:rgba(0,0,0,0.45);
-    backdrop-filter:blur(4px);
-  }
+    .title{
+        font-size:28px;
+        font-weight:900;
+        text-align:center;
+        margin-bottom:6px;
+    }
+    .line{
+        width:130px;
+        height:3px;
+        background:#00ff40;
+        margin:6px auto 24px;
+        border-radius:6px;
+    }
 
-  h2{
-    text-align:center;
-    margin:0;
-    font-size:28px;
-    font-weight:800;
-  }
+    .input-group{
+        margin-bottom:18px;
+    }
+    .input-group label{
+        font-size:15px;
+        color:#e8e8e8;
+    }
 
-  .line{
-    width:120px;
-    height:3px;
-    background:#00ff40;
-    margin:8px auto 26px auto;
-    border-radius:4px;
-  }
+    .input-group input{
+        width:100%;
+        padding:14px;
+        border-radius:30px;
+        border:1px solid rgba(255,255,255,0.35);
+        background:rgba(0,0,0,0.15);
+        margin-top:6px;
+        color:#fff;
+        font-size:15px;
+    }
 
-  .in{
-    width:100%;
-    margin-bottom:18px;
-  }
-
-  .in input{
-    width:100%;
-    padding:16px;
-    border-radius:35px;
-    border:2px solid rgba(255,255,255,0.35);
-    background:rgba(0,0,0,0.25);
-    font-size:16px;
-    color:white;
-    outline:none;
-  }
-
-  .submit{
-    width:100%;
-    padding:16px;
-    border-radius:35px;
-    background:#00b450;
-    border:none;
-    font-size:18px;
-    font-weight:700;
-    color:white;
-    cursor:pointer;
-    margin-top:8px;
-  }
-
+    .submit-btn{
+        width:100%;
+        padding:14px;
+        margin-top:14px;
+        border-radius:30px;
+        background:#00b050;
+        color:#fff;
+        font-weight:700;
+        font-size:17px;
+        border:none;
+    }
 </style>
 </head>
+
 <body>
 
 <!-- HEADER -->
 <header>
-
-  <!-- LOGO → player_home.html -->
-  <a href="player_home.html">
-    <img src="joker216-logo.png" alt="Joker216">
-  </a>
-
-  <!-- SE CONNECTER BUTTON → player_home.html -->
-  <a href="player_home.html" class="login-btn">SE CONNECTER</a>
-
+    <a href="player_home.html">
+  <img src="joker216-logo.png" alt="logo">
+</a>
+    <a class="login-btn">SE CONNECTER</a>
 </header>
 
-<!-- LOGIN BOX -->
-<div class="box">
-  <h2>Se connecter</h2>
-  <div class="line"></div>
+<!-- LOGIN CARD -->
+<div class="login-card">
 
-  <div class="in">
-    <input type="text" placeholder="Nom d'utilisateur">
-  </div>
+    <div class="title">Se connecter</div>
+    <div class="line"></div>
 
-  <div class="in">
-    <input type="password" placeholder="Mot de passe">
-  </div>
+    <form action="player_home.html" method="GET">
 
-  <button class="submit">Se connecter</button>
+        <div class="input-group">
+            <label>Nom d'utilisateur</label>
+            <input type="text" required>
+        </div>
+
+        <div class="input-group">
+            <label>Mot de passe</label>
+            <input type="password" required>
+        </div>
+
+        <button class="submit-btn">Se connecter</button>
+
+    </form>
+
 </div>
 
 </body>
