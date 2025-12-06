@@ -1,210 +1,305 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>JOKER216 — Home</title>
+<title>Joker216 — Home</title>
+
 <style>
   :root{
-    --bg:#062622;
-    --panel:#0b3a2e;
-    --neon:#00ff4d;
-    --muted:rgba(255,255,255,0.85);
-    --muted-2:rgba(255,255,255,0.65);
-    --card:#083a2b;
+    --bg: #003b2e;        
+    --green:#00ff40;     
+    --card:#064232;      
+    --card-2:#0b583e;    
+    --muted:rgba(255,255,255,0.75);
+    --glass: rgba(255,255,255,0.03);
+    --max-w:1200px;
   }
-  html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif;background:var(--bg);color:#fff}
 
-  /* ===== header ===== */
-  .header{
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:#fff;
+    font-family:"Segoe UI",Arial,sans-serif;
+  }
+  a{text-decoration:none;color:inherit}
+
+  /* HEADER */
+  header{
+    width:100%;
+    background:rgba(0,0,0,0.18);
+    border-bottom:1px solid rgba(255,255,255,0.05);
+    position:sticky;
+    top:0;
+    z-index:50;
+  }
+  .topbar{
+    max-width:var(--max-w);
+    margin:0 auto;
+    padding:12px 16px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .brand{
     display:flex;
     align-items:center;
     gap:12px;
-    padding:14px 16px;
-    position:sticky;
-    top:0;
-    z-index:40;
-    background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.2));
-    border-bottom:1px solid rgba(255,255,255,0.03);
   }
-  .logo img{
+  .brand img{
     height:48px;
-  }
-  .spacer{flex:1}
-  .connect-btn{
-    background:linear-gradient(180deg,#ffd24a,#ffb400);
-    color:#08120a;
-    padding:8px 14px;
-    border-radius:24px;
-    font-weight:700;
-    text-decoration:none;
+    width:auto;
   }
 
-  /* ===== top rounded menu ===== */
-  .top-menu-wrap{display:flex;justify-content:center;padding:10px 14px}
-  .top-menu{
-    background:rgba(255,255,255,0.04);
-    border-radius:28px;
-    padding:8px 12px;
+  .nav{
     display:flex;
-    gap:18px;
+    gap:22px;
+    margin-left:20px;
+  }
+  .nav a{
+    padding:6px 10px;
+    color:var(--muted);
+    font-weight:700;
+    font-size:14px;
+  }
+  .nav a.active{
+    color:#00ff40;
+    border-bottom:2px solid #00ff40;
+  }
+
+  .login-btn{
+    background:linear-gradient(180deg,#ffd24a,#ffb400);
+    padding:8px 14px;
+    border-radius:12px;
+    color:#08120a;
+    font-weight:700;
+  }
+
+  /* CONTENT */
+  .wrap{
+    max-width:var(--max-w);
+    margin:18px auto;
+    padding:12px 16px;
+  }
+
+  /* SLIDER */
+  .slider{
+    position:relative;
+    height:220px;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:0 12px 40px rgba(0,0,0,0.6);
+  }
+  .slides{
+    height:100%;
+    display:flex;
+    transition:transform .6s ease;
+  }
+  .slide{
+    min-width:100%;
+    height:100%;
+    background-size:cover;
+    background-position:center;
+    display:flex;
     align-items:center;
-    max-width:1000px;
-    width:100%;
-    overflow:auto;
-    scrollbar-width:none;
   }
-  .top-menu a{color:var(--muted-2);text-decoration:none;font-weight:700;padding:6px 4px;white-space:nowrap}
-  .top-menu a.active{color:var(--neon);box-shadow:inset 0 -6px 0 rgba(0,255,77,0.08)}
+  .caption{margin-left:24px;max-width:650px}
+  .caption h2{margin:0;color:#00ff40;font-size:26px}
+  .caption p{margin-top:8px;color:var(--muted)}
 
-  /* ===== container ===== */
-  .wrap{max-width:1000px;margin:18px auto;padding:0 12px 120px}
-
-  /* ===== hero carousel ===== */
-  .carousel{height:140px;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(90deg,#071b09,#02221a);box-shadow:0 12px 30px rgba(0,0,0,0.6)}
-  .carousel img{width:100%;height:100%;object-fit:cover;display:block}
-  .carousel .dots{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;display:flex;gap:8px}
-  .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer}
-  .dot.active{background:var(--neon);box-shadow:0 0 10px var(--neon)}
-
-  /* ===== jackpot cards ===== */
-  .row{display:flex;gap:14px;margin-top:16px;flex-wrap:wrap}
-  .card{background:linear-gradient(180deg,#063022,#04271f);border-radius:12px;padding:14px;flex:1;min-width:260px;box-shadow:0 12px 30px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.03)}
-  .jack-title{color:var(--neon);font-weight:900}
-  .jack-value{font-size:22px;margin-top:6px;color:#fff;font-weight:800}
-
-  /* ===== games grid ===== */
-  .games{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-top:18px}
-  .game-tile{background:linear-gradient(180deg,#0b3a2e,#07301f);padding:14px;border-radius:12px;text-align:center;border:1px solid rgba(255,255,255,0.04)}
-  .game-tile img{width:100%;height:110px;object-fit:cover;border-radius:10px;display:block;margin-bottom:8px}
-  .game-title{font-weight:700;color:var(--muted-2)}
-
-  /* bottom nav */
-  .bottom-nav{
-    position:fixed;left:0;right:0;bottom:0;height:70px;background:#000;
-    display:flex;align-items:center;justify-content:center;border-top:3px solid var(--neon);z-index:50
+  .slider-dots{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:10px;
+    display:flex;
+    gap:8px;
   }
-  .bottom-home{color:#fff;text-decoration:none;font-weight:700;display:flex;flex-direction:column;align-items:center}
-  .bottom-home .ico{font-size:20px;margin-bottom:6px}
+  .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:rgba(255,255,255,0.2);
+  }
+  .dot.active{
+    background:#00ff40;
+    box-shadow:0 0 8px #00ff40;
+  }
 
-  @media (max-width:520px){
-    .carousel{height:160px}
-    .jack-value{font-size:18px}
-    .game-tile img{height:90px}
+  /* QUICK CARDS */
+  .quick{
+    background:linear-gradient(180deg,var(--card),var(--card-2));
+    padding:12px;
+    border-radius:12px;
+    display:flex;
+    gap:10px;
+    align-items:center;
+    border:1px solid rgba(255,255,255,0.07);
+  }
+  .quick img{width:50px;height:50px;border-radius:8px}
+  .quick .t{font-weight:800}
+  .quick .s{font-size:12px;color:var(--muted)}
+
+  .hero-row{
+    margin-top:18px;
+    display:grid;
+    grid-template-columns:1fr 300px;
+    gap:16px;
+  }
+  @media(max-width:900px){
+    .hero-row{grid-template-columns:1fr}
+  }
+
+  /* GAME GRID */
+  .section{margin-top:22px}
+  .section h4{margin:0;color:#00ff40}
+  .grid-games{
+    margin-top:14px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:12px;
+  }
+  .game-card{
+    background:rgba(255,255,255,0.05);
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+    cursor:pointer;
+  }
+  .game-card img{
+    width:100%;height:110px;border-radius:8px;object-fit:cover;
+  }
+  .game-card .gname{
+    margin-top:8px;font-weight:700;
+  }
+
+  .row-cards{
+    display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;
+  }
+  .row-card{
+    flex:1;min-width:220px;
+    background:rgba(255,255,255,0.05);
+    padding:10px;
+    border-radius:10px;
+    display:flex;gap:12px;
+    align-items:center;
+  }
+  .row-card img{
+    width:80px;height:60px;border-radius:8px;object-fit:cover;
   }
 </style>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <div class="header">
-    <div class="logo">
-      <img src="joker216-logo.png" alt="logo">
+<!-- HEADER -->
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <img src="joker216-logo.png" alt="Joker216">
     </div>
-    <div class="spacer"></div>
-    <a class="connect-btn" href="#">SE CONNECTER</a>
-  </div>
 
-  <!-- TOP MENU -->
-  <div class="top-menu-wrap">
-    <nav class="top-menu" id="topMenu">
+    <nav class="nav">
       <a href="#" class="active">Accueil</a>
-      <a href="#" id="nav-sport">Sport</a>
-      <a href="#" id="nav-casino">Le Casino</a>
-      <a href="#" id="nav-live">Casino en Direct</a>
-      <a href="#" id="nav-crash">Jeux de Crash</a>
+      <a href="#">Sport</a>
+      <a href="#">Le Casino</a>
+      <a href="#">Casino en Direct</a>
+      <a href="#">Jeux de Crash</a>
     </nav>
+
+    <a class="login-btn" href="#">SE CONNECTER</a>
   </div>
+</header>
 
-  <!-- WRAP -->
-  <div class="wrap">
+<!-- CONTENT -->
+<div class="wrap">
 
-    <!-- CAROUSEL -->
-    <div class="carousel" id="carousel">
-      <img src="img1.jpg" id="carouselImg" alt="banner">
-      <div class="dots" id="dots"></div>
-    </div>
-
-    <!-- JACKPOT + INFO -->
-    <div class="row">
-      <div class="card">
-        <div class="jack-title">JACKPOT DIAMOND</div>
-        <div class="jack-value">€ 1,234,567</div>
-        <div style="margin-top:8px;color:var(--muted-2)">Progressive jackpot — Play now and try your luck!</div>
+  <!-- SLIDER -->
+  <div class="slider" id="mainSlider">
+    <div class="slides" id="slides">
+      <div class="slide" style="background-image:url('fdm.jpg')">
+        <div class="caption">
+          <h2>Welcome to Joker216</h2>
+          <p>Unlock your winning smile.</p>
+        </div>
       </div>
 
-      <div class="card">
-        <div style="font-weight:800;color:var(--neon)">Top Gagne</div>
-        <div style="margin-top:8px;color:var(--muted-2)">Player: <strong>Jjendouxxx</strong> —
-          <span style="color:var(--neon)">364.28 TND</span></div>
+      <div class="slide" style="background-image:url('fdm2.jpg')">
+        <div class="caption">
+          <h2>Live Dealers</h2>
+          <p>Real action — real wins.</p>
+        </div>
+      </div>
+
+      <div class="slide" style="background-image:url('fdm5.jpg')">
+        <div class="caption">
+          <h2>Hot Matches</h2>
+          <p>Bet on top leagues.</p>
+        </div>
       </div>
     </div>
 
-    <!-- GAMES GRID (17 tiles) -->
-    <div class="games" id="gamesGrid">
+    <div class="slider-dots" id="dots"></div>
+  </div>
 
-      <div class="game-tile"><img src="img2.jpg"><div class="game-title">High Flyer</div></div>
-      <div class="game-tile"><img src="img3.jpg"><div class="game-title">Aviator</div></div>
-      <div class="game-tile"><img src="img4.jpg"><div class="game-title">Slap</div></div>
-      <div class="game-tile"><img src="img5.jpg"><div class="game-title">Casino Hold'em</div></div>
-      <div class="game-tile"><img src="img6.jpg"><div class="game-title">Monopoly Live</div></div>
-      <div class="game-tile"><img src="img7.jpg"><div class="game-title">3 Genie Wishes</div></div>
-      <div class="game-tile"><img src="img8.jpg"><div class="game-title">Crazy Time</div></div>
-      <div class="game-tile"><img src="img9.jpg"><div class="game-title">Live Casino</div></div>
-      <div class="game-tile"><img src="img10.jpg"><div class="game-title">Crash</div></div>
-      <div class="game-tile"><img src="img11.jpg"><div class="game-title">Sport</div></div>
-      <div class="game-tile"><img src="img12.jpg"><div class="game-title">3 Dancing Monkeys</div></div>
-      <div class="game-tile"><img src="img13.jpg"><div class="game-title">3 Buzzing Wilds</div></div>
-      <div class="game-tile"><img src="img14.jpg"><div class="game-title">Wheel</div></div>
-      <div class="game-tile"><img src="img15.jpg"><div class="game-title">Live Dealer</div></div>
-      <div class="game-tile"><img src="img16.jpg"><div class="game-title">Top Games</div></div>
-      <div class="game-tile"><img src="img17.jpg"><div class="game-title">Hot Matches</div></div>
-      <div class="game-tile"><img src="img18.jpg"><div class="game-title">More</div></div>
+  <!-- QUICK ROWS -->
+  <div class="hero-row">
+    <div>
+      <div class="quick">
+        <img src="jackpot.png">
+        <div>
+          <div class="t">JACKPOT DIAMOND</div>
+          <div class="s">€ 1,234,567</div>
+        </div>
+      </div>
 
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;">
+        <div class="quick"><img src="casino_icon.jpg"><div><div class="t">Casino</div><div class="s">Slots</div></div></div>
+        <div class="quick"><img src="sport_icon.jpg"><div><div class="t">Sport</div><div class="s">Matches</div></div></div>
+        <div class="quick"><img src="live_icon.jpg"><div><div class="t">Live Casino</div><div class="s">Dealers</div></div></div>
+        <div class="quick"><img src="crash_icon.jpg"><div><div class="t">Crash</div><div class="s">Fast</div></div></div>
+      </div>
     </div>
 
+    <div>
+      <div class="quick"><img src="monopoly.jpg"><div><div class="t">Monopoly Live</div></div></div>
+      <div class="quick"><img src="crazytime.jpg"><div><div class="t">Crazy Time</div></div></div>
+    </div>
   </div>
 
-  <!-- Bottom Nav -->
-  <div class="bottom-nav">
-    <a class="bottom-home" href="player_home.html">
-      <div class="ico">🏠</div>
-      <div>Home</div>
-    </a>
+  <!-- POPULAR -->
+  <div class="section">
+    <h4>Popular Slots</h4>
+    <div class="grid-games">
+      <div class="game-card"><img src="buzzing.jpeg"><div class="gname">3 Buzzing Wilds</div></div>
+      <div class="game-card"><img src="monkeys.jpg"><div class="gname">3 Dancing Monkeys</div></div>
+      <div class="game-card"><img src="genie.jpg"><div class="gname">3 Genie Wishes</div></div>
+      <div class="game-card"><img src="highflyer.jpg"><div class="gname">High Flyer</div></div>
+      <div class="game-card"><img src="aviator.jpg"><div class="gname">Aviator</div></div>
+    </div>
   </div>
+
+</div>
 
 <script>
-const carouselImgs = ["img1.jpg","img16.jpg","img17.jpg"];
-let cIndex = 0;
-const imgEl = document.getElementById('carouselImg');
-const dotsContainer = document.getElementById('dots');
+/* SLIDER JS */
+let idx = 0;
+const slides = document.getElementById("slides");
+const dots = document.getElementById("dots");
+const total = slides.children.length;
 
-function buildDots(){
-  dotsContainer.innerHTML = '';
-  carouselImgs.forEach((_,i)=>{
-    const d = document.createElement('div');
-    d.className = 'dot' + (i===0? ' active':'');
-    d.onclick = ()=>{ goTo(i); };
-    dotsContainer.appendChild(d);
-  });
+for(let i=0;i<total;i++){
+  let d=document.createElement("div");
+  d.className="dot"+(i===0?" active":"");
+  d.onclick=()=>go(i);
+  dots.appendChild(d);
 }
-function updateDots(){
-  Array.from(dotsContainer.children).forEach((d,i)=> 
-    d.className = 'dot' + (i===cIndex?' active':'')
-  );
+function go(i){
+  idx=i;
+  slides.style.transform=`translateX(-${i*100}%)`;
+  [...dots.children].forEach((d,x)=>d.classList.toggle("active",x===i));
 }
-function goTo(i){
-  cIndex = i;
-  imgEl.src = carouselImgs[cIndex];
-  updateDots();
-}
-function nextSlide(){
-  cIndex = (cIndex+1)%carouselImgs.length;
-  imgEl.src = carouselImgs[cIndex];
-  updateDots();
-}
-buildDots();
-setInterval(nextSlide, 4500);
+setInterval(()=>go((idx+1)%total),4000);
 </script>
 
 </body>
