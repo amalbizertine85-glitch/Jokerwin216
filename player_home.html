@@ -6,14 +6,15 @@
 <title>JOKER216 — Home</title>
 <style>
   :root{
-    --bg:#062622;        /* خلفية عامة */
-    --panel:#0b3a2e;     /* لوح داخلي */
-    --neon:#00ff4d;      /* نيون أخضر */
+    --bg:#062622;
+    --panel:#0b3a2e;
+    --neon:#00ff4d;
     --muted:rgba(255,255,255,0.85);
     --muted-2:rgba(255,255,255,0.65);
     --card:#083a2b;
   }
   html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Arial, sans-serif;background:var(--bg);color:#fff}
+
   /* ===== header ===== */
   .header{
     display:flex;
@@ -26,16 +27,8 @@
     background:linear-gradient(180deg, rgba(0,0,0,0.45), rgba(0,0,0,0.2));
     border-bottom:1px solid rgba(255,255,255,0.03);
   }
-  .logo{
-    display:flex;
-    align-items:center;
-    gap:8px;
-  }
-  .logo .title{
-    color:var(--neon);
-    font-weight:900;
-    font-size:22px;
-    letter-spacing:1px;
+  .logo img{
+    height:48px;
   }
   .spacer{flex:1}
   .connect-btn{
@@ -47,7 +40,7 @@
     text-decoration:none;
   }
 
-  /* ===== top menu (rounded) ===== */
+  /* ===== top rounded menu ===== */
   .top-menu-wrap{display:flex;justify-content:center;padding:10px 14px}
   .top-menu{
     background:rgba(255,255,255,0.04);
@@ -71,11 +64,10 @@
   .carousel{height:140px;border-radius:12px;overflow:hidden;position:relative;background:linear-gradient(90deg,#071b09,#02221a);box-shadow:0 12px 30px rgba(0,0,0,0.6)}
   .carousel img{width:100%;height:100%;object-fit:cover;display:block}
   .carousel .dots{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;display:flex;gap:8px}
-
   .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);cursor:pointer}
   .dot.active{background:var(--neon);box-shadow:0 0 10px var(--neon)}
 
-  /* ===== jackpot card ===== */
+  /* ===== jackpot cards ===== */
   .row{display:flex;gap:14px;margin-top:16px;flex-wrap:wrap}
   .card{background:linear-gradient(180deg,#063022,#04271f);border-radius:12px;padding:14px;flex:1;min-width:260px;box-shadow:0 12px 30px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.03)}
   .jack-title{color:var(--neon);font-weight:900}
@@ -87,14 +79,14 @@
   .game-tile img{width:100%;height:110px;object-fit:cover;border-radius:10px;display:block;margin-bottom:8px}
   .game-title{font-weight:700;color:var(--muted-2)}
 
-  /* ===== footer bottom nav (black with one Home) ===== */
+  /* bottom nav */
   .bottom-nav{
-    position:fixed;left:0;right:0;bottom:0;height:70px;background:#000;display:flex;align-items:center;justify-content:center;border-top:3px solid var(--neon);z-index:50
+    position:fixed;left:0;right:0;bottom:0;height:70px;background:#000;
+    display:flex;align-items:center;justify-content:center;border-top:3px solid var(--neon);z-index:50
   }
   .bottom-home{color:#fff;text-decoration:none;font-weight:700;display:flex;flex-direction:column;align-items:center}
   .bottom-home .ico{font-size:20px;margin-bottom:6px}
 
-  /* small screens tweaks */
   @media (max-width:520px){
     .carousel{height:160px}
     .jack-value{font-size:18px}
@@ -107,8 +99,7 @@
   <!-- HEADER -->
   <div class="header">
     <div class="logo">
-      <!-- لو عندك لوجو حط <img src="logo.png"> هنا -->
-      <div class="title">JOKER216</div>
+      <img src="joker216-logo.png" alt="logo">
     </div>
     <div class="spacer"></div>
     <a class="connect-btn" href="#">SE CONNECTER</a>
@@ -144,149 +135,46 @@
 
       <div class="card">
         <div style="font-weight:800;color:var(--neon)">Top Gagne</div>
-        <div style="margin-top:8px;color:var(--muted-2)">Player: <strong>Jjendouxxx</strong> — <span style="color:var(--neon)">364.28 TND</span></div>
+        <div style="margin-top:8px;color:var(--muted-2)">Player: <strong>Jjendouxxx</strong> —
+          <span style="color:var(--neon)">364.28 TND</span></div>
       </div>
     </div>
 
-    <!-- GAMES GRID (17 images) -->
+    <!-- GAMES GRID (17 tiles) -->
     <div class="games" id="gamesGrid">
-      <!-- NOTE: هنا كل tile يستخدم صورة من img2.jpg ... img18.jpg حسب الترتيب
-           ترتيب الصور (اللي بعثتهم) وضعها بهذه الأسماء:
-           img1.jpg   -> بانر كبير (carousel) (already used)
-           img2.jpg   -> High Flyer (tile 1)
-           img3.jpg   -> Aviator (tile 2)
-           img4.jpg   -> SLAP (tile 3)
-           img5.jpg   -> 2 Hand Casino Hold'em (tile 4)
-           img6.jpg   -> Monopoly Live (tile 5)
-           img7.jpg   -> GENIE (tile 6)
-           img8.jpg   -> Crazy Time (tile 7)
-           img9.jpg   -> Live Icon (tile 8)
-           img10.jpg  -> Crash rocket (tile 9)
-           img11.jpg  -> Sport tile (tile 10)
-           img12.jpg  -> 3 Dancing Monkeys (tile 11)
-           img13.jpg  -> 3 Buzzing Wilds (tile 12)
-           img14.jpg  -> Wheel image small (tile 13)
-           img15.jpg  -> Live dealer girl (tile 14)
-           img16.jpg  -> Joker hero strip (tile 15)
-           img17.jpg  -> Banner2 or extra (tile 16)
-           img18.jpg  -> extra if needed (tile 17)
-      -->
-      <!-- tile 1 -->
-      <div class="game-tile">
-        <img src="img2.jpg" alt="High Flyer">
-        <div class="game-title">High Flyer</div>
-      </div>
 
-      <!-- tile 2 -->
-      <div class="game-tile">
-        <img src="img3.jpg" alt="Aviator">
-        <div class="game-title">Aviator</div>
-      </div>
+      <div class="game-tile"><img src="img2.jpg"><div class="game-title">High Flyer</div></div>
+      <div class="game-tile"><img src="img3.jpg"><div class="game-title">Aviator</div></div>
+      <div class="game-tile"><img src="img4.jpg"><div class="game-title">Slap</div></div>
+      <div class="game-tile"><img src="img5.jpg"><div class="game-title">Casino Hold'em</div></div>
+      <div class="game-tile"><img src="img6.jpg"><div class="game-title">Monopoly Live</div></div>
+      <div class="game-tile"><img src="img7.jpg"><div class="game-title">3 Genie Wishes</div></div>
+      <div class="game-tile"><img src="img8.jpg"><div class="game-title">Crazy Time</div></div>
+      <div class="game-tile"><img src="img9.jpg"><div class="game-title">Live Casino</div></div>
+      <div class="game-tile"><img src="img10.jpg"><div class="game-title">Crash</div></div>
+      <div class="game-tile"><img src="img11.jpg"><div class="game-title">Sport</div></div>
+      <div class="game-tile"><img src="img12.jpg"><div class="game-title">3 Dancing Monkeys</div></div>
+      <div class="game-tile"><img src="img13.jpg"><div class="game-title">3 Buzzing Wilds</div></div>
+      <div class="game-tile"><img src="img14.jpg"><div class="game-title">Wheel</div></div>
+      <div class="game-tile"><img src="img15.jpg"><div class="game-title">Live Dealer</div></div>
+      <div class="game-tile"><img src="img16.jpg"><div class="game-title">Top Games</div></div>
+      <div class="game-tile"><img src="img17.jpg"><div class="game-title">Hot Matches</div></div>
+      <div class="game-tile"><img src="img18.jpg"><div class="game-title">More</div></div>
 
-      <!-- tile 3 -->
-      <div class="game-tile">
-        <img src="img4.jpg" alt="Slap">
-        <div class="game-title">Slap</div>
-      </div>
-
-      <!-- tile 4 -->
-      <div class="game-tile">
-        <img src="img5.jpg" alt="Casino Holdem">
-        <div class="game-title">Casino Hold'em</div>
-      </div>
-
-      <!-- tile 5 -->
-      <div class="game-tile">
-        <img src="img6.jpg" alt="Monopoly Live">
-        <div class="game-title">Monopoly Live</div>
-      </div>
-
-      <!-- tile 6 -->
-      <div class="game-tile">
-        <img src="img7.jpg" alt="3 Genie Wishes">
-        <div class="game-title">3 Genie Wishes</div>
-      </div>
-
-      <!-- tile 7 -->
-      <div class="game-tile">
-        <img src="img8.jpg" alt="Crazy Time">
-        <div class="game-title">Crazy Time</div>
-      </div>
-
-      <!-- tile 8 -->
-      <div class="game-tile">
-        <img src="img9.jpg" alt="Live Casino">
-        <div class="game-title">Live Casino</div>
-      </div>
-
-      <!-- tile 9 -->
-      <div class="game-tile">
-        <img src="img10.jpg" alt="Crash">
-        <div class="game-title">Crash</div>
-      </div>
-
-      <!-- tile 10 -->
-      <div class="game-tile">
-        <img src="img11.jpg" alt="Sport">
-        <div class="game-title">Sports</div>
-      </div>
-
-      <!-- tile 11 -->
-      <div class="game-tile">
-        <img src="img12.jpg" alt="3 Dancing Monkeys">
-        <div class="game-title">3 Dancing Monkeys</div>
-      </div>
-
-      <!-- tile 12 -->
-      <div class="game-tile">
-        <img src="img13.jpg" alt="3 Buzzing Wilds">
-        <div class="game-title">3 Buzzing Wilds</div>
-      </div>
-
-      <!-- tile 13 -->
-      <div class="game-tile">
-        <img src="img14.jpg" alt="Wheel">
-        <div class="game-title">Wheel</div>
-      </div>
-
-      <!-- tile 14 -->
-      <div class="game-tile">
-        <img src="img15.jpg" alt="Dealer">
-        <div class="game-title">Live Dealer</div>
-      </div>
-
-      <!-- tile 15 -->
-      <div class="game-tile">
-        <img src="img16.jpg" alt="Joker Banner">
-        <div class="game-title">Top Games</div>
-      </div>
-
-      <!-- tile 16 -->
-      <div class="game-tile">
-        <img src="img17.jpg" alt="Banner 2">
-        <div class="game-title">Hot Matches</div>
-      </div>
-
-      <!-- tile 17 -->
-      <div class="game-tile">
-        <img src="img18.jpg" alt="Extra">
-        <div class="game-title">More</div>
-      </div>
     </div>
 
-  </div> <!-- end wrap -->
+  </div>
 
-  <!-- bottom nav with single Home -->
+  <!-- Bottom Nav -->
   <div class="bottom-nav">
-    <a class="bottom-home" href="player_home.html" title="Home">
+    <a class="bottom-home" href="player_home.html">
       <div class="ico">🏠</div>
       <div>Home</div>
     </a>
   </div>
 
 <script>
-/* ====== CAROUSEL SIMPLE (uses img1..img3 as example banners) ====== */
-const carouselImgs = ["img1.jpg","img16.jpg","img17.jpg"]; // عدّل الأسماء إذا حبيت
+const carouselImgs = ["img1.jpg","img16.jpg","img17.jpg"];
 let cIndex = 0;
 const imgEl = document.getElementById('carouselImg');
 const dotsContainer = document.getElementById('dots');
@@ -300,8 +188,11 @@ function buildDots(){
     dotsContainer.appendChild(d);
   });
 }
-function updateDots(){ Array.from(dotsContainer.children).forEach((d,i)=> d.className = 'dot' + (i===cIndex?' active':'')); }
-
+function updateDots(){
+  Array.from(dotsContainer.children).forEach((d,i)=> 
+    d.className = 'dot' + (i===cIndex?' active':'')
+  );
+}
 function goTo(i){
   cIndex = i;
   imgEl.src = carouselImgs[cIndex];
@@ -314,16 +205,6 @@ function nextSlide(){
 }
 buildDots();
 setInterval(nextSlide, 4500);
-
-/* ====== NAV (highlight) simple ====== */
-document.querySelectorAll('.top-menu a').forEach(a=>{
-  a.addEventListener('click', (e)=>{
-    e.preventDefault();
-    document.querySelectorAll('.top-menu a').forEach(x=>x.classList.remove('active'));
-    a.classList.add('active');
-    // optionally scroll or open section
-  });
-});
 </script>
 
 </body>
