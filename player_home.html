@@ -7,12 +7,11 @@
 
 <style>
   :root{
-    --bg: #003b2e;        
-    --green:#00ff40;     
-    --card:#064232;      
-    --card-2:#0b583e;    
+    --bg: #00291f;         /* أخضر داكن مثل موقع joker */
+    --green:#00ff40;       /* النيون الأخضر */
+    --card:#033226;
+    --card-2:#06593e;
     --muted:rgba(255,255,255,0.75);
-    --glass: rgba(255,255,255,0.03);
     --max-w:1200px;
   }
 
@@ -41,35 +40,39 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:12px;
+    gap:20px;
   }
 
+  /* LEFT — LOGO ONLY */
   .brand{
     display:flex;
     align-items:center;
     gap:12px;
   }
   .brand img{
-    height:48px;
+    height:52px;
     width:auto;
+    display:block;
   }
 
+  /* CENTER NAVIGATION */
   .nav{
     display:flex;
-    gap:22px;
-    margin-left:20px;
+    gap:26px;
+    margin-left:10px;
   }
   .nav a{
     padding:6px 10px;
     color:var(--muted);
     font-weight:700;
-    font-size:14px;
+    font-size:15px;
   }
   .nav a.active{
     color:#00ff40;
     border-bottom:2px solid #00ff40;
   }
 
+  /* LOGIN BUTTON */
   .login-btn{
     background:linear-gradient(180deg,#ffd24a,#ffb400);
     padding:8px 14px;
@@ -88,7 +91,7 @@
   /* SLIDER */
   .slider{
     position:relative;
-    height:220px;
+    height:210px;
     border-radius:14px;
     overflow:hidden;
     box-shadow:0 12px 40px rgba(0,0,0,0.6);
@@ -106,7 +109,7 @@
     display:flex;
     align-items:center;
   }
-  .caption{margin-left:24px;max-width:650px}
+  .caption{margin-left:24px;max-width:600px}
   .caption h2{margin:0;color:#00ff40;font-size:26px}
   .caption p{margin-top:8px;color:var(--muted)}
 
@@ -137,7 +140,7 @@
     align-items:center;
     border:1px solid rgba(255,255,255,0.07);
   }
-  .quick img{width:50px;height:50px;border-radius:8px}
+  .quick img{width:50px;height:50px;border-radius:8px;object-fit:cover}
   .quick .t{font-weight:800}
   .quick .s{font-size:12px;color:var(--muted)}
 
