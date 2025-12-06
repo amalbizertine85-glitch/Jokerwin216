@@ -149,6 +149,35 @@
   object-fit:cover;
   display:block;
 }
+  .slots-row{
+  margin-top:14px;
+  display:flex;
+  gap:14px;
+  overflow-x:auto;
+  padding-bottom:4px;
+}
+.slots-row::-webkit-scrollbar{display:none;}
+
+.slot-box{
+  min-width:130px;
+  height:170px;
+  background:rgba(255,255,255,0.05);
+  border-radius:12px;
+  overflow:hidden;
+  flex-shrink:0;
+  border:1px solid rgba(255,255,255,0.08);
+}
+
+.slot-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+.slot-box.empty{
+  background:rgba(255,255,255,0.03);
+}
 </style>
 </head>
 
@@ -203,6 +232,25 @@
   <div class="img-box"><img src="sport.png" alt=""></div>
   <div class="img-box"><img src="casino-live.png" alt=""></div>
   <div class="img-box"><img src="crash.png" alt=""></div>
+</div>
+
+  <!-- MACHINES À SOUS POPULAIRES -->
+<div class="section">
+  <div class="title">
+    <h4>Machines à sous populaires</h4>
+    <span style="color:var(--muted)">Tout ></span>
+  </div>
+
+  <div class="slots-row">
+    <div class="slot-box"><img src="3_buzzing_wilds.jpg" alt=""></div>
+    <div class="slot-box"><img src="3_dancing_monkeys.jpg" alt=""></div>
+    <div class="slot-box"><img src="alaaddin.jpg" alt=""></div>
+
+    <!-- EMPTY PLACEHOLDERS – نتركوهم فارغين الآن -->
+    <div class="slot-box empty"></div>
+    <div class="slot-box empty"></div>
+    <div class="slot-box empty"></div>
+  </div>
 </div>
 
 <script>
