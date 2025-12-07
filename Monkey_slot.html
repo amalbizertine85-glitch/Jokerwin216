@@ -1,176 +1,125 @@
-<!doctype html>
-<html lang="ar">
+<!DOCTYPE html>
+<html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Monkey Slot — Prototype</title>
+<meta charset="UTF-8">
+<title>Jungle Monkeys Slot</title>
 <style>
-  :root{--bg:#05221a;--panel:#0b2e25;--accent:#ffd166;--muted:#9fcfb1}
-  body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;padding:20px}
-  .wrap{width:980px;max-width:100%;background:linear-gradient(180deg,#063327 0,#0b2e25 100%);border-radius:12px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.6)}
-  .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-  .title{font-size:20px;font-weight:700;color:var(--accent)}
-  .info{display:flex;gap:10px;align-items:center}
-  .chip{background:var(--panel);padding:8px 12px;border-radius:8px;color:var(--muted);font-weight:600}
-  .grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;background:rgba(255,255,255,0.03);padding:14px;border-radius:10px}
-  .reel{background:rgba(0,0,0,0.15);border-radius:8px;padding:8px;min-height:160px;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center}
-  .cell{width:100%;height:42px;border-radius:6px;background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;font-size:28px;transition:transform .4s}
-  .controls{display:flex;gap:10px;align-items:center;margin-top:12px}
-  button{background:var(--accent);border:none;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:700}
-  .small{background:var(--panel);color:var(--muted);padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
-  .bet-row{display:flex;gap:8px;align-items:center}
-  .message{margin-top:12px;color:var(--muted)}
-  .anim-spin{transform:translateY(-8px);transition:transform .25s}
-  .footer{margin-top:10px;color:#bfe8d3;font-size:13px}
+    body {
+        background:#0a0f0a;
+        margin:0;
+        padding:0;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        font-family:Arial;
+    }
+
+    .game {
+        width:360px;
+        text-align:center;
+        color:white;
+    }
+
+    .reels {
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:20px;
+    }
+
+    .reel {
+        width:110px;
+        height:250px;
+        background:#133213;
+        border:3px solid gold;
+        border-radius:10px;
+        overflow:hidden;
+        position:relative;
+    }
+
+    .symbol {
+        width:100%;
+        height:80px;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+    }
+
+    #spin {
+        background:gold;
+        color:black;
+        font-weight:bold;
+        padding:15px;
+        border-radius:10px;
+        margin-top:15px;
+        cursor:pointer;
+    }
 </style>
 </head>
 <body>
-<div class="wrap" dir="rtl">
-  <div class="top">
-    <div class="title">Monkey Slot — Prototype</div>
-    <div class="info">
-      <div class="chip">الرصيد: <span id="balance">100.00</span></div>
-      <div class="chip">Free Spins: <span id="freespins">0</span></div>
+
+<div class="game">
+
+    <h2>Jungle Monkeys</h2>
+
+    <div class="reels">
+        <div class="reel" id="r1"></div>
+        <div class="reel" id="r2"></div>
+        <div class="reel" id="r3"></div>
     </div>
-  </div>
 
-  <div class="grid" id="grid">
-    <!-- 5 reels -->
-    <div class="reel" data-reel="0"><div class="cell">❓</div><div class="cell">❓</div><div class="cell">❓</div></div>
-    <div class="reel" data-reel="1"><div class="cell">❓</div><div class="cell">❓</div><div class="cell">❓</div></div>
-    <div class="reel" data-reel="2"><div class="cell">❓</div><div class="cell">❓</div><div class="cell">❓</div></div>
-    <div class="reel" data-reel="3"><div class="cell">❓</div><div class="cell">❓</div><div class="cell">❓</div></div>
-    <div class="reel" data-reel="4"><div class="cell">❓</div><div class="cell">❓</div><div class="cell">❓</div></div>
-  </div>
+    <div id="spin">SPIN</div>
 
-  <div class="controls">
-    <div class="bet-row">
-      <button id="spin">SPIN</button>
-      <div class="small">Bet: <span id="bet">1.00</span></div>
-      <button class="small" id="bet-down">−0.2</button>
-      <button class="small" id="bet-up">+0.2</button>
-    </div>
-    <div style="flex:1"></div>
-    <button class="small" id="auto">Auto ×10</button>
-    <button class="small" id="reset">Reset</button>
-  </div>
-
-  <div class="message" id="message">اضغط SPIN لتبدأ — الرمز الخاص (جوهرة 💎) يعطي Free Spins عند 3 أو أكثر.</div>
-  <div class="footer">Prototype — رموز إيموجي مكان صور؛ نقدر نبدّلهم بصور لاحقاً.</div>
 </div>
 
 <script>
-(() => {
-  const symbols = ['🐒','🍌','🔔','💎','🍉','⭐']; // simple symbols
-  const special = '💎'; // jewel triggers free spins
-  const reels = 5, rows = 3;
+const symbols = [
+    // 🐒 القرد الأحمر
+    `<svg width="60" height="60"><circle cx="30" cy="30" r="28" fill="#b91c1c"/><circle cx="20" cy="25" r="8" fill="#fff"/><circle cx="40" cy="25" r="8" fill="#fff"/></svg>`,
 
-  let balance = 100.0;
-  let bet = 1.0;
-  let freeSpins = 0;
-  let spinning = false;
+    // 🐒 القرد الأزرق
+    `<svg width="60" height="60"><circle cx="30" cy="30" r="28" fill="#1d4ed8"/><circle cx="20" cy="25" r="8" fill="#fff"/><circle cx="40" cy="25" r="8" fill="#fff"/></svg>`,
 
-  const balanceEl = document.getElementById('balance');
-  const betEl = document.getElementById('bet');
-  const fsEl = document.getElementById('freespins');
-  const grid = document.getElementById('grid');
-  const msg = document.getElementById('message');
+    // 🐒 القرد الأخضر
+    `<svg width="60" height="60"><circle cx="30" cy="30" r="28" fill="#15803d"/><circle cx="20" cy="25" r="8" fill="#fff"/><circle cx="40" cy="25" r="8" fill="#fff"/></svg>`,
 
-  const updateUI = ()=> {
-    balanceEl.textContent = balance.toFixed(2);
-    betEl.textContent = bet.toFixed(2);
-    fsEl.textContent = freeSpins;
-  };
+    // الطبل – Drum
+    `<svg width="60" height="60"><rect x="5" y="10" width="50" height="40" rx="8" fill="#c2410c"/><rect x="5" y="10" width="50" height="10" fill="#fed7aa"/></svg>`,
 
-  function randomSymbol(){ return symbols[Math.floor(Math.random()*symbols.length)]; }
+    // القناع – Mask
+    `<svg width="60" height="60"><rect x="5" y="5" width="50" height="50" rx="12" fill="#7c2d12"/><circle cx="22" cy="30" r="6" fill="#yellow"/><circle cx="38" cy="30" r="6" fill="#yellow"/></svg>`,
 
-  function spinOnce(){ // returns matrix [reel][row]
-    const result = [];
-    for(let r=0;r<reels;r++){
-      const col=[];
-      for(let y=0;y<rows;y++) col.push(randomSymbol());
-      result.push(col);
+    // العملة – Coin
+    `<svg width="60" height="60"><circle cx="30" cy="30" r="28" fill="gold"/><circle cx="30" cy="30" r="20" fill="#facc15"/></svg>`
+];
+
+function fillReel(reel) {
+    reel.innerHTML = "";
+    for (let i = 0; i < 10; i++) {
+        const s = document.createElement("div");
+        s.className = "symbol";
+        s.innerHTML = symbols[Math.floor(Math.random() * symbols.length)];
+        reel.appendChild(s);
     }
-    return result;
-  }
+}
 
-  function renderResult(matrix){
-    const reelEls = grid.querySelectorAll('.reel');
-    matrix.forEach((col,ci)=>{
-      const cells = reelEls[ci].querySelectorAll('.cell');
-      col.forEach((sym,ri)=>{
-        cells[ri].textContent = sym;
-        // quick anim
-        cells[ri].classList.remove('anim-spin');
-        void cells[ri].offsetWidth;
-        cells[ri].classList.add('anim-spin');
-      });
-    });
-  }
+function spin(reel) {
+    fillReel(reel);
+    reel.style.transition = "none";
+    reel.style.transform = "translateY(0)";
 
-  function evaluate(matrix){
-    // simple evaluation: count occurrences of special symbol anywhere
-    let specialCount=0;
-    matrix.flat().forEach(s=>{ if(s===special) specialCount++; });
-    // pay-lines simplified: if any 3 same symbols on central row across adjacent reels -> reward
-    const centerRowIndex = 1;
-    let paylinesWin = 0;
-    for(let start=0; start<=reels-3; start++){
-      const a = matrix[start][centerRowIndex];
-      if(a===matrix[start+1][centerRowIndex] && a===matrix[start+2][centerRowIndex]) {
-        if(a===special) paylinesWin += bet * 10;
-        else paylinesWin += bet * 2;
-      }
-    }
-    return {specialCount, paylinesWin};
-  }
+    setTimeout(()=>{
+        reel.style.transition = "transform 1s ease-out";
+        reel.style.transform = "translateY(-400px)";
+    },50);
+}
 
-  async function doSpin(){
-    if(spinning) return;
-    if(balance < bet && freeSpins<=0){ msg.textContent='الرصيد قليل'; return; }
-    spinning = true;
-    if(freeSpins>0){ freeSpins--; msg.textContent='Free Spin فعال!'; }
-    else balance = Math.max(0, balance - bet);
-
-    updateUI();
-    // simulate reel spinning with small delays and random fills
-    for(let r=0;r<reels;r++){
-      const partial = spinOnce();
-      renderResult(partial);
-      await new Promise(res=>setTimeout(res, 120 + Math.random()*120));
-    }
-    const final = spinOnce();
-    renderResult(final);
-    const res = evaluate(final);
-    // apply wins
-    if(res.paylinesWin>0){
-      balance += res.paylinesWin;
-      msg.textContent = 'فزت بـ ' + res.paylinesWin.toFixed(2) + ' (paylines)';
-    } else {
-      msg.textContent = 'ما في فوز هالمرة';
-    }
-    // special -> award free spins
-    if(res.specialCount >= 3){
-      const award = 3 + (res.specialCount - 3); // مثال: 3->3 spins, 4->4, 5->5
-      freeSpins += award;
-      msg.textContent += ' — جاكيت:+'+award+' Free Spins';
-    }
-    updateUI();
-    spinning = false;
-  }
-
-  document.getElementById('spin').addEventListener('click', doSpin);
-  document.getElementById('bet-up').addEventListener('click', ()=>{ bet = Math.round((bet+0.2)*100)/100; updateUI(); });
-  document.getElementById('bet-down').addEventListener('click', ()=>{ bet = Math.max(0.2, Math.round((bet-0.2)*100)/100); updateUI(); });
-  document.getElementById('reset').addEventListener('click', ()=>{ balance=100; bet=1; freeSpins=0; msg.textContent='Reset done'; updateUI(); });
-  document.getElementById('auto').addEventListener('click', async ()=>{
-    for(let i=0;i<10;i++){ if(spinning) break; await doSpin(); await new Promise(r=>setTimeout(r,200)); if(balance<bet && freeSpins<=0) break; }
-  });
-
-  // initial fill
-  renderResult(spinOnce());
-  updateUI();
-})();
+document.getElementById("spin").onclick = ()=>{
+    spin(document.getElementById("r1"));
+    setTimeout(()=>spin(document.getElementById("r2")),150);
+    setTimeout(()=>spin(document.getElementById("r3")),300);
+};
 </script>
+
 </body>
 </html>
