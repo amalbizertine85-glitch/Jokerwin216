@@ -2,183 +2,171 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JOKER216 – Live Betting</title>
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JOKER216 – Sport</title>
 
+<style>
 body {
     margin: 0;
-    background: #061325;
+    background-color: #07162B;
     font-family: Arial, sans-serif;
     color: white;
 }
 
-/* HEADER */
-.header {
-    background: #093d29;
-    padding: 10px;
+/* TOP BAR */
+.top {
+    background: #003B2C;
+    height: 70px;
     display: flex;
+    align-items: center;
+    padding: 0 15px;
     justify-content: space-between;
-    align-items: center;
 }
-
-.header .logo {
-    display: flex;
-    align-items: center;
-    font-size: 22px;
-    font-weight: bold;
-    color: #00ff6a;
+.top img {
+    height: 55px;
 }
-
-.header .balance {
-    background: rgba(255,255,255,0.1);
-    padding: 5px 10px;
-    border-radius: 8px;
-    text-align: right;
+.balance-box {
+    background: #0B4D37;
+    padding: 5px 12px;
+    border-radius: 10px;
     font-size: 13px;
-}
-
-.header .menu {
-    font-size: 22px;
+    line-height: 1.2;
+    text-align: right;
 }
 
 /* NAVIGATION */
-.nav {
+.navbar {
+    background: #0B2640;
     display: flex;
     justify-content: space-around;
-    background: #11303f;
     padding: 12px 0;
-    font-size: 18px;
+    font-size: 17px;
 }
-
-.nav div {
-    opacity: 0.5;
+.navbar span {
+    opacity: 0.6;
 }
-
-.nav .active {
+.navbar .active {
+    color: #00FF88;
     opacity: 1;
-    color: #00ff6a;
-    border-bottom: 3px solid #00ff6a;
-    padding-bottom: 4px;
+    border-bottom: 3px solid #00FF88;
+    padding-bottom: 3px;
 }
 
-/* HIGHLIGHTS TAB */
-.tabs {
+/* TITLE */
+.title {
+    padding: 20px 15px 10px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* CATEGORY ICONS */
+.cat-row {
     display: flex;
     gap: 10px;
-    padding: 15px;
+    padding: 0 15px;
 }
-
-.tab {
-    flex: 1;
-    background: #09203a;
-    padding: 12px;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.tab.active {
-    background: #0a4a63;
-    border: 1px solid #ffd000;
-}
-
-/* TOURNAMENT TITLE */
-.tournament {
-    margin: 15px;
-    font-size: 16px;
-    opacity: 0.7;
-}
-
-/* MATCH CARD */
-.card {
-    background: #0b1e39;
-    margin: 15px;
-    padding: 15px;
+.cat {
+    background: #0C2340;
+    padding: 13px 25px;
     border-radius: 10px;
+    font-size: 15px;
+}
+.cat.active {
+    border: 2px solid #FFD000;
 }
 
-.team {
+/* LEAGUE NAME */
+.league {
+    padding: 15px;
     font-size: 18px;
-    margin-bottom: 5px;
+    color: #C7CBD0;
 }
 
-.info {
-    color: #ff3b3b;
-    font-size: 14px;
+/* MATCH BLOCK */
+.match-box {
+    background: #0D2242;
+    margin: 0 15px 15px;
+    padding: 15px;
+    border-radius: 15px;
+}
+.match-box .teams {
+    font-size: 21px;
+    font-weight: bold;
     margin-bottom: 10px;
 }
+.match-box .time {
+    color: #F33;
+    margin-bottom: 15px;
+}
 
+/* ODDS ROW */
 .odds {
     display: flex;
     justify-content: space-between;
-    gap: 5px;
 }
-
 .odd {
-    flex: 1;
-    background: #09203a;
-    padding: 12px;
-    border-radius: 8px;
+    background: #081C36;
+    width: 32%;
+    padding: 12px 0;
+    border-radius: 12px;
     text-align: center;
-    font-size: 15px;
 }
-
-.odd.yellow { color: #ffd000; }
-.odd.green { color: #00ff6a; }
-.odd.red { color: #ff3b3b; }
-
+.odd span:first-child {
+    display: block;
+    font-size: 16px;
+    color: #fff;
+}
+.odd span:last-child {
+    display: block;
+    font-size: 18px;
+    color: #FFD000;
+    margin-top: 3px;
+}
 </style>
+
 </head>
 <body>
 
-<div class="header">
-    <div class="logo">🎭 JOKER216</div>
-    <div class="balance">
+<!-- TOP BAR -->
+<div class="top">
+    <img src="joker216-logo.png">
+    <div class="balance-box">
         0.00 BON<br>
         0.00 TND
     </div>
-    <div class="menu">☰</div>
 </div>
 
-<div class="nav">
-    <div>Accueil</div>
-    <div class="active">Sport</div>
-    <div>Le Casino</div>
-    <div>Casino En Direct</div>
+<!-- MENU -->
+<div class="navbar">
+    <span>Accueil</span>
+    <span class="active">Sport</span>
+    <span>Le Casino</span>
+    <span>Casino En Direct</span>
 </div>
 
-<h2 style="padding-left:15px;">LES PARIS EN DIRECT</h2>
+<!-- TITLE -->
+<div class="title">LES PARIS EN DIRECT</div>
 
-<div class="tabs">
-    <div class="tab active">🔥 HIGHLIGHTS</div>
-    <div class="tab">⚽</div>
-    <div class="tab">🏒</div>
-    <div class="tab">🏀</div>
+<!-- CATEGORIES -->
+<div class="cat-row">
+    <div class="cat active">🔥 HIGHLIGHTS</div>
+    <div class="cat">⚽</div>
+    <div class="cat">🏒</div>
+    <div class="cat">🏀</div>
 </div>
 
-<div class="tournament">🇮🇹 Italie – Série A</div>
+<!-- LEAGUE -->
+<div class="league">🇮🇹 Italie – Série A</div>
 
-<div class="card">
-    <div class="team">Udinese – Gênes</div>
-    <div class="info">🔴 2ème MT 50' — 0 : 1 — 0 : 0</div>
+<!-- MATCH 1 -->
+<div class="match-box">
+    <div class="teams">Udinese – Gênes</div>
+    <div class="time">🔴 2ème MT 50' – 0 : 1 – 0 : 0</div>
 
     <div class="odds">
-        <div class="odd yellow">1<br>8.3</div>
-        <div class="odd yellow">X<br>3.55</div>
-        <div class="odd yellow">2<br>1.57</div>
-    </div>
-</div>
-
-<div class="tournament">🇩🇰 Denmark – Metal Ligaen</div>
-
-<div class="card">
-    <div class="team">Sonderjyske – Rungsted</div>
-    <div class="info">🟥 1ère période 8' — 0 : 0 — 0 : 0</div>
-
-    <div class="odds">
-        <div class="odd red">1<br>2</div>
-        <div class="odd yellow">X<br>4.2</div>
-        <div class="odd green">2<br>2.85</div>
+        <div class="odd"><span>1</span><span>8.3</span></div>
+        <div class="odd"><span>X</span><span>3.55</span></div>
+        <div class="odd"><span>2</span><span>1.57</span></div>
     </div>
 </div>
 
