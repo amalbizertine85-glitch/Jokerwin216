@@ -1,289 +1,220 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Monkey Slot - Joker216 (Prototype)</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Monkey Slot</title>
+
 <style>
-  :root{
-    --bg:#071428;
-    --panel:#0c2036;
-    --accent:#00ff73;
-    --card:#0f2b44;
-    --gold:#f5d200;
-    --text:#ffffff;
-  }
-  body{margin:0;background:var(--bg);font-family:Inter,Arial,sans-serif;color:var(--text)}
-  .topbar{background:#0e4b33;padding:10px 14px;display:flex;align-items:center;gap:12px}
-  .topbar img#siteLogo{height:48px;cursor:pointer}
-  .topbar .balance{margin-left:auto;background:rgba(255,255,255,0.06);padding:6px 10px;border-radius:8px;text-align:right;font-size:13px}
-  .nav{display:flex;gap:18px;align-items:center;background:rgba(0,0,0,0.15);padding:12px;border-radius:18px;margin:12px}
-  .nav a{color:#cbd6dc;text-decoration:none;font-weight:600;padding:6px 12px;border-radius:12px}
-  .nav a.active{color:var(--accent);border-bottom:3px solid var(--accent)}
-  .container{max-width:980px;margin:14px auto;padding:10px}
-  h1.section{font-size:24px;margin:8px 0 12px}
-  .tabs{display:flex;gap:12px;margin-bottom:12px}
-  .tab{background:var(--card);padding:12px 18px;border-radius:10px;color:#cbd6dc;display:inline-block}
-  .tab.active{border:2px solid var(--gold);color:var(--accent)}
-  /* game area */
-  .game-wrap{background:linear-gradient(180deg,#05212a,#041824);padding:18px;border-radius:14px}
-  .slot-board{width:100%;max-width:760px;margin:0 auto;background:rgba(255,255,255,0.03);padding:18px;border-radius:12px}
-  .reels{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
-  .reel{background:#083047;border-radius:10px;padding:10px;min-height:200px;display:flex;flex-direction:column;justify-content:space-between}
-  .cell{height:64px;background:linear-gradient(180deg,#0c314d,#052238);border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden}
-  .cell img{max-height:56px;max-width:100%;object-fit:contain;transition:transform .35s}
-  .controls{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap}
-  .btn{background:var(--accent);color:#03221a;border:none;padding:12px 18px;border-radius:10px;font-weight:700;cursor:pointer}
-  .small{background:#0b2b46;color:var(--gold);padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.04)}
-  .info-row{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:10px;color:#cbd6dc}
-  .panel{background:#071b2c;padding:12px;border-radius:10px;margin-top:14px}
-  .balance-big{font-weight:800;color:var(--gold);font-size:18px}
-  /* bets look */
-  .odds-box{display:flex;gap:8px;justify-content:center;margin-top:10px}
-  .oddbtn{background:#0b2a44;border-radius:10px;padding:14px 22px;color:var(--gold);font-weight:800;cursor:pointer;min-width:84px;text-align:center}
-  /* mobile tweaks */
-  @media(max-width:720px){
-    .reels{grid-template-columns:repeat(5,1fr)}
-    .cell{height:56px}
-  }
+    body {
+        margin: 0;
+        background: #000;
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+    }
+
+    .game-container {
+        width: 100%;
+        height: 100vh;
+        position: relative;
+    }
+
+    /* Background */
+    .game-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #2b0000; /* ضع الخلفية لاحقاً */
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.45);
+    }
+
+    /* Reels frame */
+    .reels-frame {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 92%;
+        height: 62%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: space-between;
+    }
+
+    /* Reel */
+    .reel {
+        width: 18%;
+        height: 100%;
+        background: rgba(255, 215, 0, 0.06);
+        border: 4px solid gold;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    /* Symbol placeholder */
+    .symbol {
+        width: 100%;
+        height: 20%;
+        background: #330000;
+        border-bottom: 2px solid rgba(255,255,255,0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    /* Controls */
+    .controls {
+        position: absolute;
+        bottom: 15px;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        color: #fff;
+        font-size: 22px;
+    }
+
+    .bet-box {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .minus, .plus {
+        width: 45px;
+        height: 45px;
+        font-size: 26px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+    }
+
+    .spin-btn {
+        width: 120px;
+        height: 120px;
+        background: #ffcc00;
+        border-radius: 50%;
+        font-size: 28px;
+        font-weight: bold;
+        border: 4px solid white;
+        cursor: pointer;
+    }
 </style>
+
 </head>
 <body>
 
-<!-- top -->
-<div class="topbar">
-  <img id="siteLogo" src="joker216-logo.png" alt="JOKER216 logo" />
-  <div style="display:flex;flex-direction:column">
-    <div style="font-weight:800;color:var(--gold)">JOKER216</div>
-    <div style="font-size:12px;color:#cfe9d8">Monkeys Slot Prototype</div>
-  </div>
-  <div class="balance" id="balanceBox">
-    <div style="font-size:12px;color:#cfe9d8">Balance</div>
-    <div class="balance-big" id="balanceValue">1000.00</div>
-  </div>
-</div>
+<div class="game-container">
 
-<!-- nav -->
-<div class="nav" role="navigation" aria-label="main nav">
-  <a href="#" class="active">Home</a>
-  <a href="#">Casino</a>
-  <a href="#">Sports</a>
-  <a href="#">Live</a>
-  <a href="#">Account</a>
-</div>
+    <div class="game-bg"></div>
 
-<div class="container">
-  <h1 class="section">LES PARIS EN DIRECT — Monkey Slot (Prototype)</h1>
+    <div class="reels-frame">
 
-  <div class="game-wrap">
-    <div class="slot-board">
-      <!-- reels -->
-      <div class="reels" id="reels">
-        <!-- 5 reels will be generated by JS -->
-      </div>
-
-      <!-- controls -->
-      <div class="controls">
-        <button class="btn" id="spinBtn">SPIN</button>
-        <button class="small" id="betDown">-0.2</button>
-        <div style="padding:8px 12px;background:#072635;border-radius:10px;color:#cbd6dc">Bet: <span id="betValue">1.00</span></div>
-        <button class="small" id="betUp">+0.2</button>
-        <button class="small" id="autoBtn">Auto x10</button>
-        <button class="small" id="resetBtn">Reset</button>
-      </div>
-
-      <div class="info-row">
-        <div class="panel">
-          <div>Free Spins left: <span id="freeSpins">0</span></div>
-        </div>
-        <div class="panel">
-          <div>Last Win: <span id="lastWin">0</span></div>
-        </div>
-      </div>
-
-      <!-- odds style row (visual mimic to site) -->
-      <div class="panel">
-        <div style="font-weight:700">Match preview (UI mimic)</div>
-        <div class="odds-box" style="margin-top:12px">
-          <div class="oddbtn">1<br/><span style="font-size:20px">3.45</span></div>
-          <div class="oddbtn">X<br/><span style="font-size:20px">1.67</span></div>
-          <div class="oddbtn">2<br/><span style="font-size:20px">6.45</span></div>
-        </div>
-      </div>
+        <div class="reel" id="reel1"></div>
+        <div class="reel" id="reel2"></div>
+        <div class="reel" id="reel3"></div>
+        <div class="reel" id="reel4"></div>
+        <div class="reel" id="reel5"></div>
 
     </div>
-  </div>
+
+    <div class="controls">
+        <div class="balance">Balance: <span id="balance">1000.00</span></div>
+
+        <div class="bet-box">
+            <button class="minus">-</button>
+            <div class="bet" id="bet">1.00</div>
+            <button class="plus">+</button>
+        </div>
+
+        <button class="spin-btn" id="spin">SPIN</button>
+    </div>
+
 </div>
 
 <script>
-/*
-  Simple 5x3 slot prototype.
-  - Put 12 symbol images into assets/symbols/sym1.png ... sym12.png
-  - Optional wild.png, scatter.png in same folder
-  - Logo button returns to player_home.html
-*/
+let balance = 1000;
+let bet = 1;
 
-// configuration
-const SYMBOL_COUNT = 12; // sym1..sym12
-const REELS = 5;
-const ROWS = 3;
-let balance = 1000.00;
-let bet = 1.00;
-let freeSpins = 0;
-let lastWin = 0;
-let spinning = false;
-let autoCount = 0;
+const balanceEl = document.getElementById("balance");
+const betEl = document.getElementById("bet");
 
-// symbols array (filenames)
-const symbols = [];
-for(let i=1;i<=SYMBOL_COUNT;i++){
-  symbols.push(`assets/symbols/sym${i}.png`);
+const symbols = ["A", "B", "C", "D", "E", "F"]; // ضع الصور لاحقاً
+
+function updateUI() {
+    balanceEl.textContent = balance.toFixed(2);
+    betEl.textContent = bet.toFixed(2);
 }
-// optional special names (if you upload them)
-const WILD = 'assets/symbols/wild.png';
-const SCATTER = 'assets/symbols/scatter.png';
+updateUI();
 
-// utility random
-function randInt(max){ return Math.floor(Math.random()*max); }
+document.querySelector(".plus").onclick = () => {
+    bet += 0.20;
+    updateUI();
+};
 
-// build reels DOM
-const reelsEl = document.getElementById('reels');
-for(let r=0;r<REELS;r++){
-  const reel = document.createElement('div');
-  reel.className = 'reel';
-  reel.dataset.reel = r;
-  for(let c=0;c<ROWS;c++){
-    const cell = document.createElement('div');
-    cell.className = 'cell';
-    const img = document.createElement('img');
-    img.src = symbols[randInt(symbols.length)];
-    img.alt = 'sym';
-    cell.appendChild(img);
-    reel.appendChild(cell);
-  }
-  reelsEl.appendChild(reel);
-}
-
-// helpers to update UI
-function updateBalanceUI(){
-  document.getElementById('balanceValue').innerText = balance.toFixed(2);
-  document.getElementById('betValue').innerText = bet.toFixed(2);
-  document.getElementById('freeSpins').innerText = freeSpins;
-  document.getElementById('lastWin').innerText = lastWin.toFixed(2);
-}
-
-// spin logic (simple random wins demonstration)
-function spinOnce(){
-  if (spinning) return;
-  if (freeSpins<=0 && balance < bet){ alert('Not enough balance'); return; }
-  spinning = true;
-  if (freeSpins > 0){ freeSpins--; } else { balance = +(balance - bet).toFixed(2); }
-  updateBalanceUI();
-
-  // animate change: for each reel, quickly change images then settle
-  const reelEls = document.querySelectorAll('.reel');
-  let finished = 0;
-  let totalWin = 0;
-  reelEls.forEach((reel, idx)=>{
-    const cells = reel.querySelectorAll('img');
-    // fake spin: interval changes images
-    let ticks = 12 + idx*4; // staggered
-    const interval = setInterval(()=>{
-      cells.forEach(img => {
-        img.style.transform = 'scale(1.05)';
-        img.src = symbols[randInt(symbols.length)];
-      });
-      ticks--;
-      if (ticks<=0){
-        clearInterval(interval);
-        // final settle: assign final random symbols
-        const finalSymbols = [];
-        cells.forEach(img=>{
-          const s = symbols[randInt(symbols.length)];
-          img.src = s;
-          img.style.transform = 'scale(1)';
-          finalSymbols.push(s);
-        });
-        // simple win rule: if middle row of reel 0..4 have same image across at least 3 consecutive reels => payout
-        // collect middle row (index 1)
-        finished++;
-        if (finished===REELs) { /* never */ }
-      }
-    }, 80);
-    // schedule evaluate after animation done
-    setTimeout(()=>{
-      // nop here, evaluation done after all reels done below
-    }, (12 + idx*4)*80 + 80);
-  });
-
-  // wait until all animations done -> naive wait
-  setTimeout(()=>{
-    // evaluate a simple winning: if 3+ same symbol across middle row
-    const middle = [];
-    document.querySelectorAll('.reel').forEach(reel=>{
-      const imgs = reel.querySelectorAll('img');
-      middle.push(imgs[1].src);
-    });
-    // count longest same consecutive sequence
-    let longest = 1, cur = 1;
-    for(let i=1;i<middle.length;i++){
-      if(middle[i]===middle[i-1]){ cur++; longest = Math.max(longest,cur); }
-      else cur=1;
+document.querySelector(".minus").onclick = () => {
+    if (bet > 0.20) {
+        bet -= 0.20;
     }
-    // payout table (demo)
-    if(longest >= 3){
-      // payout factor
-      const factor = (longest===3?2: longest===4?5:10);
-      totalWin = +(bet * factor).toFixed(2);
-      balance = +(balance + totalWin).toFixed(2);
-      lastWin = totalWin;
-      // if scatter/wild logic: you can add free spins awarding
-      if (Math.random() < 0.15){ freeSpins += 3; } // small chance get free spins
-    } else {
-      totalWin = 0;
-      lastWin = 0;
-    }
-    updateBalanceUI();
-    spinning = false;
+    updateUI();
+};
 
-    // if auto mode on
-    if (autoCount>0){
-      autoCount--;
-      if(autoCount>0) setTimeout(spinOnce, 300);
-    }
-  }, 1800 + (REELS-1)*4*80);
+document.getElementById("spin").onclick = () => {
+    if (balance < bet) return alert("Not enough balance!");
+    balance -= bet;
+    updateUI();
+    spinAllReels();
+};
+
+function spinReel(reelId, duration) {
+    const reel = document.getElementById(reelId);
+    reel.innerHTML = ""; 
+
+    let pos = 0;
+    let speed = 20;
+
+    const interval = setInterval(() => {
+        pos += speed;
+
+        const sym = document.createElement("div");
+        sym.className = "symbol";
+        sym.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        reel.appendChild(sym);
+
+        if (reel.children.length > 10) {
+            reel.removeChild(reel.children[0]);
+        }
+
+        if (pos >= duration) {
+            clearInterval(interval);
+            stopReel(reel);
+        }
+
+    }, 60);
 }
 
-// controls bindings
-document.getElementById('spinBtn').addEventListener('click', ()=>{ spinOnce(); });
-document.getElementById('betDown').addEventListener('click', ()=>{
-  bet = Math.max(0.2, +(bet - 0.2).toFixed(2)); updateBalanceUI();
-});
-document.getElementById('betUp').addEventListener('click', ()=>{
-  bet = +(bet + 0.2).toFixed(2); updateBalanceUI();
-});
-document.getElementById('autoBtn').addEventListener('click', ()=>{
-  if (spinning) return;
-  autoCount = 10; // auto spins count
-  spinOnce();
-});
-document.getElementById('resetBtn').addEventListener('click', ()=>{
-  balance = 1000; bet = 1.00; freeSpins = 0; lastWin = 0; updateBalanceUI();
-});
+function stopReel(reel) {
+    reel.innerHTML = "";
+    for (let i = 0; i < 5; i++) {
+        const sym = document.createElement("div");
+        sym.className = "symbol";
+        sym.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        reel.appendChild(sym);
+    }
+}
 
-// logo click -> go to player_home.html
-document.getElementById('siteLogo').addEventListener('click', ()=>{
-  window.location.href = 'player_home.html';
-});
-
-// initialize
-updateBalanceUI();
-
-/* NOTE:
- - This is a frontend prototype to look and behave like a slot UI.
- - Replace the simplistic win logic with real RNG/paytable if you want production.
- - Make sure to upload real symbol images into assets/symbols/sym1..sym12.png
-*/
+function spinAllReels() {
+    spinReel("reel1", 500);
+    spinReel("reel2", 650);
+    spinReel("reel3", 800);
+    spinReel("reel4", 950);
+    spinReel("reel5", 1100);
+}
 </script>
 
 </body>
