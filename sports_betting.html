@@ -3,185 +3,178 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sport - Joker216</title>
+<title>JOKER216 - Live Betting</title>
 
 <style>
     body {
-        font-family: Arial, sans-serif;
-        background-color: #07172F;
         margin: 0;
+        background: #06172B;
+        font-family: Arial, sans-serif;
         color: white;
     }
 
-    /* HEADER */
-    .header {
-        background: #00421f;
+    /* TOP BAR */
+    .top-bar {
+        background: #003C1F;
         padding: 10px;
         display: flex;
-        align-items: center;
         justify-content: space-between;
+        align-items: center;
     }
 
-    .header-logo img {
-        height: 60px;
+    .logo img {
+        height: 55px;
     }
 
-    .header-right {
+    .balance-box {
+        background: #005B32;
+        padding: 8px 12px;
+        border-radius: 10px;
         text-align: right;
-        background: #00592A;
-        padding: 10px 15px;
-        border-radius: 15px;
         font-size: 14px;
+        line-height: 18px;
     }
 
     /* NAV BAR */
     .nav {
-        background: #0B223F;
+        background: #0F2B45;
+        padding: 12px;
         display: flex;
-        justify-content: space-around;
-        padding: 12px 0;
-        font-size: 19px;
+        gap: 15px;
+        font-size: 18px;
+    }
+    .nav span {
+        opacity: 0.6;
+    }
+    .active {
+        color: #00FF75;
+        font-weight: bold;
+        border-bottom: 3px solid #00FF75;
+        padding-bottom: 4px;
+        opacity: 1 !important;
+    }
+
+    /* TITLE */
+    h2 {
+        font-size: 27px;
+        margin: 20px 15px;
         font-weight: bold;
     }
 
-    .active {
-        color: #00FF8F;
-        border-bottom: 3px solid #00FF8F;
-        padding-bottom: 5px;
-    }
-
-    /* CATEGORY BUTTONS */
-    .cat-container {
+    /* ICON BUTTONS */
+    .icon-row {
         display: flex;
-        gap: 10px;
-        padding: 15px;
+        gap: 12px;
+        margin: 10px 15px 25px 15px;
     }
-
-    .cat {
-        background: #001A3A;
+    .icon-btn {
+        background: #092037;
         padding: 15px 25px;
-        border-radius: 10px;
-        font-size: 16px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
+        border-radius: 12px;
+        font-size: 18px;
         border: 2px solid transparent;
     }
 
-    .cat.active-cat {
-        background: #002A60;
-        border: 2px solid #FFD000;
+    .icon-btn.active {
+        border: 2px solid #F4D000;
     }
 
-    /* MATCH BOX */
+    /* LEAGUE TEXT */
     .league {
-        background: #062056;
-        padding: 10px 15px;
+        margin: 0 15px;
+        font-size: 18px;
+        opacity: 0.9;
         display: flex;
         align-items: center;
-        gap: 10px;
-        margin-top: 15px;
+        gap: 8px;
     }
 
-    .match-box {
-        background: #06265B;
-        margin: 15px;
-        padding: 15px;
-        border-radius: 12px;
+    /* MATCH CARD */
+    .match-card {
+        background: #072042;
+        margin: 20px 15px;
+        padding: 18px;
+        border-radius: 15px;
     }
 
-    .odds {
+    .match-title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .live-text {
+        color: red;
+        margin-top: 5px;
+        font-size: 17px;
+    }
+
+    .odds-row {
+        margin-top: 20px;
         display: flex;
-        justify-content: space-around;
-        margin-top: 12px;
+        justify-content: space-between;
+        text-align: center;
     }
 
-    .odd {
-        background: #001A3A;
-        padding: 12px 18px;
-        border-radius: 10px;
+    .odd-box {
+        width: 30%;
+        background: #0A2647;
+        padding: 12px;
+        border-radius: 12px;
         font-size: 20px;
         color: yellow;
         font-weight: bold;
     }
-
 </style>
 </head>
-
 <body>
 
-<!-- HEADER -->
-<div class="header">
-    <div class="header-logo">
-        <a href="player_home.html">
-            <img src="joker216-logo.png">
-        </a>
+<!-- TOP -->
+<div class="top-bar">
+    <div class="logo">
+        <img src="joker216-logo.png">
     </div>
 
-    <div class="header-right">
-        Amor<br>
+    <div class="balance-box">
         0.00 BON<br>
         0.00 TND
     </div>
 </div>
 
-<!-- NAV -->
+<!-- NAVIGATION -->
 <div class="nav">
-    <div>Accueil</div>
-    <div class="active">Sport</div>
-    <div>Le Casino</div>
-    <div>Casino En Direct</div>
+    <span>Accueil</span>
+    <span class="active">Sport</span>
+    <span>Le Casino</span>
+    <span>Casino En Direct</span>
 </div>
 
-<h2 style="padding-left: 15px;">LES PARIS EN DIRECT</h2>
+<!-- TITLE -->
+<h2>LES PARIS EN DIRECT</h2>
 
-<!-- CATEGORIES -->
-<div class="cat-container">
-    <div class="cat active-cat">🔥 HIGHLIGHTS</div>
-    <div class="cat">⚽</div>
-    <div class="cat">🏐</div>
-    <div class="cat">🏒</div>
-    <div class="cat">🏀</div>
+<!-- ICON BUTTONS -->
+<div class="icon-row">
+    <div class="icon-btn active">🔥 HIGHLIGHTS</div>
+    <div class="icon-btn">⚽</div>
+    <div class="icon-btn">🏒</div>
+    <div class="icon-btn">🏀</div>
 </div>
 
 <!-- LEAGUE -->
 <div class="league">
-    ⚽ 🇮🇹 Italie – Série A
+    🇮🇹 Italie – Série A
 </div>
 
-<!-- MATCH BOX -->
-<div class="match-box">
+<!-- MATCH CARD -->
+<div class="match-card">
+    <div class="match-title">Udinese – Gênes</div>
 
-    <h3>Udinese – Gênes</h3>
+    <div class="live-text">🔴 2ème MT 50' – 0 : 1 – 0 : 0</div>
 
-    <p style="color:red;">🔴 2ème MT 69'   1 : 1   1 : 0</p>
-
-    <div class="odds">
-        <div class="odd">1<br>3.45</div>
-        <div class="odd">X<br>1.67</div>
-        <div class="odd">2<br>6.45</div>
+    <div class="odds-row">
+        <div class="odd-box">1<br>8.3</div>
+        <div class="odd-box">X<br>3.55</div>
+        <div class="odd-box">2<br>1.57</div>
     </div>
-
-</div>
-
-
-<!-- SECOND MATCH -->
-<div class="league">
-    🏒 🇩🇰 Denmark – Metal Ligaen
-</div>
-
-<div class="match-box">
-
-    <h3>Sonderjyske – Rungsted</h3>
-
-    <p style="color:red;">🔴 Temps de Pause 20'   1 : 0   0 : 0</p>
-
-    <div class="odds">
-        <div class="odd">1<br>1.47</div>
-        <div class="odd">X<br>5.1</div>
-        <div class="odd">2<br>4.7</div>
-    </div>
-
 </div>
 
 </body>
