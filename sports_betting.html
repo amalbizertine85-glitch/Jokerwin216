@@ -1,124 +1,187 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Joker216</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sport - Joker216</title>
 
 <style>
     body {
-        margin: 0;
-        padding: 0;
-        background: #0f6d2f; /* الأخضر متاع Joker216 */
         font-family: Arial, sans-serif;
-    }
-
-    /* NAV BAR الأصلي متاع Joker216 */
-    .top-nav {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-top: 10px;
-    }
-
-    .nav-container {
-        background: #111;
-        padding: 8px 18px;
-        border-radius: 30px;
-        display: flex;
-        gap: 22px;
-    }
-
-    .nav-item {
+        background-color: #07172F;
+        margin: 0;
         color: white;
-        font-size: 15px;
-        text-decoration: none;
-        padding-bottom: 4px;
-        position: relative;
     }
 
-    .nav-item.active::after {
-        content: "";
-        position: absolute;
-        width: 100%;
-        height: 3px;
-        background: #00ff7f;
-        bottom: -2px;
-        left: 0;
+    /* HEADER */
+    .header {
+        background: #00421f;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .header-logo img {
+        height: 60px;
+    }
+
+    .header-right {
+        text-align: right;
+        background: #00592A;
+        padding: 10px 15px;
+        border-radius: 15px;
+        font-size: 14px;
+    }
+
+    /* NAV BAR */
+    .nav {
+        background: #0B223F;
+        display: flex;
+        justify-content: space-around;
+        padding: 12px 0;
+        font-size: 19px;
+        font-weight: bold;
+    }
+
+    .active {
+        color: #00FF8F;
+        border-bottom: 3px solid #00FF8F;
+        padding-bottom: 5px;
+    }
+
+    /* CATEGORY BUTTONS */
+    .cat-container {
+        display: flex;
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .cat {
+        background: #001A3A;
+        padding: 15px 25px;
         border-radius: 10px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 2px solid transparent;
     }
 
-    /* اللوجو فوق */
-    .logo-container {
-        width: 100%;
-        text-align: center;
-        margin-top: 5px;
+    .cat.active-cat {
+        background: #002A60;
+        border: 2px solid #FFD000;
     }
 
-    .logo-container img {
-        width: 160px;
-        cursor: pointer;
+    /* MATCH BOX */
+    .league {
+        background: #062056;
+        padding: 10px 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
     }
 
-    /* SLIDER */
-    .slider {
-        width: 100%;
-        max-width: 100%;
-        height: 160px;
-        overflow: hidden;
-        position: relative;
-        border-radius: 10px;
-        margin-top: 10px;
+    .match-box {
+        background: #06265B;
+        margin: 15px;
+        padding: 15px;
+        border-radius: 12px;
     }
 
-    .slider img {
-        width: 100%;
-        height: 160px;
-        object-fit: cover;
-    }
-
-    /* JACKPOT IMAGE */
-    .jackpot {
-        width: 100%;
+    .odds {
+        display: flex;
+        justify-content: space-around;
         margin-top: 12px;
-        text-align: center;
     }
 
-    .jackpot img {
-        width: 95%;
+    .odd {
+        background: #001A3A;
+        padding: 12px 18px;
         border-radius: 10px;
+        font-size: 20px;
+        color: yellow;
+        font-weight: bold;
     }
 
 </style>
 </head>
+
 <body>
 
-<!-- LOGO CLICK → HOME -->
-<div class="logo-container">
-    <a href="player_home.html">
-        <img src="joker216-logo.png" alt="Joker216 Logo">
-    </a>
-</div>
+<!-- HEADER -->
+<div class="header">
+    <div class="header-logo">
+        <a href="player_home.html">
+            <img src="joker216-logo.png">
+        </a>
+    </div>
 
-<!-- NAVIGATION -->
-<div class="top-nav">
-    <div class="nav-container">
-        <a class="nav-item active" href="player_home.html">Home</a>
-        <a class="nav-item" href="casino.html">Casino</a>
-        <a class="nav-item" href="sports.html">Sports</a>
-        <a class="nav-item" href="live.html">Live</a>
-        <a class="nav-item" href="account.html">Account</a>
+    <div class="header-right">
+        Amor<br>
+        0.00 BON<br>
+        0.00 TND
     </div>
 </div>
 
-<!-- SLIDER WITHOUT TEXT -->
-<div class="slider">
-    <img src="slider1.jpg">
+<!-- NAV -->
+<div class="nav">
+    <div>Accueil</div>
+    <div class="active">Sport</div>
+    <div>Le Casino</div>
+    <div>Casino En Direct</div>
 </div>
 
-<!-- JACKPOT IMAGE -->
-<div class="jackpot">
-    <img src="jackpot.png" alt="Jackpot">
+<h2 style="padding-left: 15px;">LES PARIS EN DIRECT</h2>
+
+<!-- CATEGORIES -->
+<div class="cat-container">
+    <div class="cat active-cat">🔥 HIGHLIGHTS</div>
+    <div class="cat">⚽</div>
+    <div class="cat">🏐</div>
+    <div class="cat">🏒</div>
+    <div class="cat">🏀</div>
+</div>
+
+<!-- LEAGUE -->
+<div class="league">
+    ⚽ 🇮🇹 Italie – Série A
+</div>
+
+<!-- MATCH BOX -->
+<div class="match-box">
+
+    <h3>Udinese – Gênes</h3>
+
+    <p style="color:red;">🔴 2ème MT 69'   1 : 1   1 : 0</p>
+
+    <div class="odds">
+        <div class="odd">1<br>3.45</div>
+        <div class="odd">X<br>1.67</div>
+        <div class="odd">2<br>6.45</div>
+    </div>
+
+</div>
+
+
+<!-- SECOND MATCH -->
+<div class="league">
+    🏒 🇩🇰 Denmark – Metal Ligaen
+</div>
+
+<div class="match-box">
+
+    <h3>Sonderjyske – Rungsted</h3>
+
+    <p style="color:red;">🔴 Temps de Pause 20'   1 : 0   0 : 0</p>
+
+    <div class="odds">
+        <div class="odd">1<br>1.47</div>
+        <div class="odd">X<br>5.1</div>
+        <div class="odd">2<br>4.7</div>
+    </div>
+
 </div>
 
 </body>
