@@ -2,142 +2,146 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JOKER216 – Sport</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JOKER216 - Live Betting</title>
 
 <style>
-body {
-    margin: 0;
-    background-color: #07162B;
-    font-family: Arial, sans-serif;
-    color: white;
-}
+    body {
+        margin: 0;
+        background: #06172B;
+        font-family: Arial, sans-serif;
+        color: white;
+    }
 
-/* TOP BAR */
-.top {
-    background: #003B2C;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    padding: 0 15px;
-    justify-content: space-between;
-}
-.top img {
-    height: 55px;
-}
-.balance-box {
-    background: #0B4D37;
-    padding: 5px 12px;
-    border-radius: 10px;
-    font-size: 13px;
-    line-height: 1.2;
-    text-align: right;
-}
+    /* TOP BAR */
+    .top-bar {
+        background: #003C1F;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-/* NAVIGATION */
-.navbar {
-    background: #0B2640;
-    display: flex;
-    justify-content: space-around;
-    padding: 12px 0;
-    font-size: 17px;
-}
-.navbar span {
-    opacity: 0.6;
-}
-.navbar .active {
-    color: #00FF88;
-    opacity: 1;
-    border-bottom: 3px solid #00FF88;
-    padding-bottom: 3px;
-}
+    .logo img {
+        height: 55px;
+    }
 
-/* TITLE */
-.title {
-    padding: 20px 15px 10px;
-    font-size: 22px;
-    font-weight: bold;
-}
+    .balance-box {
+        background: #005B32;
+        padding: 8px 12px;
+        border-radius: 10px;
+        text-align: right;
+        font-size: 14px;
+        line-height: 18px;
+    }
 
-/* CATEGORY ICONS */
-.cat-row {
-    display: flex;
-    gap: 10px;
-    padding: 0 15px;
-}
-.cat {
-    background: #0C2340;
-    padding: 13px 25px;
-    border-radius: 10px;
-    font-size: 15px;
-}
-.cat.active {
-    border: 2px solid #FFD000;
-}
+    /* NAV BAR */
+    .nav {
+        background: #0F2B45;
+        padding: 12px;
+        display: flex;
+        gap: 15px;
+        font-size: 18px;
+    }
+    .nav span {
+        opacity: 0.6;
+    }
+    .active {
+        color: #00FF75;
+        font-weight: bold;
+        border-bottom: 3px solid #00FF75;
+        padding-bottom: 4px;
+        opacity: 1 !important;
+    }
 
-/* LEAGUE NAME */
-.league {
-    padding: 15px;
-    font-size: 18px;
-    color: #C7CBD0;
-}
+    /* TITLE */
+    h2 {
+        font-size: 27px;
+        margin: 20px 15px;
+        font-weight: bold;
+    }
 
-/* MATCH BLOCK */
-.match-box {
-    background: #0D2242;
-    margin: 0 15px 15px;
-    padding: 15px;
-    border-radius: 15px;
-}
-.match-box .teams {
-    font-size: 21px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-.match-box .time {
-    color: #F33;
-    margin-bottom: 15px;
-}
+    /* ICON BUTTONS */
+    .icon-row {
+        display: flex;
+        gap: 12px;
+        margin: 10px 15px 25px 15px;
+    }
+    .icon-btn {
+        background: #092037;
+        padding: 15px 25px;
+        border-radius: 12px;
+        font-size: 18px;
+        border: 2px solid transparent;
+    }
 
-/* ODDS ROW */
-.odds {
-    display: flex;
-    justify-content: space-between;
-}
-.odd {
-    background: #081C36;
-    width: 32%;
-    padding: 12px 0;
-    border-radius: 12px;
-    text-align: center;
-}
-.odd span:first-child {
-    display: block;
-    font-size: 16px;
-    color: #fff;
-}
-.odd span:last-child {
-    display: block;
-    font-size: 18px;
-    color: #FFD000;
-    margin-top: 3px;
-}
+    .icon-btn.active {
+        border: 2px solid #F4D000;
+    }
+
+    /* LEAGUE TEXT */
+    .league {
+        margin: 0 15px;
+        font-size: 18px;
+        opacity: 0.9;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* MATCH CARD */
+    .match-card {
+        background: #072042;
+        margin: 20px 15px;
+        padding: 18px;
+        border-radius: 15px;
+    }
+
+    .match-title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .live-text {
+        color: red;
+        margin-top: 5px;
+        font-size: 17px;
+    }
+
+    .odds-row {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+    }
+
+    .odd-box {
+        width: 30%;
+        background: #0A2647;
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 20px;
+        color: yellow;
+        font-weight: bold;
+    }
 </style>
-
 </head>
 <body>
 
-<!-- TOP BAR -->
-<div class="top">
-    <img src="joker216-logo.png">
+<!-- TOP -->
+<div class="top-bar">
+    <div class="logo">
+        <img src="joker216-logo.png">
+    </div>
+
     <div class="balance-box">
         0.00 BON<br>
         0.00 TND
     </div>
 </div>
 
-<!-- MENU -->
-<div class="navbar">
+<!-- NAVIGATION -->
+<div class="nav">
     <span>Accueil</span>
     <span class="active">Sport</span>
     <span>Le Casino</span>
@@ -145,28 +149,31 @@ body {
 </div>
 
 <!-- TITLE -->
-<div class="title">LES PARIS EN DIRECT</div>
+<h2>LES PARIS EN DIRECT</h2>
 
-<!-- CATEGORIES -->
-<div class="cat-row">
-    <div class="cat active">🔥 HIGHLIGHTS</div>
-    <div class="cat">⚽</div>
-    <div class="cat">🏒</div>
-    <div class="cat">🏀</div>
+<!-- ICON BUTTONS -->
+<div class="icon-row">
+    <div class="icon-btn active">🔥 HIGHLIGHTS</div>
+    <div class="icon-btn">⚽</div>
+    <div class="icon-btn">🏒</div>
+    <div class="icon-btn">🏀</div>
 </div>
 
 <!-- LEAGUE -->
-<div class="league">🇮🇹 Italie – Série A</div>
+<div class="league">
+    🇮🇹 Italie – Série A
+</div>
 
-<!-- MATCH 1 -->
-<div class="match-box">
-    <div class="teams">Udinese – Gênes</div>
-    <div class="time">🔴 2ème MT 50' – 0 : 1 – 0 : 0</div>
+<!-- MATCH CARD -->
+<div class="match-card">
+    <div class="match-title">Udinese – Gênes</div>
 
-    <div class="odds">
-        <div class="odd"><span>1</span><span>8.3</span></div>
-        <div class="odd"><span>X</span><span>3.55</span></div>
-        <div class="odd"><span>2</span><span>1.57</span></div>
+    <div class="live-text">🔴 2ème MT 50' – 0 : 1 – 0 : 0</div>
+
+    <div class="odds-row">
+        <div class="odd-box">1<br>8.3</div>
+        <div class="odd-box">X<br>3.55</div>
+        <div class="odd-box">2<br>1.57</div>
     </div>
 </div>
 
