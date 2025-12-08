@@ -1,179 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sports Betting</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Joker216 – Live Sports</title>
 
 <style>
-  body{
-    margin:0;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#022b0a;
-    color:#fff;
-  }
+body{
+  margin:0;
+  font-family:Arial;
+  background:#051226;
+  color:#fff;
+}
+.header{
+  background:#003b2f;
+  padding:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo{
+  font-size:24px;
+  font-weight:bold;
+  color:#00ff85;
+}
+.nav{
+  display:flex;
+  gap:15px;
+}
+.nav a{
+  color:#fff;
+  text-decoration:none;
+  padding:6px 12px;
+  border-radius:8px;
+}
+.nav a.active{
+  background:#009f67;
+}
 
-  /* TOP BAR */
-  .top{
-    background:#000;
-    color:#fff;
-    padding:16px;
-    text-align:center;
-    font-size:24px;
-    font-weight:bold;
-  }
+.tabs{
+  display:flex;
+  gap:10px;
+  padding:12px;
+  background:#0b1e39;
+}
+.tab{
+  padding:8px 14px;
+  border-radius:8px;
+  background:#0d2142;
+  cursor:pointer;
+}
+.tab.active{
+  background:#009f67;
+}
 
-  /* WRAPPER */
-  .list{
-    margin:10px;
-  }
+.league-title{
+  padding:10px;
+  background:#0d1d34;
+  font-weight:bold;
+  border-bottom:1px solid #092338;
+}
 
-  /* COUNTRY CARD */
-  .country{
-    background:#0a4f1a;
-    padding:14px;
-    border-radius:8px;
-    display:flex;
-    align-items:center;
-    margin-bottom:10px;
-    justify-content:space-between;
-    border:1px solid #0f7427;
-  }
+.match{
+  background:#0f2240;
+  margin:10px;
+  padding:10px;
+  border-radius:10px;
+}
 
-  .left{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:18px;
-  }
+.live{
+  color:red;
+  font-size:14px;
+}
 
-  .left img{
-    width:28px;
-    height:28px;
-  }
+.teams{
+  font-size:18px;
+  margin-bottom:10px;
+}
 
-  .count{
-    background:#1bd14b;
-    color:#000;
-    padding:6px 12px;
-    border-radius:8px;
-    font-weight:bold;
-  }
+.odds{
+  display:flex;
+  gap:10px;
+}
+.odd{
+  background:#112a4d;
+  padding:10px 16px;
+  border-radius:10px;
+  font-weight:bold;
+  text-align:center;
+  cursor:pointer;
+}
 
-  /* BOTTOM MENU */
-  .bottom{
-    position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:#000;
-    padding:10px 0;
-    display:flex;
-    justify-content:center;
-  }
+.odd:active{
+  background:#0d8f63;
+}
 
-  .bottom button{
-    background:none;
-    border:none;
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    cursor:pointer;
-  }
+.footer{
+  margin-top:50px;
+  text-align:center;
+  color:#777;
+  padding-bottom:40px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="top">Sports Betting</div>
-
-<div class="list">
-
-  <div class="country" onclick="openLeague('Germany')">
-    <div class="left">
-      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png">
-      Germany
-    </div>
-    <div class="count">11</div>
+<div class="header">
+  <div class="logo">JOKER216</div>
+  <div class="nav">
+    <a href="player_home.html">Accueil</a>
+    <a href="sport.html" class="active">Sport</a>
+    <a href="casino.html">Casino</a>
   </div>
-
-  <div class="country" onclick="openLeague('England')">
-    <div class="left">
-      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png">
-      England
-    </div>
-    <div class="count">5</div>
-  </div>
-
-  <div class="country" onclick="openLeague('Spain')">
-    <div class="left">
-      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png">
-      Spain
-    </div>
-    <div class="count">6</div>
-  </div>
-
-  <div class="country" onclick="openLeague('Italy')">
-    <div class="left">
-      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png">
-      Italy
-    </div>
-    <div class="count">3</div>
-  </div>
-
-  <div class="country" onclick="openLeague('France')">
-    <div class="left">
-      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png">
-      France
-    </div>
-    <div class="count">28</div>
-  </div>
-
-  <div class="country" onclick="openLeague('Turkey')">
-    <div class="left">
-      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png">
-      Turkey
-    </div>
-    <div class="count">2</div>
-  </div>
-
-  <div class="country" onclick="openLeague('Austria')">
-    <div class="left">
-      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png">
-      Austria
-    </div>
-    <div class="count">4</div>
-  </div>
-
-  <div class="country" onclick="openLeague('Denmark')">
-    <div class="left">
-      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png">
-      Denmark
-    </div>
-    <div class="count">2</div>
-  </div>
-
-  <div class="country" onclick="openLeague('Portugal')">
-    <div class="left">
-      <img src="https://cdn-icons-png.flaticon.com/512/53/53283.png">
-      Portugal
-    </div>
-    <div class="count">5</div>
-  </div>
-
 </div>
 
-<!-- BOTTOM MENU -->
-<div class="bottom">
-  <button onclick="window.location='player_home.html'">🏠 Home</button>
+<div class="tabs">
+  <div class="tab active">🔥 Highlights</div>
+  <div class="tab">⚽ Football</div>
+  <div class="tab">🏀 Basketball</div>
+  <div class="tab">🎾 Tennis</div>
 </div>
 
-<script>
-function openLeague(country){
-  // You can change this later to open each league page
-  alert("Open matches for: " + country);
-}
-</script>
+<div class="league-title">🇮🇹 إيطاليا – Serie A</div>
+
+<!-- MATCH BOX -->
+<div class="match">
+  <div class="teams">Udinese – Genoa</div>
+  <div class="live">● Mi-Temps 0:1 (0:0)</div>
+
+  <div class="odds">
+    <div class="odd">1<br>7.6</div>
+    <div class="odd">X<br>3.5</div>
+    <div class="odd">2<br>1.61</div>
+    <div class="odd">1X<br>2.45</div>
+  </div>
+</div>
+
+
+<div class="league-title">🇷🇺 Russia – MHL</div>
+
+<div class="match">
+  <div class="teams">Krasnaya Machina – AKM Junior</div>
+  <div class="live">● 3ème période – 55' – 1:4 (0:2)</div>
+
+  <div class="odds">
+    <div class="odd">1<br>9.24</div>
+    <div class="odd">X<br>5.8</div>
+    <div class="odd">2<br>1.52</div>
+  </div>
+</div>
+
+<div class="footer">© Joker216 – Live Betting Prototype</div>
 
 </body>
 </html>
