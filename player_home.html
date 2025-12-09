@@ -227,25 +227,26 @@
   background:rgba(255,255,255,0.03);
 }
   <!-- SPORT POPUP -->
-<div class="popup-item" onclick="location.href='sportbetting.html'">
-  Sport 1 <span class="arrow">➜</span>
-</div>
+<div id="sportPopup" class="popup-overlay" onclick="closeSportPopup()">
 
-<div id="sportBox" class="sport-popup">
-    <div class="sport-header">
-        Sport
-        <span class="close-btn" onclick="closeSportPopup()">×</span>
+    <div id="sportBox" class="sport-popup" onclick="event.stopPropagation()">
+
+        <div class="sport-header">
+            Sport
+            <span class="close-btn" onclick="closeSportPopup()">✖</span>
+        </div>
+
+        <!-- SPORT 1 -->
+        <div class="popup-item" onclick="location.href='sportbetting.html'">
+            Sport 1 <span class="arrow">➔</span>
+        </div>
+
+        <!-- SPORT 2 -->
+        <div class="popup-item">
+            Sport 2 <span class="arrow">➔</span>
+        </div>
+
     </div>
-
-    <div class="popup-item" onclick="location.href='sportbetting.html'">
-  Sport 1 <span class="arrow">➜</span>
-</div>div>
-
-    <div class="sport-item">
-        Sport 2
-        <span class="arrow">➜</span>
-    </div>
-</div>
 </style>
 </head>
 
