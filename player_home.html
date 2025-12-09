@@ -6,6 +6,54 @@
 <title>Joker216 — Home</title>
 
 <style>
+  .popup-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    justify-content: flex-end;
+    align-items: flex-end;
+    z-index: 9999;
+}
+
+.popup-box {
+    width: 100%;
+    background: #021523;
+    color: white;
+    padding: 20px;
+    border-radius: 20px 20px 0 0;
+    transform: translateY(100%);
+    transition: 0.3s ease;
+}
+
+.popup-header {
+    font-size: 22px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.popup-item {
+    padding: 15px 0;
+    border-bottom: 1px solid #0c2b3c;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.arrow {
+    color: #ffd700;
+    font-size: 20px;
+}
+
+.close-btn {
+    font-size: 28px;
+    cursor: pointer;
+}
   :root{
     --bg:#052e24;
     --neon:#00ff40;
@@ -178,6 +226,25 @@
 .slot-box.empty{
   background:rgba(255,255,255,0.03);
 }
+  <!-- SPORT POPUP -->
+<div id="sportPopup" class="popup-overlay" onclick="closeSportPopup()"></div>
+
+<div id="sportBox" class="sport-popup">
+    <div class="sport-header">
+        Sport
+        <span class="close-btn" onclick="closeSportPopup()">×</span>
+    </div>
+
+    <div class="sport-item">
+        Sport 1
+        <span class="arrow">➜</span>
+    </div>
+
+    <div class="sport-item">
+        Sport 2
+        <span class="arrow">➜</span>
+    </div>
+</div>
 </style>
 </head>
 
@@ -193,7 +260,7 @@
   <div class="menu-wrap">
     <nav class="menu">
       <a href="player_home.html" class="active">Accueil</a>
-      <a href="sports_betting.html">Sport</a>
+      <div onclick="openSportPopup()" class="nav-item">SPORT</div>
       <a href="casino.html">Le Casino</a>
       <a href="live_casino.html">Casino en Direct</a>
       <a href="crash.html">Jeux de Crash</a>
@@ -279,5 +346,20 @@ function go(i){
 setInterval(()=>go((index+1)%total), 3500);
 </script>
 
+  <div id="sportPopup" class="popup-overlay" onclick="closeSportPopup()">
+    <div id="sportBox" class="popup-box" onclick="event.stopPropagation()">
+        <div class="popup-header">
+            <span>Sport</span>
+            <span class="close-btn" onclick="closeSportPopup()">×</span>
+        </div>
+
+        <div class="popup-item">
+            Sport 1 <span class="arrow">➜</span>
+        </div>
+        <div class="popup-item">
+            Sport 2 <span class="arrow">➜</span>
+        </div>
+    </div>
+</div>
 </body>
 </html>
