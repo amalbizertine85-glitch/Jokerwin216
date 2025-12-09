@@ -256,8 +256,18 @@
 <header>
   <div class="topbar">
     <div class="brand"><img src="joker216-logo.png" alt=""></div>
-    <button class="connect-btn" onclick="location.href='player_login.html'">SE CONNECTER</button>
-  </div>
+
+    <!-- 👇 هنا تضيف صندوق الرصيد -->
+    <div class="account-box">
+        <span id="usernameDisplay">Guest</span>
+        <div class="balances">
+            <span><span id="balanceBON">0.00</span> BON</span>
+            <span><span id="balanceTND">0.00</span> TND</span>
+        </div>
+    </div>
+
+    <button class="connect-btn" onclick="logout()">Logout</button>
+</div>
 
   <div class="menu-wrap">
     <nav class="menu">
