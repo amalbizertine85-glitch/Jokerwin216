@@ -344,6 +344,19 @@ function go(i){
   }
 }
 setInterval(()=>go((index+1)%total), 3500);
+
+// كود السلايدر...
+
+function openSportPopup() {
+  document.getElementById("sportPopup").style.display = "flex";
+  document.getElementById("sportBox").style.transform = "translateY(0)";
+}
+
+function closeSportPopup() {
+  document.getElementById("sportPopup").style.display = "none";
+  document.getElementById("sportBox").style.transform = "translateY(100%)";
+}
+
 </script>
 
   <div id="sportPopup" class="popup-overlay" onclick="closeSportPopup()">
