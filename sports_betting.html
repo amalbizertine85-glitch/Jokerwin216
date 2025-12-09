@@ -1,180 +1,85 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JOKER216 - Live Betting</title>
+<title>Sports</title>
 
 <style>
     body {
         margin: 0;
-        background: #06172B;
+        background: #0b0f16;
         font-family: Arial, sans-serif;
         color: white;
     }
 
-    /* TOP BAR */
-    .top-bar {
-        background: #003C1F;
-        padding: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .logo img {
-        height: 55px;
-    }
-
-    .balance-box {
-        background: #005B32;
-        padding: 8px 12px;
-        border-radius: 10px;
-        text-align: right;
-        font-size: 14px;
-        line-height: 18px;
-    }
-
-    /* NAV BAR */
-    .nav {
-        background: #0F2B45;
-        padding: 12px;
-        display: flex;
-        gap: 15px;
-        font-size: 18px;
-    }
-    .nav span {
-        opacity: 0.6;
-    }
-    .active {
-        color: #00FF75;
-        font-weight: bold;
-        border-bottom: 3px solid #00FF75;
-        padding-bottom: 4px;
-        opacity: 1 !important;
-    }
-
-    /* TITLE */
-    h2 {
-        font-size: 27px;
-        margin: 20px 15px;
-        font-weight: bold;
-    }
-
-    /* ICON BUTTONS */
-    .icon-row {
-        display: flex;
-        gap: 12px;
-        margin: 10px 15px 25px 15px;
-    }
-    .icon-btn {
-        background: #092037;
-        padding: 15px 25px;
-        border-radius: 12px;
-        font-size: 18px;
-        border: 2px solid transparent;
-    }
-
-    .icon-btn.active {
-        border: 2px solid #F4D000;
-    }
-
-    /* LEAGUE TEXT */
-    .league {
-        margin: 0 15px;
-        font-size: 18px;
-        opacity: 0.9;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    /* MATCH CARD */
-    .match-card {
-        background: #072042;
-        margin: 20px 15px;
-        padding: 18px;
-        border-radius: 15px;
-    }
-
-    .match-title {
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    .live-text {
-        color: red;
-        margin-top: 5px;
-        font-size: 17px;
-    }
-
-    .odds-row {
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
+    /* Header */
+    .top-header {
+        background: #121821;
+        padding: 15px;
         text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+        color: #00ff63;
+        letter-spacing: 1px;
+        border-bottom: 1px solid #0f2a17;
+        position: sticky;
+        top: 0;
+        z-index: 999;
     }
 
-    .odd-box {
-        width: 30%;
-        background: #0A2647;
-        padding: 12px;
-        border-radius: 12px;
-        font-size: 20px;
-        color: yellow;
+    /* Tabs bar */
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        background: #0d131b;
+        padding: 10px 5px;
+        border-bottom: 2px solid #1b2b3a;
+    }
+
+    .tabs div {
+        flex: 1;
+        text-align: center;
+        padding: 12px 0;
+        font-size: 15px;
+        border-radius: 6px;
+        margin: 0 3px;
+        color: #c5c5c5;
+    }
+
+    .tabs .active {
+        background: linear-gradient(180deg, #00ff63, #009f44);
+        color: #000;
         font-weight: bold;
+    }
+
+    /* Matches container */
+    .matches {
+        padding: 12px;
+    }
+
+    .no-data {
+        text-align: center;
+        margin-top: 60px;
+        font-size: 18px;
+        opacity: 0.6;
     }
 </style>
 </head>
+
 <body>
 
-<!-- TOP -->
-<div class="top-bar">
-    <div class="logo">
-        <img src="joker216-logo.png">
-    </div>
+<div class="top-header">SPORTS</div>
 
-    <div class="balance-box">
-        0.00 BON<br>
-        0.00 TND
-    </div>
+<div class="tabs">
+    <div class="active">ALL</div>
+    <div>LIVE</div>
+    <div>TODAY</div>
+    <div>UPCOMING</div>
 </div>
 
-<!-- NAVIGATION -->
-<div class="nav">
-    <span>Accueil</span>
-    <span class="active">Sport</span>
-    <span>Le Casino</span>
-    <span>Casino En Direct</span>
-</div>
-
-<!-- TITLE -->
-<h2>LES PARIS EN DIRECT</h2>
-
-<!-- ICON BUTTONS -->
-<div class="icon-row">
-    <div class="icon-btn active">🔥 HIGHLIGHTS</div>
-    <div class="icon-btn">⚽</div>
-    <div class="icon-btn">🏒</div>
-    <div class="icon-btn">🏀</div>
-</div>
-
-<!-- LEAGUE -->
-<div class="league">
-    🇮🇹 Italie – Série A
-</div>
-
-<!-- MATCH CARD -->
-<div class="match-card">
-    <div class="match-title">Udinese – Gênes</div>
-
-    <div class="live-text">🔴 2ème MT 50' – 0 : 1 – 0 : 0</div>
-
-    <div class="odds-row">
-        <div class="odd-box">1<br>8.3</div>
-        <div class="odd-box">X<br>3.55</div>
-        <div class="odd-box">2<br>1.57</div>
-    </div>
+<div class="matches">
+    <div class="no-data">No matches available</div>
 </div>
 
 </body>
