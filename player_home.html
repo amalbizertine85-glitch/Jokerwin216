@@ -6,6 +6,7 @@
 <title>Joker216 — Home</title>
 
 <style>
+  /* ----- POPUP CSS ----- */
   .popup-overlay {
     position: fixed;
     left: 0;
@@ -17,9 +18,9 @@
     justify-content: flex-end;
     align-items: flex-end;
     z-index: 9999;
-}
+  }
 
-.popup-box {
+  .popup-box {
     width: 100%;
     background: #021523;
     color: white;
@@ -27,38 +28,38 @@
     border-radius: 20px 20px 0 0;
     transform: translateY(100%);
     transition: 0.3s ease;
-}
+  }
 
-.popup-header {
+  .popup-header {
     font-size: 22px;
     font-weight: bold;
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
-}
+  }
 
-.popup-item {
+  .popup-item {
     padding: 15px 0;
     border-bottom: 1px solid #0c2b3c;
     display: flex;
     justify-content: space-between;
     font-size: 18px;
-}
+  }
 
-.arrow {
+  .arrow {
     color: #ffd700;
     font-size: 20px;
-}
+  }
 
-.close-btn {
+  .close-btn {
     font-size: 28px;
     cursor: pointer;
-}
+  }
+
+  /* ----- GLOBAL ----- */
   :root{
     --bg:#052e24;
     --neon:#00ff40;
-    --panel:#0b3a2e;
-    --panel-2:#073026;
     --muted:rgba(255,255,255,0.78);
     --max-w:1200px;
   }
@@ -79,10 +80,14 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
+    gap:12px;
   }
-  .brand img{
-    height:48px;width:auto;
-  }
+  .brand img{ height:48px;width:auto; }
+
+  /* player info box */
+  #playerInfo { text-align:center; color:white; font-size:16px; }
+  #playerInfo span{ display:inline-block; margin:0 6px; }
+
   .connect-btn{
     background:linear-gradient(180deg,#ffd24a,#ffb400);
     padding:8px 14px;
@@ -93,11 +98,7 @@
   }
 
   /* NAVBAR PILL */
-  .menu-wrap{
-    display:flex;
-    justify-content:center;
-    margin-bottom:10px;
-  }
+  .menu-wrap{ display:flex; justify-content:center; margin-bottom:10px; }
   .menu{
     background:rgba(255,255,255,0.07);
     backdrop-filter:blur(8px);
@@ -132,121 +133,29 @@
     box-shadow:0 14px 40px rgba(0,0,0,0.5);
     border:1px solid rgba(255,255,255,0.1);
   }
-  .slides{
-    display:flex;
-    height:100%;
-    transition:transform .6s ease;
+  .slides{ display:flex; height:100%; transition:transform .6s ease; }
+  .slide{ min-width:100%; height:100%; background-size:cover; background-position:center; display:flex; align-items:center; padding-left:28px; }
+  .dots{ display:flex; justify-content:center; gap:8px; margin-top:8px; }
+  .dot{ width:10px;height:10px;border-radius:50%; background:rgba(255,255,255,0.25); cursor:pointer; }
+  .dot.active{ background:var(--neon); box-shadow:0 0 8px var(--neon); }
+
+  .jackpot-img-box{ width:95%; margin:15px auto 0 auto; border-radius:14px; overflow:hidden; }
+  .jackpot-only{ width:100%; height:auto; display:block; border-radius:14px; }
+
+  .four-img-grid{ margin:18px auto; max-width:900px; display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .img-box{ background:rgba(255,255,255,0.04); border-radius:14px; overflow:hidden; border:1px solid rgba(255,255,255,0.05); }
+  .img-box img{ width:100%; height:120px; object-fit:cover; display:block; }
+
+  .slots-row{ margin-top:14px; display:flex; gap:14px; overflow-x:auto; padding-bottom:4px; }
+  .slots-row::-webkit-scrollbar{display:none;}
+  .slot-box{ min-width:130px; height:170px; background:rgba(255,255,255,0.05); border-radius:12px; overflow:hidden; flex-shrink:0; border:1px solid rgba(255,255,255,0.08); }
+  .slot-box img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .slot-box.empty{ background:rgba(255,255,255,0.03); }
+
+  /* small responsive tweak */
+  @media (max-width:420px){
+    #playerInfo{ font-size:14px; }
   }
-  .slide{
-    min-width:100%;
-    height:100%;
-    background-size:cover;
-    background-position:center;
-    display:flex;
-    align-items:center;
-    padding-left:28px;
-  }
-  .caption h2{margin:0;font-size:26px;color:var(--neon)}
-  .caption p{margin:8px 0 0;color:var(--muted)}
-  .dots{
-    display:flex;
-    justify-content:center;
-    gap:8px;
-    margin-top:8px;
-  }
-  .dot{
-    width:10px;height:10px;border-radius:50%;
-    background:rgba(255,255,255,0.25);
-    cursor:pointer;
-  }
-  .dot.active{
-    background:var(--neon);
-    box-shadow:0 0 8px var(--neon);
-  }
-  .jackpot-img-box{
-    width:95%;
-    margin:15px auto 0 auto;
-    border-radius:14px;
-    overflow:hidden;
-}
-
-.jackpot-only{
-    width:100%;
-    height:auto;
-    display:block;
-    border-radius:14px;
-}
-  .four-img-grid{
-  margin:18px auto;
-  max-width:900px;
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-}
-
-.img-box{
-  background:rgba(255,255,255,0.04);
-  border-radius:14px;
-  overflow:hidden;
-  border:1px solid rgba(255,255,255,0.05);
-}
-
-.img-box img{
-  width:100%;
-  height:120px;
-  object-fit:cover;
-  display:block;
-}
-  .slots-row{
-  margin-top:14px;
-  display:flex;
-  gap:14px;
-  overflow-x:auto;
-  padding-bottom:4px;
-}
-.slots-row::-webkit-scrollbar{display:none;}
-
-.slot-box{
-  min-width:130px;
-  height:170px;
-  background:rgba(255,255,255,0.05);
-  border-radius:12px;
-  overflow:hidden;
-  flex-shrink:0;
-  border:1px solid rgba(255,255,255,0.08);
-}
-
-.slot-box img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  display:block;
-}
-
-.slot-box.empty{
-  background:rgba(255,255,255,0.03);
-}
-  <!-- SPORT POPUP -->
-<div id="sportPopup" class="popup-overlay" onclick="closeSportPopup()">
-
-    <div id="sportBox" class="sport-popup" onclick="event.stopPropagation()">
-
-        <div class="sport-header">
-            Sport
-            <span class="close-btn" onclick="closeSportPopup()">✖</span>
-        </div>
-
-        <!-- SPORT 1 -->
-        <div class="popup-item" onclick="location.href='sports_betting.html'">
-            Sport 1 <span class="arrow">➔</span>
-        </div>
-
-        <!-- SPORT 2 -->
-        <div class="popup-item">
-            Sport 2 <span class="arrow">➔</span>
-        </div>
-
-    </div>
 </style>
 </head>
 
@@ -255,16 +164,19 @@
 <!-- HEADER -->
 <header>
   <div class="topbar">
-    <div class="brand"><img src="joker216-logo.png" alt=""></div>
+    <div class="brand"><a href="player_home.html"><img src="joker216-logo.png" alt="logo"></a></div>
 
-    <!-- 👇 هنا تضيف صندوق الرصيد -->
-    <div id="playerInfo" style="text-align:center; color:white; font-size:18px;">
-    <span id="playerName"></span> – <span id="playerBalance"></span>
-</div>
+    <!-- player info -->
+    <div id="playerInfo">
+      <span id="playerName"></span>
+      <span id="playerBalance"></span>
     </div>
 
-    <button class="connect-btn" onclick="logout()">Logout</button>
-</div>
+    <!-- logout button -->
+    <div>
+      <button id="logoutBtn" class="connect-btn" onclick="logout()">Logout</button>
+    </div>
+  </div>
 
   <div class="menu-wrap">
     <nav class="menu">
@@ -280,29 +192,20 @@
 <!-- SLIDER -->
 <div class="slider" id="slider">
   <div class="slides" id="slides">
-
-    <div class="slide" style="background-image:url('1.png')">
-      <div class="slide" style="background-image:url('1.png')"></div>
-    </div>
-
-    <div class="slide" style="background-image:url('2.png')">
-      <div class="slide" style="background-image:url('2.png')"></div>
-    </div>
-
-    <div class="slide" style="background-image:url('3.png')">
-      <div class="slide" style="background-image:url('3.png')"></div>
-    </div>
-
+    <div class="slide" style="background-image:url('1.png')"></div>
+    <div class="slide" style="background-image:url('2.png')"></div>
+    <div class="slide" style="background-image:url('3.png')"></div>
   </div>
 </div>
 
 <div class="dots" id="dots"></div>
-  <!-- JACKPOT IMAGE ONLY -->
+
+<!-- JACKPOT IMAGE -->
 <div class="jackpot-img-box">
-    <img src="jackpot.png" alt="Jackpot" class="jackpot-only">
+  <img src="jackpot.png" alt="Jackpot" class="jackpot-only">
 </div>
 
-  <!-- QUICK 4 IMG BOXES -->
+<!-- QUICK 4 IMG BOXES -->
 <div class="four-img-grid">
   <div class="img-box"><img src="games.png" alt=""></div>
   <div class="img-box"><img src="sport.png" alt=""></div>
@@ -310,7 +213,7 @@
   <div class="img-box"><img src="crash.png" alt=""></div>
 </div>
 
-  <!-- MACHINES À SOUS POPULAIRES -->
+<!-- SLOTS -->
 <div class="section">
   <div class="title">
     <h4>Machines à sous populaires</h4>
@@ -322,10 +225,27 @@
     <div class="slot-box"><img src="3_dancing_monkeys.jpg" alt=""></div>
     <div class="slot-box"><img src="alaaddin.jpg" alt=""></div>
 
-    <!-- EMPTY PLACEHOLDERS – نتركوهم فارغين الآن -->
     <div class="slot-box empty"></div>
     <div class="slot-box empty"></div>
     <div class="slot-box empty"></div>
+  </div>
+</div>
+
+<!-- SPORT POPUP (في الـ body، مش في الـ style) -->
+<div id="sportPopup" class="popup-overlay" onclick="closeSportPopup()">
+  <div id="sportBox" class="popup-box" onclick="event.stopPropagation()">
+    <div class="popup-header">
+      <span>Sport</span>
+      <span class="close-btn" onclick="closeSportPopup()">×</span>
+    </div>
+
+    <div class="popup-item" onclick="location.href='sports_betting.html'">
+      Sport 1 <span class="arrow">➔</span>
+    </div>
+
+    <div class="popup-item">
+      Sport 2 <span class="arrow">➔</span>
+    </div>
   </div>
 </div>
 
@@ -354,44 +274,43 @@ function go(i){
 }
 setInterval(()=>go((index+1)%total), 3500);
 
-// كود السلايدر...
-
+/* sport popup */
 function openSportPopup() {
   document.getElementById("sportPopup").style.display = "flex";
   document.getElementById("sportBox").style.transform = "translateY(0)";
 }
-
 function closeSportPopup() {
   document.getElementById("sportPopup").style.display = "none";
   document.getElementById("sportBox").style.transform = "translateY(100%)";
 }
 
-  <div id="sportPopup" class="popup-overlay" onclick="closeSportPopup()">
-    <div id="sportBox" class="popup-box" onclick="event.stopPropagation()">
-        <div class="popup-header">
-            <span>Sport</span>
-            <span class="close-btn" onclick="closeSportPopup()">×</span>
-        </div>
+/* player info + logout */
+function logout(){
+  localStorage.removeItem("loggedUser");
+  window.location.href = "login.html";
+}
 
-        <div class="popup-item" onclick="location.href='sports_betting.html'">
-    Sport 1 <span class="arrow">➔</span>
-</div>
-        <div class="popup-item">
-            Sport 2 <span class="arrow">➜</span>
-        </div>
-    </div>
-</div>
-  const u = JSON.parse(localStorage.getItem("loggedUser"));
-if(u){
-    document.getElementById("playerName").textContent = u.username;
-    document.getElementById("playerBalance").textContent = u.balance + " TND";
-} else {
-    window.location.href = "login.html";
-}
-  function logout(){
-    localStorage.removeItem("loggedUser");
-    window.location.href = "login.html";
-}
+/* حاول نعرض اسم اللاعب ورصيده */
+(function showPlayer(){
+  try{
+    const u = JSON.parse(localStorage.getItem("loggedUser"));
+    if(u && u.username){
+      document.getElementById("playerName").textContent = u.username;
+      document.getElementById("playerBalance").textContent = (typeof u.balance !== 'undefined') ? (u.balance + " TND") : "";
+      // إظهار زر Logout فقط لو مسجل
+      document.getElementById('logoutBtn').style.display = 'inline-block';
+    } else {
+      // لو مافيش لاعب مسجل: مخفي الاسم والرصيد واظهر زر SE CONNECTER بدل Logout
+      document.getElementById("playerName").textContent = "";
+      document.getElementById("playerBalance").textContent = "";
+      // أخليك تروح للصفحة login إذا بدك:
+      // window.location.href = "login.html";
+    }
+  }catch(e){
+    console.warn("لايوجد لاعب مسجل");
+  }
+})();
 </script>
+
 </body>
 </html>
