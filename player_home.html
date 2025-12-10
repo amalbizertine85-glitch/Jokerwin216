@@ -258,12 +258,9 @@
     <div class="brand"><img src="joker216-logo.png" alt=""></div>
 
     <!-- 👇 هنا تضيف صندوق الرصيد -->
-    <div class="account-box">
-        <span id="usernameDisplay">Guest</span>
-        <div class="balances">
-            <span><span id="balanceBON">0.00</span> BON</span>
-            <span><span id="balanceTND">0.00</span> TND</span>
-        </div>
+    <div id="playerInfo" style="text-align:center; color:white; font-size:18px;">
+    <span id="playerName"></span> – <span id="playerBalance"></span>
+</div>
     </div>
 
     <button class="connect-btn" onclick="logout()">Logout</button>
@@ -369,8 +366,6 @@ function closeSportPopup() {
   document.getElementById("sportBox").style.transform = "translateY(100%)";
 }
 
-</script>
-
   <div id="sportPopup" class="popup-overlay" onclick="closeSportPopup()">
     <div id="sportBox" class="popup-box" onclick="event.stopPropagation()">
         <div class="popup-header">
@@ -386,5 +381,13 @@ function closeSportPopup() {
         </div>
     </div>
 </div>
+  const u = JSON.parse(localStorage.getItem("loggedUser"));
+if(u){
+    document.getElementById("playerName").textContent = u.username;
+    document.getElementById("playerBalance").textContent = u.balance + " TND";
+} else {
+    window.location.href = "login.html";
+}
+</script>
 </body>
 </html>
