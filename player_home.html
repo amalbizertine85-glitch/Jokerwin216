@@ -388,6 +388,10 @@ if(u){
 } else {
     window.location.href = "login.html";
 }
+  function logout(){
+    localStorage.removeItem("loggedUser");
+    window.location.href = "login.html";
+}
 </script>
 </body>
 </html>
