@@ -22,6 +22,7 @@
         justify-content:space-between;
         border-bottom:1px solid rgba(255,255,255,0.07);
     }
+
     header img{
         height:50px;
     }
@@ -34,7 +35,7 @@
         font-weight:700;
     }
 
-    /* MAIN LOGIN CARD */
+    /* LOGIN CARD */
     .login-card{
         max-width:420px;
         margin:40px auto;
@@ -53,6 +54,7 @@
         text-align:center;
         margin-bottom:6px;
     }
+
     .line{
         width:130px;
         height:3px;
@@ -99,30 +101,34 @@
 <!-- HEADER -->
 <header>
     <a href="player_home.html">
-  <img src="joker216-logo.png" alt="logo">
-</a>
+        <img src="joker216-logo.png" alt="logo">
+    </a>
     <a class="login-btn">SE CONNECTER</a>
 </header>
 
-<!-- LOGIN CARD -->
-<form id="loginForm">
+<!-- LOGIN CARD REAL -->
+<div class="login-card">
 
-    <div class="input-group">
-        <label>Nom d'utilisateur</label>
-        <input type="text" id="username" required>
-    </div>
+    <div class="title">Se connecter</div>
+    <div class="line"></div>
 
-    <div class="input-group">
-        <label>Mot de passe</label>
-        <input type="password" id="password" required>
-    </div>
+    <form id="loginForm">
+        <div class="input-group">
+            <label>Nom d'utilisateur</label>
+            <input type="text" id="username" required>
+        </div>
 
-    <button type="submit" class="submit-btn">Se connecter</button>
+        <div class="input-group">
+            <label>Mot de passe</label>
+            <input type="password" id="password" required>
+        </div>
 
-</form>
+        <button type="submit" class="submit-btn">Se connecter</button>
+    </form>
 
 </div>
-    <script>
+
+<script>
 const BIN_ID = "692eeefbae596e708f7e9e72";
 const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
@@ -138,9 +144,8 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
         });
 
         const data = await res.json();
-        const players = data.record.users; // ← صح
+        const players = data.record.users;
 
-        // التحقق من الحساب
         if (!players[user] || players[user].password !== pass){
             alert("Nom d'utilisateur ou mot de passe incorrect !");
             return;
@@ -151,10 +156,8 @@ document.getElementById("loginForm").addEventListener("submit", async function(e
             balance: players[user].balance
         };
 
-        // تخزين اللاعب
         localStorage.setItem("loggedUser", JSON.stringify(found));
 
-        // الدخول
         window.location.href = "player_home.html";
 
     } catch(err){
