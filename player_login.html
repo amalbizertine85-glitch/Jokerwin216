@@ -105,28 +105,63 @@
 </header>
 
 <!-- LOGIN CARD -->
-<div class="login-card">
+<form id="loginForm">
 
-    <div class="title">Se connecter</div>
-    <div class="line"></div>
+    <div class="input-group">
+        <label>Nom d'utilisateur</label>
+        <input type="text" id="username" required>
+    </div>
 
-    <form action="player_home.html" method="GET">
+    <div class="input-group">
+        <label>Mot de passe</label>
+        <input type="password" id="password" required>
+    </div>
 
-        <div class="input-group">
-            <label>Nom d'utilisateur</label>
-            <input type="text" required>
-        </div>
+    <button type="submit" class="submit-btn">Se connecter</button>
 
-        <div class="input-group">
-            <label>Mot de passe</label>
-            <input type="password" required>
-        </div>
-
-        <button class="submit-btn">Se connecter</button>
-
-    </form>
+</form>
 
 </div>
+    <script>
+const BIN_ID = "692eeefbae596e708f7e9e72";
+const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
+
+document.getElementById("loginForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const user = document.getElementById("username").value.trim();
+    const pass = document.getElementById("password").value.trim();
+
+    try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+            headers: { "X-Master-Key": API_KEY }
+        });
+
+        const data = await res.json();
+        const players = data.record.users; // ← صح
+
+        // التحقق من الحساب
+        if (!players[user] || players[user].password !== pass){
+            alert("Nom d'utilisateur ou mot de passe incorrect !");
+            return;
+        }
+
+        const found = {
+            username: user,
+            balance: players[user].balance
+        };
+
+        // تخزين اللاعب
+        localStorage.setItem("loggedUser", JSON.stringify(found));
+
+        // الدخول
+        window.location.href = "player_home.html";
+
+    } catch(err){
+        alert("Erreur de connexion au serveur !");
+    }
+});
+</script>
 
 </body>
 </html>
