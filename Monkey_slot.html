@@ -1,131 +1,231 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Slot Machine</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Slot Machine — Joker216</title>
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: url('Back.jpg') no-repeat center center fixed;
-        background-size: cover;
-        font-family: Arial, sans-serif;
-    }
-
-    .slot-container {
-        width: 90%;
-        max-width: 420px;
-        margin: 40px auto;
-        padding: 10px;
-        background: rgba(0,0,0,0.45);
-        border-radius: 15px;
-        box-shadow: 0 0 20px #000;
-    }
-
-    .reels {
-        background: url('Mauve.jpg') no-repeat center;
-        background-size: cover;
-        border-radius: 15px;
-        padding: 10px;
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 5px;
-    }
-
-    .symbol {
-        width: 100%;
-        aspect-ratio: 1/1;
-        border-radius: 10px;
-        overflow: hidden;
-        border: 2px solid #fff;
-    }
-
-    .symbol img {
-        width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-
-    .controls {
-        text-align: center;
-        margin-top: 15px;
-    }
-
-    .spin-btn {
-        background: #27ae60;
-        color: #fff;
-        border: none;
-        padding: 12px 30px;
-        font-size: 20px;
-        border-radius: 50px;
-        cursor: pointer;
-    }
-
-    .bet-controls {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 15px;
-    }
-
-    .bet-controls button {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        border: none;
-        font-size: 22px;
-        background: #fff;
-        cursor: pointer;
-    }
-
-    .balance {
-        text-align: center;
-        margin-top: 10px;
-        font-size: 18px;
-        color: #fff;
-    }
+  :root{--bg:#071718;--panel:rgba(0,0,0,0.45);--accent:#00ff73;color-scheme:dark}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Segoe UI,Arial,sans-serif;background:url('Back.jpg') center/cover fixed no-repeat;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center}
+  .slot-container{width:94%;max-width:720px;padding:18px;border-radius:14px;background:linear-gradient(180deg,rgba(0,0,0,0.45),rgba(0,0,0,0.55));box-shadow:0 10px 40px rgba(0,0,0,0.6)}
+  .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .logo{height:56px;cursor:pointer}
+  .balance{font-weight:800}
+  .reels{background:url('Mauve.jpg') center/cover;border-radius:12px;padding:12px;display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+  .cell{background:rgba(255,255,255,0.03);border-radius:10px;padding:6px;display:flex;align-items:center;justify-content:center;height:92px;border:1px solid rgba(255,255,255,0.06)}
+  .cell img{max-width:100%;max-height:100%;object-fit:contain}
+  .controls{display:flex;gap:12px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap}
+  .spin-btn{background:linear-gradient(180deg,#27ae60,#1b8f49);border:0;padding:12px 26px;border-radius:999px;color:#fff;font-weight:800;cursor:pointer;box-shadow:0 6px 14px rgba(0,0,0,0.45)}
+  .chip{padding:10px 14px;border-radius:10px;background:rgba(255,255,255,0.06);cursor:pointer;border:1px solid rgba(255,255,255,0.04)}
+  .chip.active{background:linear-gradient(180deg,#ffd24a,#ffb400);color:#000;font-weight:800}
+  .info-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:12px}
+  .msg{min-height:22px;color:var(--accent);font-weight:700;text-align:center}
+  .footer-note{margin-top:10px;font-size:12px;color:rgba(255,255,255,0.6);text-align:center}
+  @media(max-width:720px){.cell{height:76px}}
 </style>
 </head>
 <body>
 
 <div class="slot-container">
+  <div class="header">
+    <img src="joker216-logo.png" class="logo" id="logoBtn" alt="logo">
+    <div class="balance">Balance: <span id="balanceDisplay">0.00</span> TND</div>
+  </div>
 
-    <div class="reels">
-        <!-- 5x3 grid – نموذج -->
-        <div class="symbol"><img src="A.jpg"></div>
-        <div class="symbol"><img src="Q.jpg"></div>
-        <div class="symbol"><img src="Orange.jpg"></div>
+  <div class="reels" id="reels">
+    <!-- 5x3 = 15 cells -->
+    <div class="cell"><img src="A.jpg" alt=""></div>
+    <div class="cell"><img src="Q.jpg" alt=""></div>
+    <div class="cell"><img src="10.jpg" alt=""></div>
+    <div class="cell"><img src="K.jpg" alt=""></div>
+    <div class="cell"><img src="J.jpg" alt=""></div>
 
-        <div class="symbol"><img src="10.jpg"></div>
-        <div class="symbol"><img src="Fanos.jpg"></div>
-        <div class="symbol"><img src="K.jpg"></div>
+    <div class="cell"><img src="A.jpg" alt=""></div>
+    <div class="cell"><img src="Fanos.jpg" alt=""></div>
+    <div class="cell"><img src="Orange.jpg" alt=""></div>
+    <div class="cell"><img src="Q.jpg" alt=""></div>
+    <div class="cell"><img src="10.jpg" alt=""></div>
 
-        <div class="symbol"><img src="J.jpg"></div>
-        <div class="symbol"><img src="A.jpg"></div>
-        <div class="symbol"><img src="Orange.jpg"></div>
+    <div class="cell"><img src="J.jpg" alt=""></div>
+    <div class="cell"><img src="K.jpg" alt=""></div>
+    <div class="cell"><img src="A.jpg" alt=""></div>
+    <div class="cell"><img src="Q.jpg" alt=""></div>
+    <div class="cell"><img src="10.jpg" alt=""></div>
+  </div>
 
-        <div class="symbol"><img src="K.jpg"></div>
-        <div class="symbol"><img src="10.jpg"></div>
-        <div class="symbol"><img src="Fanos.jpg"></div>
-
-        <div class="symbol"><img src="A.jpg"></div>
-        <div class="symbol"><img src="Q.jpg"></div>
-        <div class="symbol"><img src="J.jpg"></div>
+  <div class="controls">
+    <div id="chips" style="display:flex;gap:8px">
+      <div class="chip" data-value="0.2">0.2</div>
+      <div class="chip" data-value="1">1</div>
+      <div class="chip" data-value="5">5</div>
+      <div class="chip" data-value="10">10</div>
     </div>
 
-    <div class="controls">
-        <button class="spin-btn">SPIN</button>
+    <button class="spin-btn" id="spinBtn">SPIN</button>
+  </div>
 
-        <div class="bet-controls">
-            <button>-</button>
-            <button>+</button>
-        </div>
+  <div class="info-row">
+    <div class="msg" id="msg">Place a bet & press SPIN</div>
+    <div style="min-width:140px;text-align:right">Bet: <strong id="currentBet">0</strong> TND</div>
+  </div>
 
-        <div class="balance">Balance: 100.00 TND</div>
-    </div>
-
+  <div class="footer-note">Symbols: A, K, Q, J, 10, Orange, Fanos (placeholders). Game is for demo (fun) only.</div>
 </div>
+
+<script>
+/* CONFIG: ضع BIN و KEY تاعك هنا */
+const BIN_ID = "692eeefbae596e708f7e9e72";
+const API_KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
+
+/* SYMBOLS LIST - use filenames you uploaded */
+const SYMBOLS = ["A.jpg","K.jpg","Q.jpg","J.jpg","10.jpg","Orange.jpg","Fanos.jpg"];
+
+/* UI */
+const reelsEl = document.getElementById('reels');
+const cells = Array.from(reelsEl.querySelectorAll('.cell img'));
+const balanceDisplay = document.getElementById('balanceDisplay');
+const msgEl = document.getElementById('msg');
+const spinBtn = document.getElementById('spinBtn');
+const chipsEl = document.getElementById('chips');
+const currentBetEl = document.getElementById('currentBet');
+const logoBtn = document.getElementById('logoBtn');
+
+/* STATE */
+let logged = JSON.parse(localStorage.getItem('loggedUser') || 'null');
+if(!logged){
+  alert('No logged user found — please login first');
+  location.href = 'login.html';
+}
+let balance = Number(logged.balance || 0);
+let username = logged.username;
+let selectedBet = 0;
+balanceDisplay.textContent = balance.toFixed(2);
+currentBetEl.textContent = selectedBet.toFixed ? selectedBet.toFixed(2) : selectedBet;
+
+/* chips click */
+chipsEl.addEventListener('click',(e)=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  chipsEl.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  selectedBet = parseFloat(chip.dataset.value);
+  currentBetEl.textContent = selectedBet.toFixed(2);
+});
+
+/* quick helper to shuffle symbols into cells with simple animation */
+function animateSpin(duration = 1500){
+  msgEl.textContent = 'Spinning...';
+  let start = Date.now();
+  const tick = ()=>{
+    const t = Date.now() - start;
+    for(let i=0;i<cells.length;i++){
+      const r = Math.floor(Math.random()*SYMBOLS.length);
+      cells[i].src = SYMBOLS[r];
+    }
+    if(t < duration){
+      requestAnimationFrame(tick);
+    } else {
+      settle();
+    }
+  };
+  requestAnimationFrame(tick);
+}
+
+/* simple payout logic: check middle row (cells index 5..9) across 5 columns for matches */
+function settle(){
+  // indexes of middle row in 5x3 grid: second row -> positions 5..9 (0-based)
+  const midIdx = [5,6,7,8,9];
+  const midSymbols = midIdx.map(i=>cells[i].src.split('/').pop());
+  // count most common symbol
+  const counts = {};
+  midSymbols.forEach(s=>counts[s]=(counts[s]||0)+1);
+  let bestSymbol = null, bestCount = 0;
+  for(const s in counts) if(counts[s]>bestCount){ bestCount = counts[s]; bestSymbol=s; }
+  let win = 0;
+  if(bestCount === 5) win = selectedBet * 50;      // all five
+  else if(bestCount === 4) win = selectedBet * 10; // four of five
+  else if(bestCount === 3) win = selectedBet * 3;  // three in row
+  else win = 0;
+  // apply result
+  if(win>0){
+    balance += win;
+    msgEl.textContent = `Win ${win.toFixed(2)} TND — ${bestSymbol}`;
+  } else {
+    msgEl.textContent = `No win`;
+  }
+  updateUI();
+  // push update remote
+  updateRemoteBalance(username, balance).catch(()=>{/* ignore */});
+}
+
+/* SPIN action */
+spinBtn.addEventListener('click',()=>{
+  if(selectedBet <= 0){ alert('Choose a bet first'); return; }
+  if(balance < selectedBet){ alert('Insufficient balance'); return; }
+  // deduct stake
+  balance -= selectedBet;
+  updateUI();
+  // start spin
+  animateSpin(1600);
+});
+
+/* update UI */
+function updateUI(){
+  balanceDisplay.textContent = Number(balance).toFixed(2);
+  currentBetEl.textContent = Number(selectedBet).toFixed(2);
+}
+
+/* remote update: fetch record, modify users[username].balance then PUT */
+async function updateRemoteBalance(username, newBalance){
+  try{
+    const getR = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      headers: { "X-Master-Key": API_KEY }
+    });
+    if(!getR.ok) throw new Error('fetch failed');
+    const data = await getR.json();
+    const record = data.record || {};
+    if(!record.users) record.users = {};
+    if(!record.users[username]) record.users[username] = {};
+    record.users[username].balance = newBalance;
+    // replace whole record with PUT
+    const put = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+      method: 'PUT',
+      headers: { "X-Master-Key": API_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify(record)
+    });
+    if(!put.ok) throw new Error('update failed');
+    // also sync localStorage
+    const loc = { username, balance: newBalance };
+    localStorage.setItem('loggedUser', JSON.stringify(loc));
+  }catch(err){
+    console.error('Remote update error', err);
+  }
+}
+
+/* logo goes back to player_home */
+logoBtn.addEventListener('click',()=> location.href = 'player_home.html');
+
+/* init: sync with remote on load (best-effort) */
+(async function init(){
+  try{
+    const res = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+      headers: { "X-Master-Key": API_KEY }
+    });
+    if(res.ok){
+      const data = await res.json();
+      const users = data.record && data.record.users ? data.record.users : {};
+      if(users[username] && users[username].balance !== undefined){
+        balance = Number(users[username].balance);
+        updateUI();
+      } else {
+        // ensure remote has user entry
+        await updateRemoteBalance(username, balance);
+      }
+    }
+  }catch(e){ console.warn('Could not sync remote on init'); }
+})();
+</script>
 
 </body>
 </html>
