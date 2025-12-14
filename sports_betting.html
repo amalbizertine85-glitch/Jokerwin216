@@ -7,16 +7,16 @@
   body { font-family: Arial, sans-serif; background:#121212; color:#fff; }
   h1,h2 { color:#1a5e1a; }
   .league { margin-bottom:20px; }
-  .match { display:flex; justify-content:space-between; background:#1a1a1a; padding:10px; margin:5px 0; border-radius:5px; cursor:pointer; }
+  .match { display:flex; justify-content:space-between; background:#1a1a1a; padding:10px; margin:5px 0; border-radius:5px; cursor:pointer; position:relative; }
+  .odds-container { display:none; flex-wrap:wrap; margin-top:5px; }
+  .odds-container button { margin:3px; padding:5px 8px; border:none; border-radius:3px; background:#4caf50; color:#fff; cursor:pointer; }
   .popup { display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); background:#222; padding:20px; width:500px; max-height:80%; overflow-y:auto; border-radius:10px; box-shadow:0 0 15px #000; z-index:100; }
   .popup h3 { margin-top:0; color:#1a5e1a; }
   .popup .bet-item { display:flex; justify-content:space-between; margin:5px 0; padding:5px; background:#333; border-radius:5px; }
   .popup .bet-item button { background:red; color:#fff; border:none; border-radius:3px; cursor:pointer; }
   #overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:50; }
-  .odds-container { margin:10px 0; display:flex; flex-wrap:wrap; }
-  .odds-container button { margin:3px; padding:5px 8px; border:none; border-radius:3px; background:#4caf50; color:#fff; cursor:pointer; }
-  .historique { margin-top:15px; border-top:1px solid #555; padding-top:10px; max-height:150px; overflow-y:auto; }
   input[type=number] { width:80px; padding:3px; }
+  .historique { margin-top:15px; border-top:1px solid #555; padding-top:10px; max-height:150px; overflow-y:auto; }
 </style>
 </head>
 <body>
@@ -29,6 +29,7 @@
     <h2>Serie A</h2>
     <div class="match" data-league="Serie A" data-teams="As Rome vs Como">
       As Rome vs Como
+      <div class="odds-container"></div>
     </div>
   </div>
 
@@ -37,6 +38,7 @@
     <h2>La Liga</h2>
     <div class="match" data-league="La Liga" data-teams="Vallecano vs Betis">
       Vallecano vs Betis
+      <div class="odds-container"></div>
     </div>
   </div>
 
@@ -45,68 +47,62 @@
     <h2>Premier League</h2>
     <div class="match" data-league="Premier League" data-teams="Man United vs Bournemouth">
       Man United vs Bournemouth
+      <div class="odds-container"></div>
     </div>
   </div>
 
   <!-- Bundesliga -->
   <div class="league">
     <h2>Bundesliga</h2>
-    <div class="match" data-league="Bundesliga" data-teams="Bayern vs Dortmund">
-      Bayern vs Dortmund
-    </div>
   </div>
 
   <!-- Ligue 1 -->
   <div class="league">
     <h2>Ligue 1</h2>
-    <div class="match" data-league="Ligue 1" data-teams="PSG vs Lyon">
-      PSG vs Lyon
-    </div>
   </div>
 </div>
 
 <div id="overlay"></div>
 <div class="popup" id="bet-popup">
-  <h3>Selected Bets</h3>
-  <div id="odds-buttons" class="odds-container"></div>
-  <div id="selected-bets"></div>
+  <h3>Confirm Bet</h3>
+  <div id="current-bet"></div>
   <div style="margin-top:10px;">
     <label>Bet Amount: </label>
     <input type="number" id="bet-amount" min="1" value="1">
-    <button onclick="confirmBets()">Confirm Bets</button>
+    <button onclick="confirmBet()">Confirm</button>
   </div>
-  <h4>Bet History</h4>
+  <h4>Fichier de Paris (Bet History)</h4>
   <div class="historique" id="bet-history"></div>
   <button onclick="closePopup()">Close</button>
 </div>
 
 <script>
-let user = {username:"player1", balance:100, bets:[], history:[]};
-let selectedBets = [];
-let currentMatch = null;
+let user = {username:"player1", balance:100};
+let currentBet = null;
 
 // JSONBin
 const BIN = "692eeefbae596e708f7e9e72";
 const KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-// Open and close popup
-function openPopup(){
-  document.getElementById('overlay').style.display='block';
-  document.getElementById('bet-popup').style.display='block';
-  renderSelectedBets();
-  renderHistory();
-}
-function closePopup(){
-  document.getElementById('overlay').style.display='none';
-  document.getElementById('bet-popup').style.display='none';
-  currentMatch=null;
-  document.getElementById('odds-buttons').innerHTML='';
+// Load Fichier de Paris
+let betHistory = [];
+
+// Show/hide odds under match
+function toggleOdds(matchDiv){
+  const oddsDiv = matchDiv.querySelector('.odds-container');
+  if(oddsDiv.style.display==='flex'){
+    oddsDiv.style.display='none';
+    oddsDiv.innerHTML='';
+  }else{
+    showOdds(matchDiv);
+  }
 }
 
-// Define odds buttons for a match
-function showOdds(matchName){
-  currentMatch=matchName;
-  const oddsDiv = document.getElementById('odds-buttons');
+// Define odds buttons
+function showOdds(matchDiv){
+  const matchName = matchDiv.dataset.teams;
+  const oddsDiv = matchDiv.querySelector('.odds-container');
+  oddsDiv.style.display='flex';
   oddsDiv.innerHTML='';
   const types = [
     {type:"1X2", values:["1","X","2"]},
@@ -119,54 +115,43 @@ function showOdds(matchName){
     t.values.forEach(v=>{
       let btn=document.createElement('button');
       btn.textContent=`${t.type}: ${v}`;
-      btn.onclick=()=>{ addBet(currentMatch,t.type,v); };
+      btn.onclick=()=>{ selectBet(matchName,t.type,v); };
       oddsDiv.appendChild(btn);
     });
   });
+}
+
+// Select bet to confirm
+function selectBet(matchName,type,value){
+  currentBet={match:matchName,type,value};
+  document.getElementById('current-bet').textContent=`${currentBet.match} - ${currentBet.type}: ${currentBet.value}`;
   openPopup();
 }
 
-// Add bet
-function addBet(match,type,value){
-  if(!selectedBets.find(b=>b.match===match && b.type===type)){
-    selectedBets.push({match, type, value});
-    renderSelectedBets();
-  }
+// Popup controls
+function openPopup(){
+  document.getElementById('overlay').style.display='block';
+  document.getElementById('bet-popup').style.display='block';
+  renderHistory();
+}
+function closePopup(){
+  document.getElementById('overlay').style.display='none';
+  document.getElementById('bet-popup').style.display='none';
+  currentBet=null;
 }
 
-// Render selected bets
-function renderSelectedBets(){
-  let container = document.getElementById('selected-bets');
-  container.innerHTML='';
-  selectedBets.forEach((b,i)=>{
-    let div = document.createElement('div');
-    div.className='bet-item';
-    div.innerHTML=`${b.match} - ${b.type}: ${b.value} <button onclick="removeBet(${i})">×</button>`;
-    container.appendChild(div);
-  });
-}
-
-// Remove bet
-function removeBet(index){
-  selectedBets.splice(index,1);
-  renderSelectedBets();
-}
-
-// Confirm bets
-async function confirmBets(){
-  let amount = parseFloat(document.getElementById('bet-amount').value);
-  if(selectedBets.length===0){ alert('Select a bet first'); return; }
+// Confirm bet
+async function confirmBet(){
+  const amount = parseFloat(document.getElementById('bet-amount').value);
+  if(!currentBet){ alert('Select a bet first'); return; }
   if(amount>user.balance){ alert('Not enough balance'); return; }
 
-  selectedBets.forEach(b=>{
-    user.bets.push({...b, amount});
-    user.history.push({...b, amount, timestamp:new Date().toLocaleString()});
-    user.balance -= amount;
-  });
-  selectedBets=[];
-  renderSelectedBets();
-  renderHistory();
-  alert('Bets confirmed. Current balance: ' + user.balance);
+  // Deduct balance
+  user.balance -= amount;
+
+  // Add to Fichier de Paris
+  const betCard = {...currentBet, amount, timestamp:new Date().toLocaleString()};
+  betHistory.push(betCard);
 
   // Update JSONBin
   try{
@@ -177,40 +162,43 @@ async function confirmBets(){
         'X-Master-Key': KEY,
         'X-Bin-Versioning':'false'
       },
-      body: JSON.stringify(user)
+      body: JSON.stringify({user,bets:betHistory})
     });
   }catch(e){ console.error('Error updating JSONBin', e); }
+
+  alert('Bet confirmed! Current balance: '+user.balance);
+  closePopup();
 }
 
 // Render bet history
-function renderHistory(){
-  let hist = document.getElementById('bet-history');
-  hist.innerHTML='';
-  user.history.forEach(b=>{
-    let div = document.createElement('div');
-    div.textContent=`[${b.timestamp}] ${b.match} - ${b.type}: ${b.value} | Amount: ${b.amount}`;
-    hist.appendChild(div);
-  });
-}
-
-// Load data from JSONBin on page load
-async function loadUserData(){
+async function renderHistory(){
+  // Fetch latest from JSONBin
   try{
     let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN}/latest`,{
       headers:{'X-Master-Key':KEY}
     });
     if(res.ok){
       let data = await res.json();
-      if(data.record) user = data.record;
+      if(data.record && data.record.bets) betHistory=data.record.bets;
     }
-  }catch(e){ console.error('Error loading JSONBin', e); }
-}
-loadUserData();
+  }catch(e){ console.error('Error fetching JSONBin', e); }
 
-// Add click event to matches to show odds
+  const histDiv = document.getElementById('bet-history');
+  histDiv.innerHTML='';
+  betHistory.forEach(b=>{
+    let div=document.createElement('div');
+    div.textContent=`[${b.timestamp}] ${b.match} - ${b.type}: ${b.value} | Amount: ${b.amount}`;
+    histDiv.appendChild(div);
+  });
+}
+
+// Add click to matches
 document.querySelectorAll('.match').forEach(m=>{
-  m.addEventListener('click',()=>{ showOdds(m.dataset.teams); });
+  m.addEventListener('click',()=>{ toggleOdds(m); });
 });
+
+// Load bet history on page load
+renderHistory();
 </script>
 </body>
   </html>
