@@ -1,213 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sports</title>
-
+<title>Sport Betting</title>
 <style>
-    body {
-        margin: 0;
-        background: #0b0f16;
-        font-family: Arial, sans-serif;
-        color: white;
-    }
-
-    /* Header */
-    .top-header {
-        background: #121821;
-        padding: 15px;
-        text-align: center;
-        font-size: 22px;
-        font-weight: bold;
-        color: #00ff63;
-        letter-spacing: 1px;
-        border-bottom: 1px solid #0f2a17;
-        position: sticky;
-        top: 0;
-        z-index: 999;
-    }
-
-    /* Tabs bar */
-    .tabs {
-        display: flex;
-        justify-content: space-between;
-        background: #0d131b;
-        padding: 10px 5px;
-        border-bottom: 2px solid #1b2b3a;
-    }
-
-    .tabs div {
-        flex: 1;
-        text-align: center;
-        padding: 12px 0;
-        font-size: 15px;
-        border-radius: 6px;
-        margin: 0 3px;
-        color: #c5c5c5;
-    }
-
-    .tabs .active {
-        background: linear-gradient(180deg, #00ff63, #009f44);
-        color: #000;
-        font-weight: bold;
-    }
-
-    /* Matches container */
-    .matches {
-        padding: 12px;
-    }
-
-    .no-data {
-        text-align: center;
-        margin-top: 60px;
-        font-size: 18px;
-        opacity: 0.6;
-    }
-    .bet-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.6);
-  display:none;
-  justify-content:flex-end;
-  align-items:flex-end;
-  z-index:9999;
-}
-
-.bet-slip{
-  width:100%;
-  background:#021523;
-  border-radius:20px 20px 0 0;
-  padding:15px;
-  max-height:80vh;
-  overflow:auto;
-}
-
-.bet-header{
-  display:flex;
-  justify-content:space-between;
-  font-size:20px;
-  font-weight:bold;
-  margin-bottom:10px;
-}
-
-.bet-item{
-  border-bottom:1px solid #0c2b3c;
-  padding:10px 0;
-  font-size:15px;
-}
-
-.bet-item span{
-  display:block;
-}
-
-.bet-footer{
-  margin-top:10px;
-}
-
-.bet-footer input{
-  width:100%;
-  padding:10px;
-  border-radius:10px;
-  border:none;
-  margin-bottom:10px;
-}
-
-.bet-btn{
-  width:100%;
-  padding:12px;
-  background:#00b050;
-  color:#fff;
-  font-size:18px;
-  border:none;
-  border-radius:12px;
-}
+  body { font-family: Arial, sans-serif; background:#121212; color:#fff; }
+  h1,h2 { color:#1a5e1a; }
+  .league { margin-bottom:20px; }
+  .match { display:flex; justify-content:space-between; background:#1a1a1a; padding:10px; margin:5px 0; border-radius:5px; }
+  .odds button { margin:0 3px; padding:5px 8px; cursor:pointer; border:none; border-radius:3px; background:#4caf50; color:#fff; }
+  .popup { display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); background:#222; padding:20px; width:450px; max-height:80%; overflow-y:auto; border-radius:10px; box-shadow:0 0 15px #000; z-index:100; }
+  .popup h3 { margin-top:0; color:#1a5e1a; }
+  .popup .bet-item { display:flex; justify-content:space-between; margin:5px 0; padding:5px; background:#333; border-radius:5px; }
+  .popup .bet-item button { background:red; color:#fff; border:none; border-radius:3px; cursor:pointer; }
+  #overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:50; }
+  .historique { margin-top:15px; border-top:1px solid #555; padding-top:10px; max-height:150px; overflow-y:auto; }
+  input[type=number] { width:80px; padding:3px; }
 </style>
 </head>
-
 <body>
 
-<div class="top-header">SPORTS</div>
+<h1>Sport Betting</h1>
 
-<div class="tabs">
-    <div class="active">ALL</div>
-    <div>LIVE</div>
-    <div>TODAY</div>
-    <div>UPCOMING</div>
-</div>
-
-<div class="matches">
-    <div class="no-data">No matches available</div>
-</div>
-
-    <!-- BET SLIP POPUP -->
-<div id="betSlipOverlay" class="bet-overlay" onclick="closeBetSlip()">
-  <div class="bet-slip" onclick="event.stopPropagation()">
-
-    <div class="bet-header">
-      <span>Fiche de Paris</span>
-      <span class="close-btn" onclick="closeBetSlip()">×</span>
-    </div>
-
-    <div id="betSelections"></div>
-
-    <div class="bet-footer">
-      <input type="number" id="stake" placeholder="Mise" oninput="updateGain()">
-      <div>Total Odds: <span id="totalOdds">0.00</span></div>
-      <div>Gain potentiel: <span id="potentialGain">0.00</span></div>
-      <button class="bet-btn">Parier</button>
-    </div>
-
-  </div>
-    <script>
-let bets = [];
-
-function addBet(match, pick, odd){
-  // منع التكرار
-  if(bets.some(b => b.match === match)){
-    return;
-  }
-
-  bets.push({match, pick, odd});
-  renderBets();
-  openBetSlip();
-}
-
-function renderBets(){
-  const box = document.getElementById("betSelections");
-  box.innerHTML = "";
-
-  let total = 1;
-
-  bets.forEach((b, i)=>{
-    total *= b.odd;
-
-    box.innerHTML += `
-      <div class="bet-item">
-        <span>${b.match}</span>
-        <span>${b.pick} @ ${b.odd}</span>
+<div id="matches-container">
+  <!-- Serie A -->
+  <div class="league">
+    <h2>Serie A</h2>
+    <div class="match" data-league="Serie A" data-teams="As Rome vs Como">
+      <span>As Rome vs Como</span>
+      <div class="odds">
+        <button data-type="1X2" data-value="1">1</button>
+        <button data-type="1X2" data-value="X">X</button>
+        <button data-type="1X2" data-value="2">2</button>
+        <button data-type="Over/Under" data-value="Over2.5">O2.5</button>
+        <button data-type="Over/Under" data-value="Under2.5">U2.5</button>
+        <button data-type="GG/NG" data-value="GG">GG</button>
+        <button data-type="GG/NG" data-value="NG">NG</button>
+        <button data-type="CorrectScore" data-value="1-0">CS 1-0</button>
+        <button data-type="CorrectScore" data-value="2-1">CS 2-1</button>
+        <button data-type="Handicap" data-value="+1">H +1</button>
+        <button data-type="Handicap" data-value="-1">H -1</button>
       </div>
-    `;
+    </div>
+  </div>
+
+  <!-- La Liga -->
+  <div class="league">
+    <h2>La Liga</h2>
+    <div class="match" data-league="La Liga" data-teams="Vallecano vs Betis">
+      <span>Vallecano vs Betis</span>
+      <div class="odds">
+        <button data-type="1X2" data-value="1">1</button>
+        <button data-type="1X2" data-value="X">X</button>
+        <button data-type="1X2" data-value="2">2</button>
+        <button data-type="Over/Under" data-value="Over2.5">O2.5</button>
+        <button data-type="Over/Under" data-value="Under2.5">U2.5</button>
+        <button data-type="GG/NG" data-value="GG">GG</button>
+        <button data-type="GG/NG" data-value="NG">NG</button>
+        <button data-type="CorrectScore" data-value="1-0">CS 1-0</button>
+        <button data-type="CorrectScore" data-value="2-1">CS 2-1</button>
+        <button data-type="Handicap" data-value="+1">H +1</button>
+        <button data-type="Handicap" data-value="-1">H -1</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Premier League -->
+  <div class="league">
+    <h2>Premier League</h2>
+    <div class="match" data-league="Premier League" data-teams="Man United vs Bournemouth">
+      <span>Man United vs Bournemouth</span>
+      <div class="odds">
+        <button data-type="1X2" data-value="1">1</button>
+        <button data-type="1X2" data-value="X">X</button>
+        <button data-type="1X2" data-value="2">2</button>
+        <button data-type="Over/Under" data-value="Over2.5">O2.5</button>
+        <button data-type="Over/Under" data-value="Under2.5">U2.5</button>
+        <button data-type="GG/NG" data-value="GG">GG</button>
+        <button data-type="GG/NG" data-value="NG">NG</button>
+        <button data-type="CorrectScore" data-value="1-0">CS 1-0</button>
+        <button data-type="CorrectScore" data-value="2-1">CS 2-1</button>
+        <button data-type="Handicap" data-value="+1">H +1</button>
+        <button data-type="Handicap" data-value="-1">H -1</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button onclick="openPopup()">فتح Popup الرهانات</button>
+
+<div id="overlay"></div>
+<div class="popup" id="bet-popup">
+  <h3>رهاناتك</h3>
+  <div id="selected-bets"></div>
+  <div style="margin-top:10px;">
+    <label>المبلغ: </label>
+    <input type="number" id="bet-amount" min="1" value="1">
+    <button onclick="confirmBets()">تأكيد الرهانات</button>
+  </div>
+  <h4>Historique des paris</h4>
+  <div class="historique" id="bet-history"></div>
+  <button onclick="closePopup()">إغلاق</button>
+</div>
+
+<script>
+// بيانات اللاعب الأولية
+let user = {username:"player1", balance:100, bets:[], history:[]};
+let selectedBets = [];
+
+// JSONBin
+const BIN = "692eeefbae596e708f7e9e72";
+const KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
+
+// فتح وإغلاق Popup
+function openPopup(){
+  document.getElementById('overlay').style.display='block';
+  document.getElementById('bet-popup').style.display='block';
+  renderSelectedBets();
+  renderHistory();
+}
+function closePopup(){
+  document.getElementById('overlay').style.display='none';
+  document.getElementById('bet-popup').style.display='none';
+}
+
+// إضافة رهانات عند اختيار الأودز
+document.querySelectorAll('.odds button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    let matchDiv = btn.closest('.match');
+    let match = matchDiv.dataset.teams;
+    let league = matchDiv.dataset.league;
+    let type = btn.dataset.type;
+    let value = btn.dataset.value;
+
+    if(!selectedBets.find(b=>b.match===match && b.type===type)){
+      selectedBets.push({match, league, type, value});
+    }
+    openPopup();
   });
+});
 
-  document.getElementById("totalOdds").textContent = total.toFixed(2);
-  updateGain();
+// عرض الرهانات المختارة
+function renderSelectedBets(){
+  let container = document.getElementById('selected-bets');
+  container.innerHTML='';
+  selectedBets.forEach((b,i)=>{
+    let div = document.createElement('div');
+    div.className='bet-item';
+    div.innerHTML=`${b.match} - ${b.type}: ${b.value} <button onclick="removeBet(${i})">×</button>`;
+    container.appendChild(div);
+  });
 }
 
-function updateGain(){
-  const stake = document.getElementById("stake").value || 0;
-  const odds = document.getElementById("totalOdds").textContent;
-  document.getElementById("potentialGain").textContent =
-    (stake * odds).toFixed(2);
+// حذف رهان
+function removeBet(index){
+  selectedBets.splice(index,1);
+  renderSelectedBets();
 }
 
-function openBetSlip(){
-  document.getElementById("betSlipOverlay").style.display = "flex";
+// تأكيد الرهانات وربط الرصيد + JSONBin
+async function confirmBets(){
+  let amount = parseFloat(document.getElementById('bet-amount').value);
+  if(selectedBets.length===0){ alert('اختر مباراة أولاً'); return; }
+  if(amount>user.balance){ alert('رصيدك لا يكفي'); return; }
+
+  selectedBets.forEach(b=>{
+    user.bets.push({...b, amount});
+    user.history.push({...b, amount, timestamp:new Date().toLocaleString()});
+    user.balance -= amount;
+  });
+  selectedBets=[];
+
+  renderSelectedBets();
+  renderHistory();
+  alert('تم تسجيل الرهانات. رصيدك الحالي: ' + user.balance);
+
+  // تحديث JSONBin
+  try{
+    await fetch(`https://api.jsonbin.io/v3/b/${BIN}`,{
+      method:'PUT',
+      headers:{
+        'Content-Type':'application/json',
+        'X-Master-Key': KEY,
+        'X-Bin-Versioning':'false'
+      },
+      body: JSON.stringify(user)
+    });
+  }catch(e){ console.error('خطأ في تحديث JSONBin', e); }
 }
 
-function closeBetSlip(){
-  document.getElementById("betSlipOverlay").style.display = "none";
+// تحميل البيانات من JSONBin عند فتح الصفحة
+async function loadUserData(){
+  try{
+    let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN}/latest`,{
+      headers:{'X-Master-Key':KEY}
+    });
+    if(res.ok){
+      let data = await res.json();
+      if(data.record) user = data.record;
+    }
+  }catch(e){ console.error('خطأ في تحميل JSONBin', e); }
 }
+loadUserData();
 </script>
 </body>
-</html>
+    </html>
