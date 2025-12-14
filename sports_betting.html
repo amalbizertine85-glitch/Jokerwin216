@@ -64,6 +64,64 @@
         font-size: 18px;
         opacity: 0.6;
     }
+    .bet-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  display:none;
+  justify-content:flex-end;
+  align-items:flex-end;
+  z-index:9999;
+}
+
+.bet-slip{
+  width:100%;
+  background:#021523;
+  border-radius:20px 20px 0 0;
+  padding:15px;
+  max-height:80vh;
+  overflow:auto;
+}
+
+.bet-header{
+  display:flex;
+  justify-content:space-between;
+  font-size:20px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.bet-item{
+  border-bottom:1px solid #0c2b3c;
+  padding:10px 0;
+  font-size:15px;
+}
+
+.bet-item span{
+  display:block;
+}
+
+.bet-footer{
+  margin-top:10px;
+}
+
+.bet-footer input{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:none;
+  margin-bottom:10px;
+}
+
+.bet-btn{
+  width:100%;
+  padding:12px;
+  background:#00b050;
+  color:#fff;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+}
 </style>
 </head>
 
@@ -82,5 +140,74 @@
     <div class="no-data">No matches available</div>
 </div>
 
+    <!-- BET SLIP POPUP -->
+<div id="betSlipOverlay" class="bet-overlay" onclick="closeBetSlip()">
+  <div class="bet-slip" onclick="event.stopPropagation()">
+
+    <div class="bet-header">
+      <span>Fiche de Paris</span>
+      <span class="close-btn" onclick="closeBetSlip()">×</span>
+    </div>
+
+    <div id="betSelections"></div>
+
+    <div class="bet-footer">
+      <input type="number" id="stake" placeholder="Mise" oninput="updateGain()">
+      <div>Total Odds: <span id="totalOdds">0.00</span></div>
+      <div>Gain potentiel: <span id="potentialGain">0.00</span></div>
+      <button class="bet-btn">Parier</button>
+    </div>
+
+  </div>
+    <script>
+let bets = [];
+
+function addBet(match, pick, odd){
+  // منع التكرار
+  if(bets.some(b => b.match === match)){
+    return;
+  }
+
+  bets.push({match, pick, odd});
+  renderBets();
+  openBetSlip();
+}
+
+function renderBets(){
+  const box = document.getElementById("betSelections");
+  box.innerHTML = "";
+
+  let total = 1;
+
+  bets.forEach((b, i)=>{
+    total *= b.odd;
+
+    box.innerHTML += `
+      <div class="bet-item">
+        <span>${b.match}</span>
+        <span>${b.pick} @ ${b.odd}</span>
+      </div>
+    `;
+  });
+
+  document.getElementById("totalOdds").textContent = total.toFixed(2);
+  updateGain();
+}
+
+function updateGain(){
+  const stake = document.getElementById("stake").value || 0;
+  const odds = document.getElementById("totalOdds").textContent;
+  document.getElementById("potentialGain").textContent =
+    (stake * odds).toFixed(2);
+}
+
+function openBetSlip(){
+  document.getElementById("betSlipOverlay").style.display = "flex";
+}
+
+function closeBetSlip(){
+  document.getElementById("betSlipOverlay").style.display = "none";
+}
+</script>
 </body>
 </html>
