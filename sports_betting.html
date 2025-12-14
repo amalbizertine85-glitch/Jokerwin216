@@ -3,20 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <title>Sport Betting</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-  body { font-family: Arial, sans-serif; background:#121212; color:#fff; }
-  h1,h2 { color:#1a5e1a; }
-  .league { margin-bottom:20px; }
-  .match { display:flex; justify-content:space-between; background:#1a1a1a; padding:10px; margin:5px 0; border-radius:5px; cursor:pointer; position:relative; }
-  .odds-container { display:none; flex-wrap:wrap; margin-top:5px; }
-  .odds-container button { margin:3px; padding:5px 8px; border:none; border-radius:3px; background:#4caf50; color:#fff; cursor:pointer; }
-  .popup { display:none; position:fixed; top:10%; left:50%; transform:translateX(-50%); background:#222; padding:20px; width:500px; max-height:80%; overflow-y:auto; border-radius:10px; box-shadow:0 0 15px #000; z-index:100; }
+  body { font-family: Arial, sans-serif; background:#121212; color:#fff; margin:0; padding:0; }
+  h1,h2 { color:#1a5e1a; margin:10px; }
+  .league { margin-bottom:15px; }
+  .match { background:#1a1a1a; padding:15px; margin:5px 10px; border-radius:8px; cursor:pointer; position:relative; display:flex; flex-direction:column; }
+  .odds-container { display:none; flex-wrap:wrap; margin-top:10px; }
+  .odds-container button { margin:5px 5px 0 0; padding:10px 15px; border:none; border-radius:5px; background:#4caf50; color:#fff; font-size:16px; cursor:pointer; flex:1 1 30%; }
+  .popup { display:none; position:fixed; top:5%; left:50%; transform:translateX(-50%); background:#222; padding:15px; width:90%; max-height:85%; overflow-y:auto; border-radius:10px; box-shadow:0 0 15px #000; z-index:100; }
   .popup h3 { margin-top:0; color:#1a5e1a; }
   .popup .bet-item { display:flex; justify-content:space-between; margin:5px 0; padding:5px; background:#333; border-radius:5px; }
   .popup .bet-item button { background:red; color:#fff; border:none; border-radius:3px; cursor:pointer; }
   #overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:50; }
-  input[type=number] { width:80px; padding:3px; }
-  .historique { margin-top:15px; border-top:1px solid #555; padding-top:10px; max-height:150px; overflow-y:auto; }
+  input[type=number] { width:80px; padding:5px; margin-right:10px; }
+  .historique { margin-top:10px; border-top:1px solid #555; padding-top:10px; max-height:150px; overflow-y:auto; }
+  #open-popup-btn { position:fixed; bottom:15px; right:15px; font-size:24px; background:#1a5e1a; color:#fff; border:none; border-radius:50%; width:50px; height:50px; cursor:pointer; z-index:200; }
+  @media(max-width:500px){
+    .odds-container button { font-size:14px; padding:8px 10px; flex:1 1 45%; }
+  }
 </style>
 </head>
 <body>
@@ -24,7 +29,6 @@
 <h1>Sport Betting</h1>
 
 <div id="matches-container">
-  <!-- Serie A -->
   <div class="league">
     <h2>Serie A</h2>
     <div class="match" data-league="Serie A" data-teams="As Rome vs Como">
@@ -32,8 +36,6 @@
       <div class="odds-container"></div>
     </div>
   </div>
-
-  <!-- La Liga -->
   <div class="league">
     <h2>La Liga</h2>
     <div class="match" data-league="La Liga" data-teams="Vallecano vs Betis">
@@ -41,8 +43,6 @@
       <div class="odds-container"></div>
     </div>
   </div>
-
-  <!-- Premier League -->
   <div class="league">
     <h2>Premier League</h2>
     <div class="match" data-league="Premier League" data-teams="Man United vs Bournemouth">
@@ -50,17 +50,11 @@
       <div class="odds-container"></div>
     </div>
   </div>
-
-  <!-- Bundesliga -->
-  <div class="league">
-    <h2>Bundesliga</h2>
-  </div>
-
-  <!-- Ligue 1 -->
-  <div class="league">
-    <h2>Ligue 1</h2>
-  </div>
+  <div class="league"><h2>Bundesliga</h2></div>
+  <div class="league"><h2>Ligue 1</h2></div>
 </div>
+
+<button id="open-popup-btn">🀄</button>
 
 <div id="overlay"></div>
 <div class="popup" id="bet-popup">
@@ -69,6 +63,7 @@
   <div style="margin-top:10px;">
     <label>Bet Amount: </label>
     <input type="number" id="bet-amount" min="1" value="1">
+    <span id="expected-win" style="margin-left:10px;">Expected Win: 0</span>
     <button onclick="confirmBet()">Confirm</button>
   </div>
   <h4>Fichier de Paris (Bet History)</h4>
@@ -79,15 +74,22 @@
 <script>
 let user = {username:"player1", balance:100};
 let currentBet = null;
+let betHistory = [];
 
 // JSONBin
 const BIN = "692eeefbae596e708f7e9e72";
 const KEY = "$2a$10$hCALb9EdUjLfi38M4RhCMOdm8.1y36yYtLvW0BYdZTfqjpHtlAY7S";
 
-// Load Fichier de Paris
-let betHistory = [];
+// Odds values example
+const oddsValues = {
+  "1X2":{"1":1.8,"X":3.2,"2":2.5},
+  "Over/Under":{"O2.5":1.9,"U2.5":1.9},
+  "GG/NG":{"GG":1.7,"NG":2.0},
+  "Correct Score":{"1-0":6,"2-1":8,"0-0":7},
+  "Handicap":{"+1":1.8,"-1":2.0}
+};
 
-// Show/hide odds under match
+// Toggle odds under match
 function toggleOdds(matchDiv){
   const oddsDiv = matchDiv.querySelector('.odds-container');
   if(oddsDiv.style.display==='flex'){
@@ -98,35 +100,37 @@ function toggleOdds(matchDiv){
   }
 }
 
-// Define odds buttons
+// Show odds buttons
 function showOdds(matchDiv){
   const matchName = matchDiv.dataset.teams;
   const oddsDiv = matchDiv.querySelector('.odds-container');
   oddsDiv.style.display='flex';
   oddsDiv.innerHTML='';
-  const types = [
-    {type:"1X2", values:["1","X","2"]},
-    {type:"Over/Under", values:["O2.5","U2.5"]},
-    {type:"GG/NG", values:["GG","NG"]},
-    {type:"Correct Score", values:["1-0","2-1","0-0"]},
-    {type:"Handicap", values:["+1","-1"]}
-  ];
+  const types = Object.keys(oddsValues);
   types.forEach(t=>{
-    t.values.forEach(v=>{
+    Object.keys(oddsValues[t]).forEach(v=>{
       let btn=document.createElement('button');
-      btn.textContent=`${t.type}: ${v}`;
-      btn.onclick=()=>{ selectBet(matchName,t.type,v); };
+      btn.textContent=`${t}: ${v}`;
+      btn.onclick=()=>{ selectBet(matchName,t,v); };
       oddsDiv.appendChild(btn);
     });
   });
 }
 
-// Select bet to confirm
+// Select bet
 function selectBet(matchName,type,value){
-  currentBet={match:matchName,type,value};
+  currentBet={match:matchName,type,value,odds:oddsValues[type][value]};
   document.getElementById('current-bet').textContent=`${currentBet.match} - ${currentBet.type}: ${currentBet.value}`;
+  document.getElementById('expected-win').textContent=`Expected Win: ${currentBet.odds * parseFloat(document.getElementById('bet-amount').value)}`;
   openPopup();
 }
+
+// Update expected win on amount change
+document.getElementById('bet-amount').addEventListener('input',()=>{
+  if(currentBet) {
+    document.getElementById('expected-win').textContent=`Expected Win: ${currentBet.odds * parseFloat(document.getElementById('bet-amount').value)}`;
+  }
+});
 
 // Popup controls
 function openPopup(){
@@ -146,10 +150,7 @@ async function confirmBet(){
   if(!currentBet){ alert('Select a bet first'); return; }
   if(amount>user.balance){ alert('Not enough balance'); return; }
 
-  // Deduct balance
   user.balance -= amount;
-
-  // Add to Fichier de Paris
   const betCard = {...currentBet, amount, timestamp:new Date().toLocaleString()};
   betHistory.push(betCard);
 
@@ -170,9 +171,8 @@ async function confirmBet(){
   closePopup();
 }
 
-// Render bet history
+// Render history from JSONBin
 async function renderHistory(){
-  // Fetch latest from JSONBin
   try{
     let res = await fetch(`https://api.jsonbin.io/v3/b/${BIN}/latest`,{
       headers:{'X-Master-Key':KEY}
@@ -187,18 +187,22 @@ async function renderHistory(){
   histDiv.innerHTML='';
   betHistory.forEach(b=>{
     let div=document.createElement('div');
-    div.textContent=`[${b.timestamp}] ${b.match} - ${b.type}: ${b.value} | Amount: ${b.amount}`;
+    div.textContent=`[${b.timestamp}] ${b.match} - ${b.type}: ${b.value} | Amount: ${b.amount} | Odds: ${b.odds}`;
     histDiv.appendChild(div);
   });
 }
 
-// Add click to matches
+// Match click events
 document.querySelectorAll('.match').forEach(m=>{
   m.addEventListener('click',()=>{ toggleOdds(m); });
 });
 
-// Load bet history on page load
+// Open popup with 🀄 button
+document.getElementById('open-popup-btn').addEventListener('click',()=>{ openPopup(); });
+
+// Load history on page load
 renderHistory();
 </script>
+
 </body>
-</html>
+    </html>
